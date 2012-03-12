@@ -56,12 +56,15 @@ sub {
   position: relative; /* in order to make height effective to children */
 }
 
-#display .gloss {
-  position: absolute; /* in order to place text of parent right */
+.gloss {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
+  -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
+  position: absolute; /* in order to place text of parent right */
+}
+
+#display .gloss {
   height: 50%;
   width: 100%;
-  -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
 }
 
 #functions {
@@ -81,9 +84,9 @@ sub {
   text-align: center;
   width: 64px;
   height: 38px;
-  line-height: 42px; /* centering */
+  line-height: 38px; /* centering */
   border: solid 1px black;
-  -webkit-border-radius: 4px;
+  -webkit-border-radius: 6px;
   -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   margin-top: 8px;
   margin-bottom: 12px;
@@ -93,15 +96,12 @@ sub {
 }
 
 .key .gloss {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
-  height: 19px; /* half of key */
+  height: 19px; /* half of normal key, it is same for vertically long key. */
   width: 100%;
-  position: absolute;
-  -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
-  -webkit-border-top-right-radius: 4px;
-  -webkit-border-top-left-radius: 4px;
-  -webkit-border-bottom-right-radius: 50% 4px;
-  -webkit-border-bottom-left-radius: 50% 4px;
+  -webkit-border-top-right-radius: 6px;
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-bottom-right-radius: 50% 6px;
+  -webkit-border-bottom-left-radius: 50% 6px;
 }
 
 .key:hover .gloss {
@@ -142,14 +142,14 @@ sub {
   background-color: #e46e0b;
 }
 
-@media (max-device-width: 480px) and (orientation: landscape) { /* 320x460 for iPhone */
-
+@media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
   #display {
     font-size: 37px;
     height: 58px;
     line-height: 58px;
     margin-bottom: 1px;
   }
+
   #functions {
     display: block;
   }
@@ -161,8 +161,8 @@ sub {
   .key {
     width: 50px;
     height: 28px;
+    line-height: 28px;
     font-size: 18px;
-    line-height: 27px;
     margin-top: 8px;
     margin-bottom: 2px;
     margin-left: 3px;
@@ -186,13 +186,105 @@ sub {
 
 
 @media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
-  #functions {
-    display: block;
+  /* 2.4 times */
+  #display {
+    font-size: 134px;
+    height: 209px;
+    line-height: 209px;
+    margin-bottom: 10px;
+  }
+
+  .gloss {
+    -webkit-box-shadow: inset 0px 5px 2px rgba(255, 255, 255, 0.6);
+  }
+
+  #keypad {
+    padding-left: 5px;
+    margin-right: -5px;
+  }
+
+  .key {
+    width: 154px;
+    height: 91px;
+    line-height: 91px;
+    font-size: 48px;
+    -webkit-border-radius: 14px;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 19px;
+    margin-bottom: 29px;
+    margin-left: 0;
+    margin-right: 24px;
+  }
+
+  .key .gloss {
+    width: 100%;
+    height: 46px;
+    -webkit-border-top-right-radius: 14px;
+    -webkit-border-top-left-radius: 14px;
+    -webkit-border-bottom-right-radius: 50% 14px;
+    -webkit-border-bottom-left-radius: 50% 14px;
+  }
+
+  #zero_key {
+    width: 341px;
+  }
+
+  #equal_key {
+    height: 238px;
+    line-height: 238px; /* centering */
   }
 }
 
 @media (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
+  /* 2.13 times */
+  #display {
+    font-size: 79px;
+    height: 124px;
+    line-height: 124px;
+    margin-bottom: 2px;
+  }
+
+  .gloss {
+    -webkit-box-shadow: inset 0px 4px 2px rgba(255, 255, 255, 0.6);
+  }
+
   #functions {
     display: block;
+  }
+
+  #keypad {
+    padding-left: 4px;
+    margin-right: -4px;
+  }
+
+  .key {
+    width: 106px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 38px;
+    -webkit-border-radius: 13px;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 17px;
+    margin-bottom: 4px;
+    margin-left: 6px;
+    margin-right: 11px;
+  }
+
+  .key .gloss {
+    width: 100%;
+    height: 28px;
+    -webkit-border-top-right-radius: 13px;
+    -webkit-border-top-left-radius: 13px;
+    -webkit-border-bottom-right-radius: 50% 13px;
+    -webkit-border-bottom-left-radius: 50% 13px;
+  }
+
+  #zero_key {
+    width: 234px;
+  }
+
+  #equal_key {
+    height: 143px;
+    line-height: 143px; /* centering */
   }
 }
