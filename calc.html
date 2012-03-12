@@ -5,45 +5,46 @@
   <link rel="stylesheet" href="calc.css" type="text/css" />
 </head>
 <body>
-<div>0</div>
-<table id="keypad">
-<tbody>
-  <tr>
-    <td><div class="key">mc</div></td>
-    <td><div class="key">m+</div></td>
-    <td><div class="key">m-</div></td>
-    <td><div class="key">mr</div></td>
-  </tr>
-  <tr>
-    <td><div class="key">C</div></td>
-    <td><div class="key">+/-</div></td>
-    <td><div class="key">/</div></td>
-    <td><div class="key">*</div></td>
-  </tr>
-  <tr>
-    <td><div class="key">7</div></td>
-    <td><div class="key">8</div></td>
-    <td><div class="key">9</div></td>
-    <td><div class="key">-</div></td>
-  </tr>
-  <tr>
-    <td><div class="key">4</div></td>
-    <td><div class="key">5</div></td>
-    <td><div class="key">6</div></td>
-    <td><div class="key">+</div></td>
-  </tr>
-  <tr>
-    <td><div class="key">1</div></td>
-    <td><div class="key">2</div></td>
-    <td><div class="key">3</div></td>
-    <td rowspan=2><div id="equal_key" class="key">=</div></td>
-  </tr>
-  <tr>
-    <td colspan=2><div id="zero_key" class="key">0</div> </td>
-    <td><div class="key">.</div></td>
-  </tr>
-</div>
-</tbody>
-</table>
+  <div id="wrapper">
+    <div id="display" class="gloss"><div class="gloss"></div>0</div>
+      <table id="keypad">
+      <tbody>
+        <tr>
+          <td><div class="key memory"><div class="gloss"></div>mc</div></td>
+          <td><div class="key memory"><div class="gloss"></div>m+</div></td>
+          <td><div class="key memory"><div class="gloss"></div>m-</div></td>
+          <td><div class="key memory"><div class="gloss"></div>mr</div></td>
+        </tr>
+        <tr>
+          <td><div class="key operator"><div class="gloss"></div>C</div></td>
+          <td><div class="key operator"><div class="gloss"></div>+/-</div></td>
+          <td><div class="key operator"><div class="gloss"></div>/</div></td>
+          <td><div class="key operator"><div class="gloss"></div>*</div></td>
+        </tr>
+        <tr>
+          <td><div class="key number"><div class="gloss"></div>7</div></td>
+          <td><div class="key number"><div class="gloss"></div>8</div></td>
+          <td><div class="key number"><div class="gloss"></div>9</div></td>
+          <td><div class="key operator"><div class="gloss"></div>-</div></td>
+        </tr>
+        <tr>
+          <td><div class="key number"><div class="gloss"></div>4</div></td>
+          <td><div class="key number"><div class="gloss"></div>5</div></td>
+          <td><div class="key number"><div class="gloss"></div>6</div></td>
+          <td><div class="key operator"><div class="gloss"></div>+</div></td>
+        </tr>
+        <tr>
+          <td><div class="key number"><div class="gloss"></div>1</div></td>
+          <td><div class="key number"><div class="gloss"></div>2</div></td>
+          <td><div class="key number"><div class="gloss"></div>3</div></td>
+          <td rowspan=2><div id="equal_key" class="key"><div class="gloss"></div>=</div></td>
+        </tr>
+        <tr>
+          <td colspan=2><div id="zero_key" class="key number"><div class="gloss"></div>0</div> </td>
+          <td><div class="key number"><div class="gloss"></div>.</div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

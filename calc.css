@@ -5,11 +5,32 @@
   -webkit-border-vertical-spacing: 0;
 }
 
+#display {
+  font-size: 56px;
+  text-align: right;
+  width: 100%;
+  height: 87px;
+  line-height: 87px;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(193, 199, 153)), to(rgb(233, 235, 218)));
+  border: solid 1px #787878;
+  margin-bottom: 4px;
+  position: relative; /* in order to make height effective to children */
+}
+
+#display .gloss {
+  position: absolute; /* in order to place text of parent right */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
+  height: 50%;
+  width: 100%;
+  -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
+}
+
 #keypad {
   padding-left: 10px;
 }
 
 .key {
+  color: white;
   text-align: center;
   width: 64px;
   height: 38px;
@@ -21,6 +42,31 @@
   margin-bottom: 12px;
   margin-left: 0;
   margin-right: 10px;
+  position: relative;
+}
+
+.key .gloss {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
+  height: 19px; /* half of key */
+  width: 100%;
+  position: absolute;
+  -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-bottom-right-radius: 50% 4px;
+  -webkit-border-bottom-left-radius: 50% 4px;
+}
+
+.key.number {
+  background-color: #000000;
+}
+
+.key.memory {
+  background-color: #4f5559;
+}
+
+.key.operator {
+  background-color: #5b493f;
 }
 
 #zero_key {
@@ -30,6 +76,7 @@
 #equal_key {
   height: 99px;
   line-height: 99px; /* centering */
+  background-color: #e46e0b;
 }
 
 .test {
