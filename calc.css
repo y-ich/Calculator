@@ -1,28 +1,39 @@
-.clearfix:after {
-  display: block;
-  clear: both;
-  height: 0px;
-  visibility: hidden;
-  content: ".";
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-border-horizontal-spacing: 0;
+  -webkit-border-vertical-spacing: 0;
+}
+
+#keypad {
+  padding-left: 10px;
 }
 
 .key {
-  float: left;
-  width: 66px;
-  height: 42px;
+  text-align: center;
+  width: 64px;
+  height: 38px;
+  line-height: 42px; /* centering */
   border: solid 1px black;
   -webkit-border-radius: 4px;
-  /* -webkit-box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); */
-  margin-left: 10px;
-  margin-right: 2px;
-  margin-top: 12px;
-  margin-bottom: 6px;
+  -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+  margin-bottom: 12px;
+  margin-left: 0;
+  margin-right: 10px;
 }
 
 #zero_key {
-  width: 144px;
+  width: 142px;
 }
 
 #equal_key {
-  height: 102px;
+  height: 99px;
+  line-height: 99px; /* centering */
+}
+
+.test {
+  margin: 0;
+  padding: 0;
+  border: solid 1px black;
 }
