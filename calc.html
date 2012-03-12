@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+
 <html>
 <head>
   <title>Calculator</title>
-  <meta name="viewport" content="width=device-width minimum-scale=1 maximum-scale=1 user-scalable=no" />
-  <link rel="stylesheet" href="calc.css" type="text/css" />
+  <meta name="viewport" content="width=device-width minimum-scale=1 maximum-scale=1 user-scalable=no">
+  <link rel="stylesheet" href="calc.css" type="text/css">
+  <script src="lib/jq.mobi.min.js"></script>
 </head>
 <body>
   <div id="wrapper" class="clearfix">
@@ -11,40 +13,40 @@
       <table id="functions">
         <tbody>
           <tr>
-            <td><div class="key function"><div class="gloss"></div>2nd</div></td>
+            <td><div class="key function" data-role="modifier"><div class="gloss"></div>2nd</div></td>
             <td><div class="key function"><div class="gloss"></div>(</div></td>
             <td><div class="key function"><div class="gloss"></div>)</div></td>
-            <td><div class="key function"><div class="gloss"></div>%</div></td>
+            <td><div class="key function" data-role="percent2number"><div class="gloss"></div>%</div></td>
           </tr>
           <tr>
-            <td><div class="key function"><div class="gloss"></div>1/x</div></td>
-            <td><div class="key function"><div class="gloss"></div>x&sup2;</div></td>
-            <td><div class="key function"><div class="gloss"></div>x&sup3;</div></td>
-            <td><div class="key function"><div class="gloss"></div>y<sup>x</sup></div></td>
+            <td><div class="key function" data-role="inverse"><div class="gloss"></div>1/x</div></td>
+            <td><div class="key function" data-role="square"><div class="gloss"></div>x&sup2;</div></td>
+            <td><div class="key function" data-role="cube"><div class="gloss"></div>x&sup3;</div></td>
+            <td><div class="key function binary" data-role="power"><div class="gloss"></div>y<sup>x</sup></div></td>
           </tr>
           <tr>
-            <td><div class="key function"><div class="gloss"></div>x!</div></td>
-            <td><div class="key function"><div class="gloss"></div>&radic;</div></td>
-            <td><div class="key function"><div class="gloss"></div><sup>x</sup>&radic;y</div></td>
-            <td><div class="key function"><div class="gloss"></div>log</div></td>
+            <td><div class="key function" data-role="factorial"><div class="gloss"></div>x!</div></td>
+            <td><div class="key function" data-role="root"><div class="gloss"></div>&radic;</div></td>
+            <td><div class="key function binary" data-role="xthroot"><div class="gloss"></div><sup>x</sup>&radic;y</div></td>
+            <td><div class="key function" data-role="log10"><div class="gloss"></div>log</div></td>
           </tr>
           <tr>
             <td><div class="key function"><div class="gloss"></div>sin</div></td>
             <td><div class="key function"><div class="gloss"></div>cos</div></td>
             <td><div class="key function"><div class="gloss"></div>tan</div></td>
-            <td><div class="key function"><div class="gloss"></div>ln</div></td>
+            <td><div class="key function" data-role="log"><div class="gloss"></div>ln</div></td>
           </tr>
           <tr>
             <td><div class="key function"><div class="gloss"></div>sinh</div></td>
             <td><div class="key function"><div class="gloss"></div>cosh</div></td>
             <td><div class="key function"><div class="gloss"></div>tanh</div></td>
-            <td><div class="key function"><div class="gloss"></div>e<sup>x</sup></div></td>
+            <td><div class="key function" data-role="exp"><div class="gloss"></div>e<sup>x</sup></div></td>
           </tr>
           <tr>
-            <td><div class="key function"><div class="gloss"></div>Rad</div></td>
-            <td><div class="key function"><div class="gloss"></div>&pi;</div></td>
-            <td><div class="key function"><div class="gloss"></div>EE</div></td>
-            <td><div class="key function"><div class="gloss"></div>Rand</div></td>
+            <td><div class="key function mode" data-role="angle"><div class="gloss"></div>Rad</div></td>
+            <td><div class="key function nofix" data-role="pi"><div class="gloss"></div>&pi;</div></td>
+            <td><div class="key function binary" data-role="enotation"><div class="gloss"></div>EE</div></td>
+            <td><div class="key function nofix" data-role="random"><div class="gloss"></div>Rand</div></td>
           </tr>
         </tbody>
       </table>
@@ -54,25 +56,25 @@
           <td><div class="key function"><div class="gloss"></div>mc</div></td>
           <td><div class="key function"><div class="gloss"></div>m+</div></td>
           <td><div class="key function"><div class="gloss"></div>m&minus;</div></td>
-          <td><div class="key function"><div class="gloss"></div>mr</div></td>
+          <td><div class="key function nofix"><div class="gloss"></div>mr</div></td>
         </tr>
         <tr>
-          <td><div class="key operator"><div class="gloss"></div>AC</div></td>
-          <td><div class="key operator"><div class="gloss"></div>+/&minus;</div></td>
-          <td><div class="key operator"><div class="gloss"></div>&divide;</div></td>
-          <td><div class="key operator"><div class="gloss"></div>&times;</div></td>
+          <td><div class="key operator mode" data-role="clear"><div class="gloss"></div>AC</div></td>
+          <td><div class="key operator binary"><div class="gloss"></div>+/&minus;</div></td>
+          <td><div class="key operator binary"><div class="gloss"></div>&divide;</div></td>
+          <td><div class="key operator binary"><div class="gloss"></div>&times;</div></td>
         </tr>
         <tr>
           <td><div class="key number"><div class="gloss"></div>7</div></td>
           <td><div class="key number"><div class="gloss"></div>8</div></td>
           <td><div class="key number"><div class="gloss"></div>9</div></td>
-          <td><div class="key operator"><div class="gloss"></div>&minus;</div></td>
+          <td><div class="key operator binary"><div class="gloss"></div>&minus;</div></td>
         </tr>
         <tr>
           <td><div class="key number"><div class="gloss"></div>4</div></td>
           <td><div class="key number"><div class="gloss"></div>5</div></td>
           <td><div class="key number"><div class="gloss"></div>6</div></td>
-          <td><div class="key operator"><div class="gloss"></div>+</div></td>
+          <td><div class="key operator binary"><div class="gloss"></div>+</div></td>
         </tr>
         <tr>
           <td><div class="key number"><div class="gloss"></div>1</div></td>
@@ -87,5 +89,6 @@
       </tbody>
     </table>
   </div>
+<script src="calc.js"></script>
 </body>
 </html>
