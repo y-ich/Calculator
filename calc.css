@@ -77,6 +77,7 @@ sub {
 .key {
   font-family: sans-serif;
   color: white;
+  font-size: 20px;
   text-align: center;
   width: 64px;
   height: 38px;
@@ -142,9 +143,6 @@ sub {
 }
 
 @media (max-device-width: 480px) and (orientation: landscape) { /* 320x460 for iPhone */
-  html, body {
-    width: 480px;
-  }
 
   #display {
     font-size: 37px;
@@ -163,6 +161,7 @@ sub {
   .key {
     width: 50px;
     height: 28px;
+    font-size: 18px;
     line-height: 27px;
     margin-top: 8px;
     margin-bottom: 2px;
