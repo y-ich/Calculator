@@ -51,7 +51,7 @@ sub {
   height: 87px;
   line-height: 87px;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(193, 199, 153)), to(rgb(233, 235, 218)));
-  border: solid 1px #787878;
+  border-bottom: solid 1px #787878;
   margin-bottom: 4px;
   position: relative; /* in order to make height effective to children */
 }
@@ -142,10 +142,15 @@ sub {
 }
 
 @media (max-device-width: 480px) and (orientation: landscape) { /* 320x460 for iPhone */
+  html, body {
+    width: 480px;
+  }
+
   #display {
     font-size: 37px;
     height: 58px;
     line-height: 58px;
+    margin-bottom: 1px;
   }
   #functions {
     display: block;
@@ -159,8 +164,8 @@ sub {
     width: 50px;
     height: 28px;
     line-height: 27px;
-    margin-top: 6px;
-    margin-bottom: 4px;
+    margin-top: 8px;
+    margin-bottom: 2px;
     margin-left: 3px;
     margin-right: 5px;
   }
@@ -180,6 +185,7 @@ sub {
   }
 }
 
+
 @media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
   #functions {
     display: block;
@@ -191,4 +197,3 @@ sub {
     display: block;
   }
 }
-
