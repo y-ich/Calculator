@@ -62,16 +62,32 @@
   -webkit-border-bottom-left-radius: 50% 4px;
 }
 
+.key:hover .gloss {
+  visibility: hidden;
+}
+
 .key.number {
   background-color: #000000;
+}
+
+.key.number:hover {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 0, 0)), to(rgb(128, 128, 128)));
 }
 
 .key.memory {
   background-color: #4f5559;
 }
 
+.key.memory:hover {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f5559), to(#a8abad));
+}
+
 .key.operator {
   background-color: #5b493f;
+}
+
+.key.operator:hover {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b493f), to(#aea5a0));
 }
 
 #zero_key {
