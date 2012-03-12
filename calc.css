@@ -65,6 +65,7 @@ sub {
 }
 
 #functions {
+  display: none;
   float: left;
 }
 
@@ -139,3 +140,55 @@ sub {
   line-height: 99px; /* centering */
   background-color: #e46e0b;
 }
+
+@media (max-device-width: 480px) and (orientation: landscape) { /* 320x460 for iPhone */
+  #display {
+    font-size: 37px;
+    height: 58px;
+    line-height: 58px;
+  }
+  #functions {
+    display: block;
+  }
+
+  #keypad {
+    padding-left: 2px;
+    margin-right: -2px;
+  }
+  .key {
+    width: 50px;
+    height: 28px;
+    line-height: 27px;
+    margin-top: 6px;
+    margin-bottom: 4px;
+    margin-left: 3px;
+    margin-right: 5px;
+  }
+
+  .key .gloss {
+    width: 100%;
+    height: 13px;
+  }
+
+  #zero_key {
+    width: 110px;
+  }
+
+  #equal_key {
+    height: 67px;
+    line-height: 67px; /* centering */
+  }
+}
+
+@media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
+  #functions {
+    display: block;
+  }
+}
+
+@media (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
+  #functions {
+    display: block;
+  }
+}
+
