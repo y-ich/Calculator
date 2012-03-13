@@ -1,42 +1,4 @@
 /*
- * debug
-*/
-
-/*
-body {
-  background-repeat: no-repeat;  
-}
-
-#wrapper {
-  opacity: 0.5;  
-}
-
-body {
-  width: 320px;
-  background-image: url("calculator.png");
-  padding-top: 20px;  
-}
-
-body {
-  width: 1024px;
-  background-image: url("iPad landscape.png");
-  padding-top: 43px;
-}
-
-body {
-  width: 768px;
-  background-image: url("iPad portrait.png");
-  padding-top: 48px;
-}
-
-body {
-  width: 480px;
-  background-image: url("IMG_1189.png");
-  padding-top: 20px;
-}
- */
-
-/*
  * generic
  */
 
@@ -92,7 +54,7 @@ sub {
   font-family: sans-serif;
 }
 
-#result {
+#view {
   font-size: 78px;
   text-align: right;  
   line-height: 88px; /* equal to height */
@@ -154,11 +116,11 @@ sub {
   visibility: hidden;
 }
 
-.key.number {
+.key.number, #period {
   background-color: #000000;
 }
 
-.key.number:hover {
+.key.number:hover, #period:hover {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 0, 0)), to(rgb(128, 128, 128)));
 }
 
@@ -201,7 +163,7 @@ sub {
     padding-right: 7px;
   }
 
-  #result {
+  #view {
     font-size: 50px;
     line-height: 58px;    
   }
@@ -256,7 +218,7 @@ sub {
     margin-bottom: 10px;
   }
 
-  #result {
+  #view {
     font-size: 182px;
     line-height: 209px;
     padding-right: 14px;
@@ -275,7 +237,7 @@ sub {
     height: 95px;
     line-height: 95px;
     font-size: 55px;
-    -webkit-border-radius: 14px;
+    -webkit-border-radius: 10px;
     -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     margin-top: 19px;
     margin-bottom: 14px;
@@ -286,10 +248,10 @@ sub {
   .key .gloss {
     width: 100%;
     height: 46px;
-    -webkit-border-top-right-radius: 14px;
-    -webkit-border-top-left-radius: 14px;
-    -webkit-border-bottom-right-radius: 50% 14px;
-    -webkit-border-bottom-left-radius: 50% 14px;
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 50% 10px;
+    -webkit-border-bottom-left-radius: 50% 10px;
   }
 
   #zero_key {
@@ -313,7 +275,7 @@ sub {
     margin-bottom: 2px;
   }
 
-  #result {
+  #view {
     font-size: 108px;
     line-height: 124px;
     padding-right: 5px;
@@ -345,7 +307,7 @@ sub {
     height: 61px;
     line-height: 60px;
     font-size: 38px;
-    -webkit-border-radius: 13px;
+    -webkit-border-radius: 10px;
     -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     margin-top: 17px;
     margin-bottom: 23px;
@@ -356,10 +318,10 @@ sub {
   .key .gloss {
     width: 100%;
     height: 28px;
-    -webkit-border-top-right-radius: 13px;
-    -webkit-border-top-left-radius: 13px;
-    -webkit-border-bottom-right-radius: 50% 13px;
-    -webkit-border-bottom-left-radius: 50% 13px;
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 50% 10px;
+    -webkit-border-bottom-left-radius: 50% 10px;
   }
 
   #zero_key {
@@ -371,3 +333,41 @@ sub {
     line-height: 162px; /* centering */
   }
 }
+
+/*
+ * debug
+*/
+
+/*
+body {
+  background-repeat: no-repeat;  
+}
+
+#wrapper {
+  opacity: 0.5;  
+}
+
+body {
+  width: 320px;
+  background-image: url("images/calculator.png");
+  padding-top: 20px;  
+}
+
+body {
+  width: 1024px;
+  background-image: url("images/iPad landscape.png");
+  padding-top: 43px;
+}
+
+body {
+  width: 768px;
+  background-image: url("images/iPad portrait.png");
+  padding-top: 48px;
+}
+
+body {
+  width: 480px;
+  background-image: url("images/IMG_1189.png");
+  padding-top: 20px;
+}
+ */
