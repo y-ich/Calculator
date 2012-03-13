@@ -3,21 +3,26 @@ describe "textBuffer", ->
     expect(textBuffer.val()).toEqual '0'
 
   describe "after setting", ->
+    char = '1'
     beforeEach ->
-      textBuffer.val('test')
+      textBuffer.val(char)
 
     it "should return a value set", ->
-      expect(textBuffer.val()).toEqual 'test'
+      expect(textBuffer.val()).toEqual char
 
     it "should update a view", ->
-      expect($('#view').text()).toEqual 'test'
+      expect($('#view').text()).toEqual char
 
   describe "from default", ->
     beforeEach ->
       textBuffer.val('0')
       
     it "should return added string", ->
-      expect(textBuffer.add('foo')).toEqual '0foo'
+      expect(textBuffer.add('1')).toEqual '1'
+
+    it "should return added string", ->
+      textBuffer.add('1')
+      expect(textBuffer.add('1')).toEqual '11'
 
     describe "toggleSign", ->
       it "should return toggled sign", ->

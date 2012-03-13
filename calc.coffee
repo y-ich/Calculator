@@ -12,7 +12,11 @@ textBuffer =
         '0'
       else
         @content
-  add : (str) -> @val @content + str
+  add : (str) ->
+    @val if @content is '0'
+        str
+      else
+        @content + str
   toggleSign : ->
     @val if @content[0] is '-'
         @content.slice 1
@@ -27,11 +31,7 @@ $('.key').each ->
   $this.attr('data-role', $this.text()) unless $(this).attr('data-role')?
 
 
-$('.key.number').on 'click', ->
-  if textBuffer.val() is '0'
-    textBuffer.val $(this).attr('data-role')
-  else
-    textBuffer.add $(this).attr('data-role')
+$('.key.number').on 'click', -> textBuffer.add $(this).attr('data-role').toString()
 
 
 $('#period').on 'click', ->

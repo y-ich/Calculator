@@ -5,14 +5,16 @@
       return expect(textBuffer.val()).toEqual('0');
     });
     describe("after setting", function() {
+      var char;
+      char = '1';
       beforeEach(function() {
-        return textBuffer.val('test');
+        return textBuffer.val(char);
       });
       it("should return a value set", function() {
-        return expect(textBuffer.val()).toEqual('test');
+        return expect(textBuffer.val()).toEqual(char);
       });
       return it("should update a view", function() {
-        return expect($('#view').text()).toEqual('test');
+        return expect($('#view').text()).toEqual(char);
       });
     });
     return describe("from default", function() {
@@ -20,7 +22,11 @@
         return textBuffer.val('0');
       });
       it("should return added string", function() {
-        return expect(textBuffer.add('foo')).toEqual('0foo');
+        return expect(textBuffer.add('1')).toEqual('1');
+      });
+      it("should return added string", function() {
+        textBuffer.add('1');
+        return expect(textBuffer.add('1')).toEqual('11');
       });
       return describe("toggleSign", function() {
         it("should return toggled sign", function() {

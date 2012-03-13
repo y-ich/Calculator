@@ -16,7 +16,7 @@ textBuffer = {
     }
   },
   add: function(str) {
-    return this.val(this.content + str);
+    return this.val(this.content === '0' ? str : this.content + str);
   },
   toggleSign: function() {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
@@ -32,11 +32,7 @@ $('.key').each(function() {
 });
 
 $('.key.number').on('click', function() {
-  if (textBuffer.val() === '0') {
-    return textBuffer.val($(this).attr('data-role'));
-  } else {
-    return textBuffer.add($(this).attr('data-role'));
-  }
+  return textBuffer.add($(this).attr('data-role').toString());
 });
 
 $('#period').on('click', function() {
