@@ -1,4 +1,19 @@
 /*
+ * debug
+ */
+
+body {
+  background-image: url("calculator.png");
+  background-repeat: no-repeat;
+  padding-top: 20px;
+}
+
+#wrapper {
+  opacity: 0.5;
+  background-image: url('images/noise_01.jpg');
+}
+
+/*
  * generic
  */
 
@@ -40,15 +55,15 @@ sub {
 }
 
 #wrapper {
-  background-image: url('images/noise_01.jpg');
+  padding-bottom: 1px;
 }
 
 #display {
   font-family: sans-serif;
-  font-size: 56px;
+  font-size: 78px;
   text-align: right;
   width: 100%;
-  height: 87px;
+  height: 88px;
   line-height: 87px;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(193, 199, 153)), to(rgb(233, 235, 218)));
   border-bottom: solid 1px #787878;
@@ -80,18 +95,18 @@ sub {
 .key {
   font-family: sans-serif;
   color: white;
-  font-size: 20px;
+  font-size: 21px;
   text-align: center;
   width: 64px;
-  height: 38px;
-  line-height: 38px; /* centering */
+  height: 39px;
+  line-height: 40px; /* centering */
   border: solid 1px black;
   -webkit-border-radius: 6px;
   -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   margin-top: 8px;
   margin-bottom: 12px;
   margin-left: 0;
-  margin-right: 10px;
+  margin-right: 11px;
   position: relative;
 }
 
@@ -187,7 +202,7 @@ sub {
 
 @media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
   /* 2.4 times */
-  #display {
+/*  #display {
     font-size: 134px;
     height: 209px;
     line-height: 209px;
@@ -199,8 +214,7 @@ sub {
   }
 
   #keypad {
-    padding-left: 5px;
-    margin-right: -5px;
+    padding-left: 24px;
   }
 
   .key {
@@ -237,7 +251,7 @@ sub {
 
 @media (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
   /* 2.13 times */
-  #display {
+/*  #display {
     font-size: 79px;
     height: 124px;
     line-height: 124px;
