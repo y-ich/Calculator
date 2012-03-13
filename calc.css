@@ -1,19 +1,40 @@
 /*
  * debug
- */
+*/
 
+/*
 body {
-  background-image: url("IMG_1189.png");
-  background-image: url("calculator.png");
-  background-repeat: no-repeat;
-  padding-top: 20px;
+  background-repeat: no-repeat;  
 }
 
 #wrapper {
-  width: 320px;
-  opacity: 0.5;
-  background-image: url('images/noise_01.jpg');
+  opacity: 0.5;  
 }
+
+body {
+  width: 320px;
+  background-image: url("calculator.png");
+  padding-top: 20px;  
+}
+
+body {
+  width: 1024px;
+  background-image: url("iPad landscape.png");
+  padding-top: 43px;
+}
+
+body {
+  width: 768px;
+  background-image: url("iPad portrait.png");
+  padding-top: 48px;
+}
+
+body {
+  width: 480px;
+  background-image: url("IMG_1189.png");
+  padding-top: 20px;
+}
+ */
 
 /*
  * generic
@@ -57,21 +78,24 @@ sub {
 }
 
 #wrapper {
+  background-image: url('images/noise_01.jpg');
   padding-bottom: 1px;
 }
 
 #display {
-  font-family: sans-serif;
-  font-size: 78px;
-  text-align: right;
-  width: 310px;
   height: 88px;
-  line-height: 87px;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(193, 199, 153)), to(rgb(233, 235, 218)));
   border-bottom: solid 1px #787878;
   margin-bottom: 4px;
   padding-right: 10px;
   position: relative; /* in order to make height effective to children */
+  font-family: sans-serif;
+}
+
+#result {
+  font-size: 78px;
+  text-align: right;  
+  line-height: 88px; /* equal to height */
 }
 
 #angle {
@@ -164,12 +188,30 @@ sub {
   background-color: #e46e0b;
 }
 
+
 @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
+  #wrapper {
+   padding-bottom: 0;
+  }
+
   #display {
-    font-size: 37px;
+    width: 472px;
     height: 58px;
-    line-height: 58px;
     margin-bottom: 1px;
+    padding-right: 7px;
+  }
+
+  #result {
+    font-size: 50px;
+    line-height: 58px;    
+  }
+
+  #angle {
+    display: block;
+    font-size: 14px;
+    position: absolute;
+    bottom: 2px;
+    left: 15px;
   }
 
   #functions {
@@ -197,23 +239,27 @@ sub {
   }
 
   #zero_key {
-    width: 110px;
+    width: 108px;
   }
 
   #equal_key {
-    height: 67px;
-    line-height: 67px; /* centering */
+    height: 66px;
+    line-height: 66px; /* centering */
   }
 }
 
 
 @media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
   /* 2.4 times */
-/*  #display {
-    font-size: 134px;
-    height: 209px;
-    line-height: 209px;
+  #display {
+    height: 212px;
     margin-bottom: 10px;
+  }
+
+  #result {
+    font-size: 182px;
+    line-height: 209px;
+    padding-right: 14px;
   }
 
   .gloss {
@@ -225,16 +271,16 @@ sub {
   }
 
   .key {
-    width: 154px;
-    height: 91px;
-    line-height: 91px;
-    font-size: 48px;
+    width: 157px;
+    height: 95px;
+    line-height: 95px;
+    font-size: 55px;
     -webkit-border-radius: 14px;
     -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     margin-top: 19px;
-    margin-bottom: 29px;
+    margin-bottom: 14px;
     margin-left: 0;
-    margin-right: 24px;
+    margin-right: 28px;
   }
 
   .key .gloss {
@@ -247,22 +293,38 @@ sub {
   }
 
   #zero_key {
-    width: 341px;
+    width: 342px;
   }
 
   #equal_key {
-    height: 238px;
-    line-height: 238px; /* centering */
+    height: 223px;
+    line-height: 223px; /* centering */
   }
 }
 
 @media (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
   /* 2.13 times */
-/*  #display {
-    font-size: 79px;
+  #wrapper {
+    padding-bottom: 3px;
+  }
+
+  #display {
     height: 124px;
-    line-height: 124px;
     margin-bottom: 2px;
+  }
+
+  #result {
+    font-size: 108px;
+    line-height: 124px;
+    padding-right: 5px;
+  }
+
+  #angle {
+    display: block;
+    font-size: 29px;
+    position: absolute;
+    bottom: 4px;
+    left: 36px;
   }
 
   .gloss {
@@ -279,16 +341,16 @@ sub {
   }
 
   .key {
-    width: 106px;
-    height: 60px;
+    width: 108px;
+    height: 61px;
     line-height: 60px;
     font-size: 38px;
     -webkit-border-radius: 13px;
     -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     margin-top: 17px;
-    margin-bottom: 4px;
+    margin-bottom: 23px;
     margin-left: 6px;
-    margin-right: 11px;
+    margin-right: 12px;
   }
 
   .key .gloss {
@@ -305,7 +367,7 @@ sub {
   }
 
   #equal_key {
-    height: 143px;
-    line-height: 143px; /* centering */
+    height: 162px;
+    line-height: 162px; /* centering */
   }
 }
