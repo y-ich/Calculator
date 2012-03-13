@@ -17,7 +17,7 @@
         return expect($('#view').text()).toEqual(char);
       });
     });
-    return describe("from default", function() {
+    describe("from default", function() {
       beforeEach(function() {
         return textBuffer.val('0');
       });
@@ -36,6 +36,15 @@
           textBuffer.toggleSign();
           return expect(textBuffer.toggleSign()).toEqual('0');
         });
+      });
+    });
+    return describe("period", function() {
+      it("should return added string", function() {
+        return expect(textBuffer.add('.')).toEqual('0.');
+      });
+      return it("should return added string", function() {
+        textBuffer.val('0.');
+        return expect(textBuffer.add('.')).toEqual(null);
       });
     });
   });

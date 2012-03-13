@@ -31,3 +31,12 @@ describe "textBuffer", ->
       it "should return same value by doubly toggle", ->
         textBuffer.toggleSign()
         expect(textBuffer.toggleSign()).toEqual '0'
+
+  describe "period", ->
+    it "should return added string", ->
+      expect(textBuffer.add('.')).toEqual '0.'
+
+    it "should return added string", ->
+      textBuffer.val('0.')
+      expect(textBuffer.add('.')).toEqual null
+

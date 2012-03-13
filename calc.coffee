@@ -4,19 +4,24 @@ textBuffer =
   content : '0'
   val : (str) ->
     if str?
-      @content = str
-      $('#view').text(@content) # should use observer pattern.
-      str
+      if /\..*\./.test str
+        null
+      else
+        @content = str
+        $('#view').text(@content) # should use observer pattern.
+        @content
     else
       if @content is ''
-        '0'
+        @content = '0'
       else
         @content
+
   add : (str) ->
-    @val if @content is '0'
+    @val if @content is '0' and not /\./.test str
         str
       else
         @content + str
+
   toggleSign : ->
     @val if @content[0] is '-'
         @content.slice 1

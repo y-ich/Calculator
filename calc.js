@@ -4,19 +4,23 @@ textBuffer = {
   content: '0',
   val: function(str) {
     if (str != null) {
-      this.content = str;
-      $('#view').text(this.content);
-      return str;
+      if (/\..*\./.test(str)) {
+        return null;
+      } else {
+        this.content = str;
+        $('#view').text(this.content);
+        return this.content;
+      }
     } else {
       if (this.content === '') {
-        return '0';
+        return this.content = '0';
       } else {
         return this.content;
       }
     }
   },
   add: function(str) {
-    return this.val(this.content === '0' ? str : this.content + str);
+    return this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
   },
   toggleSign: function() {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
