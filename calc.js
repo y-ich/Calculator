@@ -1,4 +1,4 @@
-var activate, deactivate, mr, reverse, split, textBuffer;
+var activate, deactivate, mr, reverse, split, textBuffer, updateView;
 
 textBuffer = {
   content: '0',
@@ -8,7 +8,7 @@ textBuffer = {
         return null;
       } else {
         this.content = str;
-        this.update();
+        this.changed();
         return this.content;
       }
     } else {
@@ -25,12 +25,8 @@ textBuffer = {
   toggleSign: function() {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
   },
-  update: function() {
-    var decimalStr, intStr, result, _ref;
-    _ref = this.content.split('.'), intStr = _ref[0], decimalStr = _ref[1];
-    result = reverse((split(3, reverse(intStr))).join(','));
-    if (decimalStr != null) result += '.' + decimalStr;
-    return $('#view').text(result);
+  changed: function() {
+    return updateView(this.content);
   }
 };
 
@@ -84,6 +80,15 @@ activate = function($elem) {
 
 deactivate = function($elem) {
   return $elem.children('.active').remove();
+};
+
+updateView = function(numStr) {
+  var decimalStr, intStr, result, _ref;
+  _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
+  if (numStr[0] === '-') intStr = intStr.slice(1);
+  result = reverse((split(3, reverse(intStr))).join(','));
+  if (decimalStr != null) result += '.' + decimalStr;
+  return $('#view').text(numStr[0] === '-' ? '-' + result : result);
 };
 
 /*

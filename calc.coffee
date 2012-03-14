@@ -8,7 +8,7 @@ textBuffer =
         null
       else
         @content = str
-        @update()
+        @changed()
         @content
     else
       if @content is ''
@@ -28,11 +28,8 @@ textBuffer =
       else
         '-' + @content
 
-  update : -> # should use observer pattern.
-    [intStr, decimalStr] = @content.split('.')
-    result = reverse (split 3, reverse intStr).join(',')
-    result += '.' + decimalStr if decimalStr?
-    $('#view').text(result)
+  changed : -> updateView(@content)
+
 
 mr = 0
 
@@ -75,6 +72,18 @@ activate = ($elem) ->
 
 deactivate = ($elem) ->
   $elem.children('.active').remove()
+
+
+updateView = (numStr) ->
+  [intStr, decimalStr] = numStr.split('.')
+  intStr = intStr.slice(1) if numStr[0] == '-'
+  result = reverse (split 3, reverse intStr).join(',')
+  result += '.' + decimalStr if decimalStr?
+  $('#view').text if numStr[0] == '-'
+      '-' + result
+    else
+      result
+
 
 ###
 percent2number
