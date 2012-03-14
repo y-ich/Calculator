@@ -40,28 +40,20 @@ sub {
 }
 
 #wrapper {
+  position: absolute;
+  right: 0;
   background-image: url('images/noise_01.jpg');
-  padding-bottom: 1px;
 }
 
 #display {
-  height: 88px;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(193, 199, 153)), to(rgb(233, 235, 218)));
   border-bottom: solid 1px #787878;
-  margin-bottom: 4px;
-  padding-right: 10px;
   position: relative; /* in order to make height effective to children */
   font-family: sans-serif;
 }
 
 #view {
-  font-size: 78px;
   text-align: right;  
-  line-height: 88px; /* equal to height */
-}
-
-#angle {
-  display: none;
 }
 
 .gloss {
@@ -76,35 +68,24 @@ sub {
 }
 
 #functions {
-  display: none;
-  float: left;
+  float: right;
 }
 
 #keypad {
-  float: left;
-  padding-left: 10px;
+  float: right;
 }
 
 .key {
   font-family: sans-serif;
   color: white;
-  font-size: 21px;
   text-align: center;
-  width: 64px;
-  height: 39px;
-  line-height: 40px; /* centering */
   border: solid 1px black;
   -webkit-border-radius: 6px;
   -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
-  margin-top: 8px;
-  margin-bottom: 12px;
-  margin-left: 0;
-  margin-right: 11px;
   position: relative;
 }
 
 .key .gloss {
-  height: 19px; /* half of normal key, it is same for vertically long key. */
   width: 100%;
   -webkit-border-top-right-radius: 6px;
   -webkit-border-top-left-radius: 6px;
@@ -140,24 +121,19 @@ sub {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b493f), to(#aea5a0));
 }
 
-#zero_key {
-  width: 142px;
-}
-
 #equal_key {
-  height: 99px;
-  line-height: 99px; /* centering */
   background-color: #e46e0b;
 }
 
 
-@media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
+/* @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
+/* default */
   #wrapper {
-   padding-bottom: 0;
+    width: 480px;
+    padding-bottom: 0;
   }
 
   #display {
-    width: 472px;
     height: 58px;
     margin-bottom: 1px;
     padding-right: 7px;
@@ -187,7 +163,7 @@ sub {
   .key {
     width: 50px;
     height: 28px;
-    line-height: 28px;
+    line-height: 26px;
     font-size: 18px;
     margin-top: 8px;
     margin-bottom: 2px;
@@ -207,11 +183,73 @@ sub {
     height: 66px;
     line-height: 66px; /* centering */
   }
+/* } */
+
+
+@media (max-device-width: 320px) and (orientation: portrait) { /* 320 * 460 for iPhone */
+  #wrapper {
+    width: 736px;
+    padding-bottom: 1px;
+  }
+
+  #display {
+    height: 88px;
+    margin-bottom: 4px;
+    padding-right: 10px;
+  }
+
+  #view {
+    font-size: 78px;
+    line-height: 88px; /* equal to height */
+  }
+
+  #angle {
+    font-size: 14px; /**/
+    position: absolute; /**/
+    bottom: 2px; /**/
+    left: 15px; /**/
+  }
+
+  #functions {
+
+  }
+
+  #keypad {
+    padding-left: 10px;
+  }
+
+  .key {
+    width: 64px;
+    height: 39px;
+    line-height: 39px;
+    font-size: 21px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    margin-left: 0;
+    margin-right: 11px;
+  }
+
+  .key .gloss {
+    height: 19px; /* half of normal key, it is same for vertically long key. */
+  }
+
+  #zero_key {
+    width: 142px;
+  }
+
+  #equal_key {
+    height: 99px;
+    line-height: 99px; /* centering */
+  }
 }
 
 
 @media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
   /* 2.4 times */
+  #wrapper {
+    width: 1374px;
+  }
+
   #display {
     height: 212px;
     margin-bottom: 10px;
@@ -265,6 +303,7 @@ sub {
 @media (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
   /* 2.13 times */
   #wrapper {
+    width: 1024px;
     padding-bottom: 3px;
   }
 
@@ -333,21 +372,13 @@ sub {
 
 /*
  * debug
-*/
+ */
 
 /*
 body {
-  background-repeat: no-repeat;  
-}
-
-#wrapper {
-  opacity: 0.5;  
-}
-
-body {
-  width: 320px;
-  background-image: url("images/calculator.png");
-  padding-top: 20px;  
+  width: 480px;
+  background-image: url("images/IMG_1189.png");
+  padding-top: 20px;
 }
 
 body {
@@ -363,8 +394,17 @@ body {
 }
 
 body {
-  width: 480px;
-  background-image: url("images/IMG_1189.png");
-  padding-top: 20px;
+  background-repeat: no-repeat;  
 }
- */
+
+#wrapper {
+  opacity: 0.5;  
+}
+
+body {
+  width: 320px;
+  background-image: url("images/calculator.png");
+  padding-top: 20px;  
+}
+*/
+
