@@ -1,72 +1,105 @@
-var textBuffer;
+(function() {
+  var activate, deactivate, mr, textBuffer;
 
-textBuffer = {
-  content: '0',
-  val: function(str) {
-    if (str != null) {
-      if (/\..*\./.test(str)) {
-        return null;
+  textBuffer = {
+    content: '0',
+    val: function(str) {
+      if (str != null) {
+        if (/\..*\./.test(str)) {
+          return null;
+        } else {
+          this.content = str;
+          $('#view').text(this.content);
+          return this.content;
+        }
       } else {
-        this.content = str;
-        $('#view').text(this.content);
-        return this.content;
+        if (this.content === '') {
+          return this.content = '0';
+        } else {
+          return this.content;
+        }
       }
-    } else {
-      if (this.content === '') {
-        return this.content = '0';
-      } else {
-        return this.content;
-      }
+    },
+    add: function(str) {
+      return this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
+    },
+    toggleSign: function() {
+      return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
     }
-  },
-  add: function(str) {
-    return this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
-  },
-  toggleSign: function() {
-    return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
-  }
-};
+  };
 
-$('.key').each(function() {
-  var $this;
-  $this = $(this);
-  if ($(this).attr('data-role') == null) {
-    return $this.attr('data-role', $this.text());
-  }
-});
+  mr = 0;
 
-$('.key.number').on('click', function() {
-  return textBuffer.add($(this).attr('data-role').toString());
-});
+  $('.key').each(function() {
+    var $this;
+    $this = $(this);
+    if ($(this).attr('data-role') == null) {
+      return $this.attr('data-role', $this.text());
+    }
+  });
 
-$('#period').on('click', function() {
-  if (!/\./.test(textBuffer.val())) {
-    return textBuffer.add($(this).attr('data-role'));
-  }
-});
+  $('.key.number').on('click', function() {
+    return textBuffer.add($(this).attr('data-role').toString());
+  });
 
-$('#plusminus').on('click', function() {
-  return textBuffer.toggleSign();
-});
+  $('#period').on('click', function() {
+    if (!/\./.test(textBuffer.val())) {
+      return textBuffer.add($(this).attr('data-role'));
+    }
+  });
 
-/*
-percent2number
+  $('#plusminus').on('click', function() {
+    return textBuffer.toggleSign();
+  });
 
-inverse
+  $('#mc').on('click', function() {
+    mr = 0;
+    return deactivate($('#mr'));
+  });
 
-square
+  $('#mplus').on('click', function() {
+    mr += parseFloat(textBuffer.val());
+    return activate($('#mr'));
+  });
 
-cube
+  $('#mminus').on('click', function() {
+    mr -= parseFloat(textBuffer.val());
+    return activate($('#mr'));
+  });
 
-exp binary
+  activate = function($elem) {
+    var active;
+    active = $elem.children('.active');
+    if (!(active != null) || active.length === 0) {
+      console.log('pass');
+      return $elem.append($('<div class="active">'));
+    }
+  };
 
-factorial
+  deactivate = function($elem) {
+    return $elem.children('.active').remove();
+  };
 
-root
+  /*
+  percent2number
+  
+  inverse
+  
+  square
+  
+  cube
+  
+  exp binary
+  
+  factorial
+  
+  root
+  
+  xthroot binary
+  
+  log10
+  
+  enotation binary
+  */
 
-xthroot binary
-
-log10
-
-enotation binary
-*/
+}).call(this);

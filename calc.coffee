@@ -49,13 +49,26 @@ $('#period').on 'click', ->
 $('#plusminus').on 'click', -> textBuffer.toggleSign()
 
 
-$('#mc').on 'click'. ->
-  memory = 0
+$('#mc').on 'click', ->
+  mr = 0
+  deactivate $('#mr')
 
-$('#mplus').on 'click'. -> mr = 0
+$('#mplus').on 'click', ->
+  mr += parseFloat textBuffer.val()
+  activate $('#mr')
 
-$('#mminus').on 'click'. -> memory = 0
+$('#mminus').on 'click', ->
+  mr -= parseFloat textBuffer.val()
+  activate $('#mr')
 
+activate = ($elem) ->
+  active = $elem.children('.active')
+  if not active? or active.length == 0 # jqMobi returns undefined when no children.
+    console.log 'pass'
+    $elem.append $('<div class="active">')
+
+deactivate = ($elem) ->
+  $elem.children('.active').remove()
 
 ###
 percent2number

@@ -43,6 +43,7 @@ sub {
   position: absolute;
   right: 0;
   background-image: url('images/noise_01.jpg');
+  z-index: -1; /* for active class */
 }
 
 #display {
@@ -119,6 +120,17 @@ sub {
 
 .key.operator:hover {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b493f), to(#aea5a0));
+}
+
+.key .active {
+  background-color: white;
+  width: 112%;
+  height: 120%;
+  position: absolute;
+  -webkit-border-radius: 16%;
+  left: -6%;
+  top: -10%;
+  z-index: -1; /* below parent */
 }
 
 #equal_key {
