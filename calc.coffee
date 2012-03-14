@@ -28,6 +28,8 @@ textBuffer =
       else
         '-' + @content
 
+mr = 0
+
 
 # controller
 
@@ -45,6 +47,14 @@ $('#period').on 'click', ->
 
 
 $('#plusminus').on 'click', -> textBuffer.toggleSign()
+
+
+$('#mc').on 'click'. ->
+  memory = 0
+
+$('#mplus').on 'click'. -> mr = 0
+
+$('#mminus').on 'click'. -> memory = 0
 
 
 ###
