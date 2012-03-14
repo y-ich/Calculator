@@ -9,7 +9,7 @@
           return null;
         } else {
           this.content = str;
-          $('#view').text(this.content);
+          this.update();
           return this.content;
         }
       } else {
@@ -25,6 +25,23 @@
     },
     toggleSign: function() {
       return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
+    },
+    update: function() {
+      var a, decimalStr, head, initial, intStr, result, tail, _ref;
+      _ref = this.content.split('.'), intStr = _ref[0], decimalStr = _ref[1];
+      initial = intStr.length % 3;
+      if (initial === 0) initial = 3;
+      a = [];
+      head = 0;
+      tail = initial;
+      while (tail <= intStr.length) {
+        a.push(intStr.slice(head, tail));
+        head = tail;
+        tail += 3;
+      }
+      result = a.join(',');
+      if (decimalStr != null) result += '.' + decimalStr;
+      return $('#view').text(result);
     }
   };
 

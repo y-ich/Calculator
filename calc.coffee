@@ -8,7 +8,7 @@ textBuffer =
         null
       else
         @content = str
-        $('#view').text(@content) # should use observer pattern.
+        @update()
         @content
     else
       if @content is ''
@@ -27,6 +27,21 @@ textBuffer =
         @content.slice 1
       else
         '-' + @content
+
+  update : -> # should use observer pattern.
+    [intStr, decimalStr] = @content.split('.')
+    initial = intStr.length % 3
+    initial = 3 if initial == 0
+    a = []
+    head = 0
+    tail = initial
+    while tail <= intStr.length
+      a.push intStr.slice(head, tail)
+      head = tail
+      tail += 3
+    result = a.join(',')
+    result += '.' + decimalStr if decimalStr?
+    $('#view').text(result)
 
 mr = 0
 
