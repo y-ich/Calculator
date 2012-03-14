@@ -196,7 +196,6 @@ sub {
   }
 
   .key .gloss {
-    width: 100%;
     height: 13px;
   }
 
@@ -246,7 +245,6 @@ sub {
   }
 
   .key .gloss {
-    width: 100%;
     height: 46px;
     -webkit-border-top-right-radius: 10px;
     -webkit-border-top-left-radius: 10px;
@@ -316,7 +314,6 @@ sub {
   }
 
   .key .gloss {
-    width: 100%;
     height: 28px;
     -webkit-border-top-right-radius: 10px;
     -webkit-border-top-left-radius: 10px;
