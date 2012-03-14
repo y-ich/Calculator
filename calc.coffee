@@ -30,16 +30,7 @@ textBuffer =
 
   update : -> # should use observer pattern.
     [intStr, decimalStr] = @content.split('.')
-    initial = intStr.length % 3
-    initial = 3 if initial == 0
-    a = []
-    head = 0
-    tail = initial
-    while tail <= intStr.length
-      a.push intStr.slice(head, tail)
-      head = tail
-      tail += 3
-    result = a.join(',')
+    result = reverse (split 3, reverse intStr).join(',')
     result += '.' + decimalStr if decimalStr?
     $('#view').text(result)
 
@@ -109,4 +100,16 @@ enotation binary
 
 # parser
 
+#
+# utilities
+#
 
+reverse = (str) ->
+  result = ''
+  result += str.charAt(str.length - i) for i in [1..str.length]
+  result
+
+split = (n, str) ->
+  result = []
+  result.push(str.slice(i, i + n)) for i in [0...str.length] by n
+  result
