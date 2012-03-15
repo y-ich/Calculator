@@ -49,4 +49,34 @@
     });
   });
 
+  describe("parseEval", function() {
+    describe("normal order", function() {
+      it("should stack binary operator", function() {
+        parseEval('mul', 2);
+        return expect(stack).toEqual([2, 'mul']);
+      });
+      return it("should eval operator with high priority", function() {
+        parseEval('add', 2);
+        return expect(stack).toEqual([4, 'add']);
+      });
+    });
+    return describe("mul priority", function() {
+      beforeEach(function() {
+        return clearStack();
+      });
+      return it("should stack operator with high priority", function() {
+        parseEval('add', 2);
+        parseEval('mul', 2);
+        return expect(stack).toEqual([2, 'add', 2, 'mul']);
+      });
+    });
+  });
+
+  describe("equal", function() {
+    it("should return a result of binary operator");
+    it("should close all parentheses");
+    it("should repeat the last unary inputted function");
+    return it("should repeat the last unary inputted binary operator");
+  });
+
 }).call(this);

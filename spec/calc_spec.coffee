@@ -40,3 +40,30 @@ describe "textBuffer", ->
       textBuffer.val('0.')
       expect(textBuffer.add('.')).toEqual null
 
+describe "parseEval", ->
+    
+  describe "normal order", ->
+    it "should stack binary operator", ->
+      parseEval 'mul', 2
+      expect(stack).toEqual([2, 'mul'])
+
+    it "should eval operator with high priority", ->
+      parseEval 'add', 2
+      expect(stack).toEqual([4, 'add'])
+
+  describe "mul priority", ->
+    beforeEach ->
+      clearStack()
+
+    it "should stack operator with high priority", ->
+      parseEval 'add', 2
+      parseEval 'mul', 2
+      expect(stack).toEqual([2, 'add', 2, 'mul'])
+
+describe "equal", ->
+  it "should return a result of binary operator"
+  it "should close all parentheses"
+  it "should repeat the last unary inputted function"   
+  it "should repeat the last unary inputted binary operator"
+
+

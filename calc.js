@@ -1,10 +1,67 @@
-var activate, deactivate, mr, reverse, split, textBuffer, updateView;
+var activate, clearStack, deactivate, expression, fn, gamma, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, updateView;
+
+fn = {
+  mr: function() {
+    return memory;
+  },
+  pi: Math.PI,
+  random: Math.random,
+  percent2number: function(n) {
+    return n / 100;
+  },
+  inverse: function(n) {
+    return 1 / n;
+  },
+  square: function(n) {
+    return Math.pow(n, 2);
+  },
+  cube: function(n) {
+    return Math.pow(n, 3);
+  },
+  power: Math.pow,
+  factorial: function(n) {
+    return gamma(n + 1);
+  },
+  root: function(n) {
+    return Math.pow(n, 0.5);
+  },
+  xthroot: function(x, y) {
+    return Math.pow(x, 1 / y);
+  },
+  log10: function(n) {
+    return Math.log(n) / Math.log(10);
+  },
+  sin: Math.sin,
+  cos: Math.cos,
+  tan: Math.tan,
+  sinh: Math.sinh,
+  cosh: Math.cosh,
+  tanh: Math.tanh,
+  exp: Math.exp,
+  enotation: function(x, y) {
+    return x * Math.pow(10, y);
+  },
+  add: function(x, y) {
+    return x + y;
+  },
+  sub: function(x, y) {
+    return x - y;
+  },
+  mul: function(x, y) {
+    return x * y;
+  },
+  div: function(x, y) {
+    return x / y;
+  }
+};
+
+memory = 0;
 
 textBuffer = {
   content: '0',
   val: function(str) {
     if (str != null) {
-      if (/\..*\./.test(str)) {
+      if (str === '' || /\..*\./.test(str)) {
         return null;
       } else {
         this.content = str;
@@ -12,11 +69,7 @@ textBuffer = {
         return this.content;
       }
     } else {
-      if (this.content === '') {
-        return this.content = '0';
-      } else {
-        return this.content;
-      }
+      return this.content;
     }
   },
   add: function(str) {
@@ -26,28 +79,95 @@ textBuffer = {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
   },
   changed: function() {
-    return updateView(this.content);
+    return 　updateView(this.content);
+  },
+  clear: function() {
+    return this.content = '0';
   }
 };
 
-mr = 0;
+stack = [];
+
+expression = [];
+
+priority = {
+  '=': 0,
+  '(': 0,
+  ')': 0,
+  'add': 1,
+  'sub': 1,
+  'mul': 2,
+  'div': 2
+};
+
+lastUnary = null;
+
+clearStack = function() {
+  return stack = [];
+};
+
+parseEval = function(operator, operand1) {
+  var lastEval, op, _ref, _ref2;
+  switch (operator) {
+    case '(':
+      return stack.push('(');
+    case ')':
+      while (true) {
+        op = stack.pop();
+        if (!(op != null) || op === '(') return;
+        lastEval = fn[stack.pop()](stack.pop(), operand1);
+        updateView(lastEval);
+      }
+      break;
+    case '=':
+      lastUnary = null;
+      while (true) {
+        op = stack.pop();
+        if (!(op != null)) return;
+        if (op !== '(') {
+          lastEval = fn[op](stack.pop(), operand1);
+          if (lastUnary == null) {
+            lastUnary = (function(operator, operand2) {
+              return function(x) {
+                return fn[operator](x, operand2);
+              };
+            })(op, operand1);
+            updateView(lastEval);
+          }
+        }
+      }
+      break;
+    default:
+      if (stack.length !== 0 && ((_ref = priority[operator]) != null ? _ref : 3) <= ((_ref2 = priority[stack[stack.length - 1]]) != null ? _ref2 : 3)) {
+        lastEval = fn[stack.pop()](stack.pop(), operand1);
+        updateView(lastEval);
+        return stack.push(lastEval, operator);
+      } else {
+        return stack.push(operand1, operator);
+      }
+  }
+};
 
 $('.key').each(function() {
   var $this;
   $this = $(this);
-  if ($(this).attr('data-role') == null) {
-    return $this.attr('data-role', $this.text());
-  }
+  if ($(this).data('role') == null) return $this.data('role', $this.text());
+});
+
+$('#clear').on('click', function() {
+  var entrance;
+  textBuffer.clear();
+  expression = [];
+  entrance = [];
+  return $('#view').text('0');
 });
 
 $('.key.number').on('click', function() {
-  return textBuffer.add($(this).attr('data-role').toString());
+  return textBuffer.add($(this).data('role').toString());
 });
 
 $('#period').on('click', function() {
-  if (!/\./.test(textBuffer.val())) {
-    return textBuffer.add($(this).attr('data-role'));
-  }
+  if (!/\./.test(textBuffer.val())) return textBuffer.add($(this).data('role'));
 });
 
 $('#plusminus').on('click', function() {
@@ -55,25 +175,56 @@ $('#plusminus').on('click', function() {
 });
 
 $('#mc').on('click', function() {
-  mr = 0;
+  memory = 0;
   return deactivate($('#mr'));
 });
 
 $('#mplus').on('click', function() {
-  mr += parseFloat(textBuffer.val());
+  textBuffer.clear();
+  memory += parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
 $('#mminus').on('click', function() {
-  mr -= parseFloat(textBuffer.val());
+  textBuffer.clear();
+  memory -= parseFloat(textBuffer.val());
   return activate($('#mr'));
+});
+
+$('.nofix').on('click', function() {
+  updateView(fn[$(this).data('role')]().toString());
+  return textBuffer.clear();
+});
+
+$('.unary').on('click', function() {
+  lastUnary = fn[$(this).data('role')];
+  updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
+  return textBuffer.clear();
+});
+
+$('.binary, #parright').on('click', function() {
+  parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
+  return textBuffer.clear();
+});
+
+$('#parleft').on('click', function() {
+  parseEval($(this).data('role'));
+  return textBuffer.clear();
+});
+
+$('#equal_key').on('click', function() {
+  if (stack.length !== 0) {
+    parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
+    return textBuffer.clear();
+  } else if (lastUnary != null) {
+    return updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
+  }
 });
 
 activate = function($elem) {
   var active;
   active = $elem.children('.active');
   if (!(active != null) || active.length === 0) {
-    console.log('pass');
     return $elem.append($('<div class="active">'));
   }
 };
@@ -84,34 +235,13 @@ deactivate = function($elem) {
 
 updateView = function(numStr) {
   var decimalStr, intStr, result, _ref;
+  if (typeof numStr === 'number') numStr = numStr.toString();
   _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
   if (numStr[0] === '-') intStr = intStr.slice(1);
   result = reverse((split(3, reverse(intStr))).join(','));
   if (decimalStr != null) result += '.' + decimalStr;
   return $('#view').text(numStr[0] === '-' ? '-' + result : result);
 };
-
-/*
-percent2number
-
-inverse
-
-square
-
-cube
-
-exp binary
-
-factorial
-
-root
-
-xthroot binary
-
-log10
-
-enotation binary
-*/
 
 reverse = function(str) {
   var i, result, _ref;
@@ -129,4 +259,40 @@ split = function(n, str) {
     result.push(str.slice(i, i + n));
   }
   return result;
+};
+
+loggamma = function(x) {
+  var B0, B1, B10, B12, B14, B16, B2, B4, B6, B8, N, log2pi, tmp, v, w;
+  log2pi = Math.log(2 * Math.PI);
+  N = 8;
+  B0 = 1.0;
+  B1 = -1.0 / 2.0;
+  B2 = 1.0 / 6.0;
+  B4 = -1.0 / 30.0;
+  B6 = 1.0 / 42.0;
+  B8 = -1.0 / 30.0;
+  B10 = 5.0 / 66.0;
+  B12 = -691.0 / 2730.0;
+  B14 = 7.0 / 6.0;
+  B16 = -3617.0 / 510.0;
+  v = 1.0;
+  while (x < N) {
+    v *= x;
+    x++;
+  }
+  w = 1 / (x * x);
+  tmp = B16 / (16 * 15);
+  tmp = tmp * w + B14 / (14 * 13);
+  tmp = tmp * w + B12 / (12 * 11);
+  tmp = tmp * w + B10 / (10 * 9);
+  tmp = tmp * w + B8 / (8 * 7);
+  tmp = tmp * w + B6 / (6 * 5);
+  tmp = tmp * w + B4 / (4 * 3);
+  tmp = tmp * w + B2 / (2 * 1);
+  tmp = tmp / x + 0.5 * log2pi - Math.log(v) - x + (x - 0.5) * Math.log(x);
+  return tmp;
+};
+
+gamma = function(x) {
+  return Math.exp(loggamma(x));
 };
