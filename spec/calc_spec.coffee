@@ -40,6 +40,7 @@ describe "textBuffer", ->
       textBuffer.val('0.')
       expect(textBuffer.add('.')).toEqual null
 
+
 describe "parseEval", ->
     
   describe "normal order", ->
@@ -59,6 +60,7 @@ describe "parseEval", ->
       parseEval 'add', 2
       parseEval 'mul', 2
       expect(stack).toEqual([2, 'add', 2, 'mul'])
+
 
 describe "equal", ->
   it "should return a result of binary operator"

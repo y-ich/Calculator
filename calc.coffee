@@ -14,9 +14,9 @@ fn =
   xthroot : (x, y) -> Math.pow(x, 1/y)
   log : (n) -> Math.log(n)
   log10 : (n) -> Math.log(n)/Math.log(10)
-  sin : Math.sin 
-  cos : Math.cos
-  tan : Math.tan
+  sin : (x) -> Math.sin(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
+  cos : (x) -> Math.cos(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
+  tan : (x) -> Math.tan(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
   sinh : (x) -> (Math.exp(x) - Math.exp(-x)) / 2
   cosh : (x) -> (Math.exp(x) + Math.exp(-x)) / 2
   tanh : (x) -> fn.sinh(x) / fn.cosh(x)
@@ -29,6 +29,7 @@ fn =
 
 # model
 memory = 0
+angleUnit = 'Deg'
 
 textBuffer = 
   content : '0'
@@ -167,6 +168,16 @@ $('#equal_key').on 'click', ->
     textBuffer.clear()
   else if lastUnary? 
     updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
+
+$('#angle_key').on 'click', ->
+  $this = $(this)
+  if angleUnit is 'Deg'
+    angleUnit = 'Rad'
+    $this.html $this.html().replace('Rad', 'Deg')
+  else
+    angleUnit = 'Deg'
+    $this.html $this.html().replace('Deg', 'Rad')
+  $('#angle').text(angleUnit)
 
 # view
 #

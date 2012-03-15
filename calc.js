@@ -1,4 +1,4 @@
-var activate, clearStack, deactivate, expression, fn, gamma, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, updateView;
+var activate, angleUnit, clearStack, deactivate, expression, fn, gamma, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, updateView;
 
 fn = {
   mr: function() {
@@ -34,9 +34,15 @@ fn = {
   log10: function(n) {
     return Math.log(n) / Math.log(10);
   },
-  sin: Math.sin,
-  cos: Math.cos,
-  tan: Math.tan,
+  sin: function(x) {
+    return Math.sin(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
+  },
+  cos: function(x) {
+    return Math.cos(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
+  },
+  tan: function(x) {
+    return Math.tan(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
+  },
   sinh: function(x) {
     return (Math.exp(x) - Math.exp(-x)) / 2;
   },
@@ -65,6 +71,8 @@ fn = {
 };
 
 memory = 0;
+
+angleUnit = 'Deg';
 
 textBuffer = {
   content: '0',
@@ -228,6 +236,19 @@ $('#equal_key').on('click', function() {
   } else if (lastUnary != null) {
     return updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
   }
+});
+
+$('#angle_key').on('click', function() {
+  var $this;
+  $this = $(this);
+  if (angleUnit === 'Deg') {
+    angleUnit = 'Rad';
+    $this.html($this.html().replace('Rad', 'Deg'));
+  } else {
+    angleUnit = 'Deg';
+    $this.html($this.html().replace('Deg', 'Rad'));
+  }
+  return $('#angle').text(angleUnit);
 });
 
 activate = function($elem) {
