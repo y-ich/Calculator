@@ -1,4 +1,4 @@
-var activate, angleUnit, clearStack, deactivate, expression, functions, gamma, isPortrait, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
+var activate, angleUnit, clearStack, deactivate, display, expression, functions, gamma, isPortrait, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
 
 functions = {
   mr: function() {
@@ -189,7 +189,7 @@ parseEval = function(operator, operand1) {
   }
 };
 
-triggerEvent = 'touchend';
+triggerEvent = triggerEvent != null ? triggerEvent : 'touchend';
 
 $('.key').each(function() {
   var $this;
@@ -197,7 +197,7 @@ $('.key').each(function() {
   if ($(this).data('role') == null) return $this.data('role', $this.text());
 });
 
-$('#clear').bind('touchend', function(event) {
+$('#clear').bind(triggerEvent, function(event) {
   var entrance;
   textBuffer.clear();
   expression = [];
@@ -205,57 +205,57 @@ $('#clear').bind('touchend', function(event) {
   return $('#view').text('0');
 });
 
-$('.key.number').bind('touchend', function() {
+$('.key.number').bind(triggerEvent, function() {
   return textBuffer.add($(this).data('role').toString());
 });
 
-$('#period').bind('touchend', function() {
+$('#period').bind(triggerEvent, function() {
   if (!/\./.test(textBuffer.val())) return textBuffer.add($(this).data('role'));
 });
 
-$('#plusminus').bind('touchend', function() {
+$('#plusminus').bind(triggerEvent, function() {
   return textBuffer.toggleSign();
 });
 
-$('#mc').bind('touchend', function() {
+$('#mc').bind(triggerEvent, function() {
   memory = 0;
   return deactivate($('#mr'));
 });
 
-$('#mplus').bind('touchend', function() {
+$('#mplus').bind(triggerEvent, function() {
   textBuffer.clear();
   memory += parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
-$('#mminus').bind('touchend', function() {
+$('#mminus').bind(triggerEvent, function() {
   textBuffer.clear();
   memory -= parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
-$('.nofix').bind('touchend', function() {
+$('.nofix').bind(triggerEvent, function() {
   updateView(functions[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
-$('.unary').bind('touchend', function() {
+$('.unary').bind(triggerEvent, function() {
   lastUnary = functions[$(this).data('role')];
   updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
   return textBuffer.clear();
 });
 
-$('.binary, #parright').bind('touchend', function() {
+$('.binary, #parright').bind(triggerEvent, function() {
   parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
   return textBuffer.clear();
 });
 
-$('#parleft').bind('touchend', function() {
+$('#parleft').bind(triggerEvent, function() {
   parseEval($(this).data('role'));
   return textBuffer.clear();
 });
 
-$('#equal_key').bind('touchend', function() {
+$('#equal_key').bind(triggerEvent, function() {
   if (stack.length !== 0) {
     parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
     return textBuffer.clear();
@@ -264,7 +264,7 @@ $('#equal_key').bind('touchend', function() {
   }
 });
 
-$('#angle_key').bind('touchend', function() {
+$('#angle_key').bind(triggerEvent, function() {
   var $this;
   $this = $(this);
   if (angleUnit === 'Deg') {
@@ -277,7 +277,7 @@ $('#angle_key').bind('touchend', function() {
   return $('#angle').text(angleUnit);
 });
 
-$('#2nd').bind('touchend', function() {
+$('#2nd').bind(triggerEvent, function() {
   if ($(this).data('status') === 'off') {
     $(this).data('status', 'on');
     $(this).css('color', '#de8235');
@@ -323,7 +323,7 @@ $('.key').bind('touchstart', function() {
   return $(this).addClass('pushed');
 });
 
-$('.key').bind('touchend', function() {
+$('.key').bind(triggerEvent, function() {
   return $(this).removeClass('pushed');
 });
 
@@ -353,14 +353,48 @@ updateView = function(numStr) {
   if (decimalStr != null) result += '.' + decimalStr;
   $view.text(numStr[0] === '-' ? '-' + result : result);
   $view.css('visibility', 'hidden');
-  while (!($view[0].offsetWidth < innerWidth)) {
+  $view.css('font-size', display.fontSize());
+  while (!($view[0].offsetWidth <= display.width())) {
     $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');
   }
   return $view.css('visibility', '');
 };
 
 isPortrait = function() {
-  return orientation % 180 === 0;
+  return (typeof orientation !== "undefined" && orientation !== null ? orientation : 90) % 180 === 0;
+};
+
+display = {
+  width: function() {
+    if (innerWidth <= 320) {
+      if (isPortrait()) {
+        return 280;
+      } else {
+        return 406;
+      }
+    } else {
+      if (isPortrait()) {
+        return 671;
+      } else {
+        return 875;
+      }
+    }
+  },
+  fontSize: function() {
+    if (innerWidth <= 320) {
+      if (isPortrait()) {
+        return '78px';
+      } else {
+        return '50px';
+      }
+    } else {
+      if (isPortrait()) {
+        return '182px';
+      } else {
+        return '108px';
+      }
+    }
+  }
 };
 
 reverse = function(str) {

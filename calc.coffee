@@ -1,3 +1,8 @@
+#
+# for debugging
+#
+# triggerEvent = 'click'
+
 # functions
 
 functions = 
@@ -121,71 +126,80 @@ parseEval = (operator, operand1) ->
 # $(document.body).bind 'touchmove', (event) ->
 #   event.preventDefault()
 
-# triggerEvent = 'touchend'
-triggerEvent = 'touchend'
+triggerEvent = triggerEvent ? 'touchend'
+
 
 $('.key').each ->
   $this = $(this)
   $this.data('role', $this.text()) unless $(this).data('role')?
 
 
-$('#clear').bind 'touchend', (event) ->
+$('#clear').bind triggerEvent, (event) ->
   textBuffer.clear()
   expression = []
   entrance = []
   $('#view').text('0')
 
 
-$('.key.number').bind 'touchend', -> textBuffer.add $(this).data('role').toString()
+$('.key.number').bind triggerEvent, ->
+  textBuffer.add $(this).data('role').toString()
 
 
-$('#period').bind 'touchend', ->
+$('#period').bind triggerEvent, ->
   unless /\./.test textBuffer.val()
     textBuffer.add $(this).data('role')
 
 
-$('#plusminus').bind 'touchend', -> textBuffer.toggleSign()
+$('#plusminus').bind triggerEvent, -> textBuffer.toggleSign()
 
-$('#mc').bind 'touchend', ->
+
+$('#mc').bind triggerEvent, ->
   memory = 0
   deactivate $('#mr')
 
-$('#mplus').bind 'touchend', ->
+
+$('#mplus').bind triggerEvent, ->
   textBuffer.clear()
   memory += parseFloat textBuffer.val()
   activate $('#mr')
 
-$('#mminus').bind 'touchend', ->
+
+$('#mminus').bind triggerEvent, ->
   textBuffer.clear()
   memory -= parseFloat textBuffer.val()
   activate $('#mr')
 
 
-$('.nofix').bind 'touchend', ->
+$('.nofix').bind triggerEvent, ->
   updateView functions[$(this).data('role')]().toString()
   textBuffer.clear()
 
-$('.unary').bind 'touchend', ->
+
+$('.unary').bind triggerEvent, ->
   lastUnary = functions[$(this).data('role')]
   updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
   textBuffer.clear()
 
-$('.binary, #parright').bind 'touchend', ->
+
+$('.binary, #parright').bind triggerEvent, ->
   parseEval $(this).data('role'), parseFloat $('#view').text().replace(',', '')
   textBuffer.clear()
 
-$('#parleft').bind 'touchend', ->
+
+$('#parleft').bind triggerEvent, ->
   parseEval $(this).data('role')
   textBuffer.clear()
 
-$('#equal_key').bind 'touchend', ->
+
+$('#equal_key').bind triggerEvent, ->
   if stack.length isnt 0
     parseEval $(this).data('role'), parseFloat $('#view').text().replace(',', '')
     textBuffer.clear()
   else if lastUnary? 
     updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
 
-$('#angle_key').bind 'touchend', ->
+
+$('#angle_key').bind triggerEvent, ->
   $this = $(this)
   if angleUnit is 'Deg'
     angleUnit = 'Rad'
@@ -195,7 +209,8 @@ $('#angle_key').bind 'touchend', ->
     $this.html $this.html().replace('Deg', 'Rad')
   $('#angle').text(angleUnit)
 
-$('#2nd').bind 'touchend', ->
+
+$('#2nd').bind triggerEvent, ->
   if $(this).data('status') is 'off'
     $(this).data 'status', 'on'
     $(this).css 'color', '#de8235'
@@ -236,16 +251,20 @@ $('#2nd').bind 'touchend', ->
 $('.key').bind 'touchstart', ->
   $(this).addClass 'pushed'
 
-$('.key').bind 'touchend', ->
+
+$('.key').bind triggerEvent, ->
   $(this).removeClass 'pushed'
+
 
 $('.key').bind 'touchcancel', ->
   $(this).removeClass 'pushed'
+
 
 activate = ($elem) ->
   active = $elem.children('.active')
   if not active? or active.length == 0 # jqMobi returns undefined when no children.
     $elem.append $('<div class="active">')
+
 
 deactivate = ($elem) ->
   $elem.children('.active').remove()
@@ -263,7 +282,8 @@ updateView = (numStr) ->
     else
       result
   $view.css 'visibility', 'hidden'
-  until $view[0].offsetWidth < innerWidth
+  $view.css 'font-size', display.fontSize()
+  until $view[0].offsetWidth <= display.width()
     $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
   $view.css 'visibility', ''
 
@@ -272,14 +292,39 @@ updateView = (numStr) ->
 # utilities
 #
 
-isPortrait = -> orientation % 180 == 0
+isPortrait = -> (orientation ? 90) % 180 == 0
 
+
+display =
+  width : ->
+    if innerWidth <= 320
+      if isPortrait()
+        280
+      else
+        406
+    else
+      if isPortrait()
+        671
+      else
+        875
+  fontSize : ->
+    if innerWidth <= 320
+      if isPortrait()
+        '78px'
+      else
+        '50px'
+    else
+      if isPortrait()
+        '182px'
+      else
+        '108px'
 
 
 reverse = (str) ->
   result = ''
   result += str.charAt(str.length - i) for i in [1..str.length]
   result
+
 
 split = (n, str) ->
   result = []
@@ -316,5 +361,6 @@ loggamma = (x) ->
   tmp = tmp * w + B2 / (2 * 1)
   tmp = tmp / x + 0.5 * log2pi - Math.log(v) - x + (x - 0.5) * Math.log(x)
   tmp
+
 
 gamma = (x) -> Math.exp loggamma x
