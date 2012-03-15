@@ -28,15 +28,24 @@ fn = {
   xthroot: function(x, y) {
     return Math.pow(x, 1 / y);
   },
+  log: function(n) {
+    return Math.log(n);
+  },
   log10: function(n) {
     return Math.log(n) / Math.log(10);
   },
   sin: Math.sin,
   cos: Math.cos,
   tan: Math.tan,
-  sinh: Math.sinh,
-  cosh: Math.cosh,
-  tanh: Math.tanh,
+  sinh: function(x) {
+    return (Math.exp(x) - Math.exp(-x)) / 2;
+  },
+  cosh: function(x) {
+    return (Math.exp(x) + Math.exp(-x)) / 2;
+  },
+  tanh: function(x) {
+    return fn.sinh(x) / fn.cosh(x);
+  },
   exp: Math.exp,
   enotation: function(x, y) {
     return x * Math.pow(10, y);

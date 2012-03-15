@@ -12,13 +12,14 @@ fn =
   factorial : (n) -> gamma(n + 1)
   root : (n) -> Math.pow(n, 0.5)
   xthroot : (x, y) -> Math.pow(x, 1/y)
+  log : (n) -> Math.log(n)
   log10 : (n) -> Math.log(n)/Math.log(10)
   sin : Math.sin 
   cos : Math.cos
   tan : Math.tan
-  sinh : Math.sinh 
-  cosh : Math.cosh
-  tanh : Math.tanh
+  sinh : (x) -> (Math.exp(x) - Math.exp(-x)) / 2
+  cosh : (x) -> (Math.exp(x) + Math.exp(-x)) / 2
+  tanh : (x) -> fn.sinh(x) / fn.cosh(x)
   exp : Math.exp
   enotation : (x, y) -> x * Math.pow(10, y)
   add : (x, y) -> x + y
