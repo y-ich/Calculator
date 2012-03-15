@@ -52,6 +52,8 @@ textBuffer =
         @content
 
   add : (str) ->
+    digits = @val().replace(/[\-,\.]/g, '').length
+    return if digits >= (if isPortrait() then 9 else 16)
     @val if @content is '0' and not /\./.test str
         str
       else
@@ -250,21 +252,29 @@ deactivate = ($elem) ->
 
 
 updateView = (numStr) ->
+  $view = $('#view')
   numStr = numStr.toString() if typeof numStr is 'number'
   [intStr, decimalStr] = numStr.split('.')
   intStr = intStr.slice(1) if numStr[0] == '-'
   result = reverse (split 3, reverse intStr).join(',')
   result += '.' + decimalStr if decimalStr?
-  $('#view').text if numStr[0] == '-'
+  $view.text if numStr[0] == '-'
       '-' + result
     else
       result
-
+  $view.css 'visibility', 'hidden'
+  until $view[0].offsetWidth < innerWidth
+    $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
+  $view.css 'visibility', ''
 
 
 #
 # utilities
 #
+
+isPortrait = -> orientation % 180 == 0
+
+
 
 reverse = (str) ->
   result = ''

@@ -1,4 +1,4 @@
-var activate, angleUnit, clearStack, deactivate, expression, functions, gamma, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
+var activate, angleUnit, clearStack, deactivate, expression, functions, gamma, isPortrait, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
 
 functions = {
   mr: function() {
@@ -111,6 +111,9 @@ textBuffer = {
     }
   },
   add: function(str) {
+    var digits;
+    digits = this.val().replace(/[\-,\.]/g, '').length;
+    if (digits >= (isPortrait() ? 9 : 16)) return;
     return this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
   },
   toggleSign: function() {
@@ -341,13 +344,23 @@ deactivate = function($elem) {
 };
 
 updateView = function(numStr) {
-  var decimalStr, intStr, result, _ref;
+  var $view, decimalStr, intStr, result, _ref;
+  $view = $('#view');
   if (typeof numStr === 'number') numStr = numStr.toString();
   _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
   if (numStr[0] === '-') intStr = intStr.slice(1);
   result = reverse((split(3, reverse(intStr))).join(','));
   if (decimalStr != null) result += '.' + decimalStr;
-  return $('#view').text(numStr[0] === '-' ? '-' + result : result);
+  $view.text(numStr[0] === '-' ? '-' + result : result);
+  $view.css('visibility', 'hidden');
+  while (!($view[0].offsetWidth < innerWidth)) {
+    $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');
+  }
+  return $view.css('visibility', '');
+};
+
+isPortrait = function() {
+  return orientation % 180 === 0;
 };
 
 reverse = function(str) {

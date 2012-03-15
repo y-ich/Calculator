@@ -65,9 +65,6 @@ body {
   border-bottom: solid 1px #787878;
   position: relative; /* in order to make height effective to children */
   font-family: sans-serif;
-}
-
-#view {
   text-align: right;  
 }
 
