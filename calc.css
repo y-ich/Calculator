@@ -39,6 +39,15 @@ sub {
   -webkit-border-vertical-spacing: 0;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-color: black; /* in order to paint out right edge white. */
+}
+
 #wrapper {
   position: absolute;
   right: 0;
@@ -94,7 +103,7 @@ sub {
   -webkit-border-bottom-left-radius: 50% 6px;
 }
 
-.key:hover .gloss {
+.key.pushed .gloss {
   visibility: hidden;
 }
 
@@ -102,7 +111,7 @@ sub {
   background-color: #000000;
 }
 
-.key.number:hover, #period:hover {
+.key.number.pushed, #period.pushed {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 0, 0)), to(rgb(128, 128, 128)));
 }
 
@@ -110,7 +119,7 @@ sub {
   background-color: #4f5559;
 }
 
-.key.function:hover {
+.key.function.pushed {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f5559), to(#a8abad));
 }
 
@@ -118,7 +127,7 @@ sub {
   background-color: #5b493f;
 }
 
-.key.operator:hover {
+.key.operator.pushed {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b493f), to(#aea5a0));
 }
 
@@ -259,7 +268,7 @@ sub {
 @media (min-device-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
   /* 2.4 times */
   #wrapper {
-    width: 1374px;
+    width: 1520px;
   }
 
   #display {

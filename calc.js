@@ -1,6 +1,6 @@
-var activate, angleUnit, clearStack, deactivate, expression, fn, gamma, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, updateView;
+var activate, angleUnit, clearStack, deactivate, expression, functions, gamma, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
 
-fn = {
+functions = {
   mr: function() {
     return memory;
   },
@@ -53,7 +53,7 @@ fn = {
     return (Math.exp(x) + Math.exp(-x)) / 2;
   },
   tanh: function(x) {
-    return fn.sinh(x) / fn.cosh(x);
+    return functions.sinh(x) / functions.cosh(x);
   },
   exp: Math.exp,
   enotation: function(x, y) {
@@ -117,7 +117,7 @@ textBuffer = {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
   },
   changed: function() {
-    return 　updateView(this.content);
+    return updateView(this.content);
   },
   clear: function() {
     return this.content = '0';
@@ -153,7 +153,7 @@ parseEval = function(operator, operand1) {
       while (true) {
         op = stack.pop();
         if (!(op != null) || op === '(') return;
-        lastEval = fn[stack.pop()](stack.pop(), operand1);
+        lastEval = functions[stack.pop()](stack.pop(), operand1);
         updateView(lastEval);
       }
       break;
@@ -163,11 +163,11 @@ parseEval = function(operator, operand1) {
         op = stack.pop();
         if (!(op != null)) return;
         if (op !== '(') {
-          lastEval = fn[op](stack.pop(), operand1);
+          lastEval = functions[op](stack.pop(), operand1);
           if (lastUnary == null) {
             lastUnary = (function(operator, operand2) {
               return function(x) {
-                return fn[operator](x, operand2);
+                return functions[operator](x, operand2);
               };
             })(op, operand1);
             updateView(lastEval);
@@ -177,7 +177,7 @@ parseEval = function(operator, operand1) {
       break;
     default:
       if (stack.length !== 0 && ((_ref = priority[operator]) != null ? _ref : 3) <= ((_ref2 = priority[stack[stack.length - 1]]) != null ? _ref2 : 3)) {
-        lastEval = fn[stack.pop()](stack.pop(), operand1);
+        lastEval = functions[stack.pop()](stack.pop(), operand1);
         updateView(lastEval);
         return stack.push(lastEval, operator);
       } else {
@@ -186,13 +186,15 @@ parseEval = function(operator, operand1) {
   }
 };
 
+triggerEvent = 'touchend';
+
 $('.key').each(function() {
   var $this;
   $this = $(this);
   if ($(this).data('role') == null) return $this.data('role', $this.text());
 });
 
-$('#clear').bind('click', function() {
+$('#clear').bind('touchend', function(event) {
   var entrance;
   textBuffer.clear();
   expression = [];
@@ -200,57 +202,57 @@ $('#clear').bind('click', function() {
   return $('#view').text('0');
 });
 
-$('.key.number').bind('click', function() {
+$('.key.number').bind('touchend', function() {
   return textBuffer.add($(this).data('role').toString());
 });
 
-$('#period').bind('click', function() {
+$('#period').bind('touchend', function() {
   if (!/\./.test(textBuffer.val())) return textBuffer.add($(this).data('role'));
 });
 
-$('#plusminus').bind('click', function() {
+$('#plusminus').bind('touchend', function() {
   return textBuffer.toggleSign();
 });
 
-$('#mc').bind('click', function() {
+$('#mc').bind('touchend', function() {
   memory = 0;
   return deactivate($('#mr'));
 });
 
-$('#mplus').bind('click', function() {
+$('#mplus').bind('touchend', function() {
   textBuffer.clear();
   memory += parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
-$('#mminus').bind('click', function() {
+$('#mminus').bind('touchend', function() {
   textBuffer.clear();
   memory -= parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
-$('.nofix').bind('click', function() {
-  updateView(fn[$(this).data('role')]().toString());
+$('.nofix').bind('touchend', function() {
+  updateView(functions[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
-$('.unary').bind('click', function() {
-  lastUnary = fn[$(this).data('role')];
+$('.unary').bind('touchend', function() {
+  lastUnary = functions[$(this).data('role')];
   updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
   return textBuffer.clear();
 });
 
-$('.binary, #parright').bind('click', function() {
+$('.binary, #parright').bind('touchend', function() {
   parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
   return textBuffer.clear();
 });
 
-$('#parleft').bind('click', function() {
+$('#parleft').bind('touchend', function() {
   parseEval($(this).data('role'));
   return textBuffer.clear();
 });
 
-$('#equal_key').bind('click', function() {
+$('#equal_key').bind('touchend', function() {
   if (stack.length !== 0) {
     parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
     return textBuffer.clear();
@@ -259,7 +261,7 @@ $('#equal_key').bind('click', function() {
   }
 });
 
-$('#angle_key').bind('click', function() {
+$('#angle_key').bind('touchend', function() {
   var $this;
   $this = $(this);
   if (angleUnit === 'Deg') {
@@ -272,7 +274,7 @@ $('#angle_key').bind('click', function() {
   return $('#angle').text(angleUnit);
 });
 
-$('#2nd').bind('click', function() {
+$('#2nd').bind('touchend', function() {
   if ($(this).data('status') === 'off') {
     $(this).data('status', 'on');
     $(this).css('color', '#de8235');
@@ -312,6 +314,18 @@ $('#2nd').bind('click', function() {
       }
     });
   }
+});
+
+$('.key').bind('touchstart', function() {
+  return $(this).addClass('pushed');
+});
+
+$('.key').bind('touchend', function() {
+  return $(this).removeClass('pushed');
+});
+
+$('.key').bind('touchcancel', function() {
+  return $(this).removeClass('pushed');
 });
 
 activate = function($elem) {

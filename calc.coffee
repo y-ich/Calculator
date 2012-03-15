@@ -1,6 +1,6 @@
 # functions
 
-fn = 
+functions = 
   mr : -> memory
   pi : Math.PI
   random : Math.random
@@ -20,7 +20,7 @@ fn =
   tan : (x) -> Math.tan(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
   sinh : (x) -> (Math.exp(x) - Math.exp(-x)) / 2
   cosh : (x) -> (Math.exp(x) + Math.exp(-x)) / 2
-  tanh : (x) -> fn.sinh(x) / fn.cosh(x)
+  tanh : (x) -> functions.sinh(x) / functions.cosh(x)
   exp : Math.exp
   enotation : (x, y) -> x * Math.pow(10, y)
   add : (x, y) -> x + y
@@ -63,7 +63,7 @@ textBuffer =
       else
         '-' + @content
 
-  changed : ->　updateView(@content)
+  changed : -> updateView(@content)
 
   clear : -> @content = '0'
 
@@ -92,7 +92,7 @@ parseEval = (operator, operand1) ->
       loop 
         op = stack.pop()
         return if not op? or op is '('
-        lastEval = fn[stack.pop()](stack.pop(), operand1)
+        lastEval = functions[stack.pop()](stack.pop(), operand1)
         updateView(lastEval)
     when '='
       lastUnary = null
@@ -100,13 +100,13 @@ parseEval = (operator, operand1) ->
         op = stack.pop()
         return if not op?
         unless op is '('
-          lastEval = fn[op](stack.pop(), operand1)
+          lastEval = functions[op](stack.pop(), operand1)
           unless lastUnary?
-            lastUnary = ((operator, operand2) -> (x) -> fn[operator](x, operand2))(op, operand1) # currying
+            lastUnary = ((operator, operand2) -> (x) -> functions[operator](x, operand2))(op, operand1) # currying
             updateView(lastEval)
     else
       if stack.length isnt 0 and (priority[operator] ? 3) <= (priority[stack[stack.length - 1]] ? 3)
-        lastEval = fn[stack.pop()](stack.pop(), operand1)
+        lastEval = functions[stack.pop()](stack.pop(), operand1)
         updateView(lastEval)
         stack.push(lastEval, operator)
       else
@@ -115,68 +115,75 @@ parseEval = (operator, operand1) ->
 
 # controller
 
+# prevent page scroll
+# $(document.body).bind 'touchmove', (event) ->
+#   event.preventDefault()
+
+# triggerEvent = 'touchend'
+triggerEvent = 'touchend'
+
 $('.key').each ->
   $this = $(this)
   $this.data('role', $this.text()) unless $(this).data('role')?
 
 
-$('#clear').bind 'click', ->
+$('#clear').bind 'touchend', (event) ->
   textBuffer.clear()
   expression = []
   entrance = []
   $('#view').text('0')
 
 
-$('.key.number').bind 'click', -> textBuffer.add $(this).data('role').toString()
+$('.key.number').bind 'touchend', -> textBuffer.add $(this).data('role').toString()
 
 
-$('#period').bind 'click', ->
+$('#period').bind 'touchend', ->
   unless /\./.test textBuffer.val()
     textBuffer.add $(this).data('role')
 
 
-$('#plusminus').bind 'click', -> textBuffer.toggleSign()
+$('#plusminus').bind 'touchend', -> textBuffer.toggleSign()
 
-$('#mc').bind 'click', ->
+$('#mc').bind 'touchend', ->
   memory = 0
   deactivate $('#mr')
 
-$('#mplus').bind 'click', ->
+$('#mplus').bind 'touchend', ->
   textBuffer.clear()
   memory += parseFloat textBuffer.val()
   activate $('#mr')
 
-$('#mminus').bind 'click', ->
+$('#mminus').bind 'touchend', ->
   textBuffer.clear()
   memory -= parseFloat textBuffer.val()
   activate $('#mr')
 
 
-$('.nofix').bind 'click', ->
-  updateView fn[$(this).data('role')]().toString()
+$('.nofix').bind 'touchend', ->
+  updateView functions[$(this).data('role')]().toString()
   textBuffer.clear()
 
-$('.unary').bind 'click', ->
-  lastUnary = fn[$(this).data('role')]
+$('.unary').bind 'touchend', ->
+  lastUnary = functions[$(this).data('role')]
   updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
   textBuffer.clear()
 
-$('.binary, #parright').bind 'click', ->
+$('.binary, #parright').bind 'touchend', ->
   parseEval $(this).data('role'), parseFloat $('#view').text().replace(',', '')
   textBuffer.clear()
 
-$('#parleft').bind 'click', ->
+$('#parleft').bind 'touchend', ->
   parseEval $(this).data('role')
   textBuffer.clear()
 
-$('#equal_key').bind 'click', ->
+$('#equal_key').bind 'touchend', ->
   if stack.length isnt 0
     parseEval $(this).data('role'), parseFloat $('#view').text().replace(',', '')
     textBuffer.clear()
   else if lastUnary? 
     updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
 
-$('#angle_key').bind 'click', ->
+$('#angle_key').bind 'touchend', ->
   $this = $(this)
   if angleUnit is 'Deg'
     angleUnit = 'Rad'
@@ -186,7 +193,7 @@ $('#angle_key').bind 'click', ->
     $this.html $this.html().replace('Deg', 'Rad')
   $('#angle').text(angleUnit)
 
-$('#2nd').bind 'click', ->
+$('#2nd').bind 'touchend', ->
   if $(this).data('status') is 'off'
     $(this).data 'status', 'on'
     $(this).css 'color', '#de8235'
@@ -223,6 +230,15 @@ $('#2nd').bind 'click', ->
 #
 # view
 #
+
+$('.key').bind 'touchstart', ->
+  $(this).addClass 'pushed'
+
+$('.key').bind 'touchend', ->
+  $(this).removeClass 'pushed'
+
+$('.key').bind 'touchcancel', ->
+  $(this).removeClass 'pushed'
 
 activate = ($elem) ->
   active = $elem.children('.active')
