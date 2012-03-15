@@ -34,6 +34,9 @@ fn = {
   log10: function(n) {
     return Math.log(n) / Math.log(10);
   },
+  log2: function(n) {
+    return Math.log(n) / Math.log(2);
+  },
   sin: function(x) {
     return Math.sin(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
   },
@@ -67,6 +70,24 @@ fn = {
   },
   div: function(x, y) {
     return x / y;
+  },
+  asin: function(x) {
+    return Math.asin(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
+  },
+  acos: function(x) {
+    return Math.scos(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
+  },
+  atan: function(x) {
+    return Math.stan(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
+  },
+  asinh: function(x) {
+    return Math.log(x + Math.sqrt(x * x + 1));
+  },
+  acosh: function(x) {
+    return Math.log(x + Math.sqrt(x * x - 1));
+  },
+  atanh: function(x) {
+    return Math.log((1 + x) / (1 - x)) / 2;
   }
 };
 
@@ -171,7 +192,7 @@ $('.key').each(function() {
   if ($(this).data('role') == null) return $this.data('role', $this.text());
 });
 
-$('#clear').on('click', function() {
+$('#clear').bind('click', function() {
   var entrance;
   textBuffer.clear();
   expression = [];
@@ -179,57 +200,57 @@ $('#clear').on('click', function() {
   return $('#view').text('0');
 });
 
-$('.key.number').on('click', function() {
+$('.key.number').bind('click', function() {
   return textBuffer.add($(this).data('role').toString());
 });
 
-$('#period').on('click', function() {
+$('#period').bind('click', function() {
   if (!/\./.test(textBuffer.val())) return textBuffer.add($(this).data('role'));
 });
 
-$('#plusminus').on('click', function() {
+$('#plusminus').bind('click', function() {
   return textBuffer.toggleSign();
 });
 
-$('#mc').on('click', function() {
+$('#mc').bind('click', function() {
   memory = 0;
   return deactivate($('#mr'));
 });
 
-$('#mplus').on('click', function() {
+$('#mplus').bind('click', function() {
   textBuffer.clear();
   memory += parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
-$('#mminus').on('click', function() {
+$('#mminus').bind('click', function() {
   textBuffer.clear();
   memory -= parseFloat(textBuffer.val());
   return activate($('#mr'));
 });
 
-$('.nofix').on('click', function() {
+$('.nofix').bind('click', function() {
   updateView(fn[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
-$('.unary').on('click', function() {
+$('.unary').bind('click', function() {
   lastUnary = fn[$(this).data('role')];
   updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
   return textBuffer.clear();
 });
 
-$('.binary, #parright').on('click', function() {
+$('.binary, #parright').bind('click', function() {
   parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
   return textBuffer.clear();
 });
 
-$('#parleft').on('click', function() {
+$('#parleft').bind('click', function() {
   parseEval($(this).data('role'));
   return textBuffer.clear();
 });
 
-$('#equal_key').on('click', function() {
+$('#equal_key').bind('click', function() {
   if (stack.length !== 0) {
     parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
     return textBuffer.clear();
@@ -238,7 +259,7 @@ $('#equal_key').on('click', function() {
   }
 });
 
-$('#angle_key').on('click', function() {
+$('#angle_key').bind('click', function() {
   var $this;
   $this = $(this);
   if (angleUnit === 'Deg') {
@@ -249,6 +270,48 @@ $('#angle_key').on('click', function() {
     $this.html($this.html().replace('Deg', 'Rad'));
   }
   return $('#angle').text(angleUnit);
+});
+
+$('#2nd').bind('click', function() {
+  if ($(this).data('status') === 'off') {
+    $(this).data('status', 'on');
+    $(this).css('color', '#de8235');
+    return $('.key.double').each(function() {
+      var $this, fnname;
+      $this = $(this);
+      switch ($this.data('role')) {
+        case 'log':
+          $this.data('role', 'log2');
+          return $this.html($this.html().replace('ln', 'log<sub>2</sub>'));
+        case 'exp':
+          $this.data('role', 'pow2');
+          return $this.html($this.html().replace('e', '2'));
+        default:
+          fnname = $this.data('role');
+          $this.data('role', 'a' + fnname);
+          return $this.html($this.html().replace(fnname, fnname + '<sup>-1</sup>'));
+      }
+    });
+  } else {
+    $(this).data('status', 'off');
+    $(this).css('color', '');
+    return $('.key.double').each(function() {
+      var $this, fnname;
+      $this = $(this);
+      switch ($this.data('role')) {
+        case 'log2':
+          $this.data('role', 'log');
+          return $this.html($this.html().replace('log<sub>2</sub>', 'ln'));
+        case 'pow2':
+          $this.data('role', 'exp');
+          return $this.html($this.html().replace('2', 'e'));
+        default:
+          fnname = $this.data('role');
+          $this.data('role', fnname.slice(1));
+          return $this.html($this.html().replace('<sup>-1</sup>', ''));
+      }
+    });
+  }
 });
 
 activate = function($elem) {
