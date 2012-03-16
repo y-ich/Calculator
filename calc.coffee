@@ -75,6 +75,18 @@ textBuffer =
   clear : -> @content = '0'
 
 
+latestEval =
+  content  : 0
+  val : (num) ->
+    if num?
+      @content = num
+      @changed()
+      @content
+    else
+      @content
+  changed : -> updateView(@content) 
+
+
 stack = []
 expression = []
 priority =
@@ -99,23 +111,20 @@ parseEval = (operator, operand1) ->
       loop 
         op = stack.pop()
         return if not op? or op is '('
-        lastEval = functions[stack.pop()](stack.pop(), operand1)
-        updateView(lastEval)
+        latestEval.val functions[stack.pop()](stack.pop(), operand1)
     when '='
       lastUnary = null
-      loop 
+      loop
         op = stack.pop()
         return if not op?
         unless op is '('
-          lastEval = functions[op](stack.pop(), operand1)
+          latestEval.val functions[op](stack.pop(), operand1)
           unless lastUnary?
             lastUnary = ((operator, operand2) -> (x) -> functions[operator](x, operand2))(op, operand1) # currying
-            updateView(lastEval)
     else
       if stack.length isnt 0 and (priority[operator] ? 3) <= (priority[stack[stack.length - 1]] ? 3)
-        lastEval = functions[stack.pop()](stack.pop(), operand1)
-        updateView(lastEval)
-        stack.push(lastEval, operator)
+        latestEval.val functions[stack.pop()](stack.pop(), operand1)
+        stack.push(latestEval.val(), operator)
       else
         stack.push(operand1, operator)
 

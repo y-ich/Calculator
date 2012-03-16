@@ -1,4 +1,4 @@
-var activate, angleUnit, clearStack, deactivate, display, expression, functions, gamma, isPortrait, lastUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
+var activate, angleUnit, clearStack, deactivate, display, expression, functions, gamma, isPortrait, lastUnary, latestEval, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
 
 functions = {
   mr: function() {
@@ -127,6 +127,22 @@ textBuffer = {
   }
 };
 
+latestEval = {
+  content: 0,
+  val: function(num) {
+    if (num != null) {
+      this.content = num;
+      this.changed();
+      return this.content;
+    } else {
+      return this.content;
+    }
+  },
+  changed: function() {
+    return updateView(this.content);
+  }
+};
+
 stack = [];
 
 expression = [];
@@ -148,7 +164,7 @@ clearStack = function() {
 };
 
 parseEval = function(operator, operand1) {
-  var lastEval, op, _ref, _ref2;
+  var op, _ref, _ref2;
   switch (operator) {
     case '(':
       return stack.push('(');
@@ -156,8 +172,7 @@ parseEval = function(operator, operand1) {
       while (true) {
         op = stack.pop();
         if (!(op != null) || op === '(') return;
-        lastEval = functions[stack.pop()](stack.pop(), operand1);
-        updateView(lastEval);
+        latestEval.val(functions[stack.pop()](stack.pop(), operand1));
       }
       break;
     case '=':
@@ -166,23 +181,21 @@ parseEval = function(operator, operand1) {
         op = stack.pop();
         if (!(op != null)) return;
         if (op !== '(') {
-          lastEval = functions[op](stack.pop(), operand1);
+          latestEval.val(functions[op](stack.pop(), operand1));
           if (lastUnary == null) {
             lastUnary = (function(operator, operand2) {
               return function(x) {
                 return functions[operator](x, operand2);
               };
             })(op, operand1);
-            updateView(lastEval);
           }
         }
       }
       break;
     default:
       if (stack.length !== 0 && ((_ref = priority[operator]) != null ? _ref : 3) <= ((_ref2 = priority[stack[stack.length - 1]]) != null ? _ref2 : 3)) {
-        lastEval = functions[stack.pop()](stack.pop(), operand1);
-        updateView(lastEval);
-        return stack.push(lastEval, operator);
+        latestEval.val(functions[stack.pop()](stack.pop(), operand1));
+        return stack.push(latestEval.val(), operator);
       } else {
         return stack.push(operand1, operator);
       }
@@ -224,13 +237,13 @@ $('#mc').bind(triggerEvent, function() {
 
 $('#mplus').bind(triggerEvent, function() {
   textBuffer.clear();
-  memory += parseFloat(textBuffer.val());
+  memory += display.val();
   return activate($('#mr'));
 });
 
 $('#mminus').bind(triggerEvent, function() {
   textBuffer.clear();
-  memory -= parseFloat(textBuffer.val());
+  memory -= display.val();
   return activate($('#mr'));
 });
 
@@ -241,12 +254,12 @@ $('.nofix').bind(triggerEvent, function() {
 
 $('.unary').bind(triggerEvent, function() {
   lastUnary = functions[$(this).data('role')];
-  updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
+  updateView(lastUnary(display.val()).toString());
   return textBuffer.clear();
 });
 
 $('.binary, #parright').bind(triggerEvent, function() {
-  parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
+  parseEval($(this).data('role'), display.val());
   return textBuffer.clear();
 });
 
@@ -257,10 +270,10 @@ $('#parleft').bind(triggerEvent, function() {
 
 $('#equal_key').bind(triggerEvent, function() {
   if (stack.length !== 0) {
-    parseEval($(this).data('role'), parseFloat($('#view').text().replace(',', '')));
+    parseEval($(this).data('role'), display.val());
     return textBuffer.clear();
   } else if (lastUnary != null) {
-    return updateView(lastUnary(parseFloat($('#view').text().replace(',', ''))).toString());
+    return updateView(lastUnary(display.val()).toString());
   }
 });
 
@@ -331,6 +344,8 @@ $('.key').bind('touchcancel', function() {
   return $(this).removeClass('pushed');
 });
 
+$('window').bind('orientationchange', function() {});
+
 activate = function($elem) {
   var active;
   active = $elem.children('.active');
@@ -394,6 +409,9 @@ display = {
         return '108px';
       }
     }
+  },
+  val: function() {
+    return parseFloat($('#view').text().replace(',', ''));
   }
 };
 
