@@ -1,13 +1,13 @@
-var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, tapEvent, textBuffer;
+var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, touchEnd, touchStart;
 
-tapEvent = (function() {
-  try {
-    document.createEvent('TouchEvent');
-    return 'touchend';
-  } catch (error) {
-    return 'click';
-  }
-})();
+try {
+  document.createEvent('TouchEvent');
+  touchStart = 'touchstart';
+  touchEnd = 'touchend';
+} catch (error) {
+  touchStart = 'mousedown';
+  touchEnd = 'mouseup';
+}
 
 functions = {
   mr: function() {
@@ -221,7 +221,7 @@ $('.key').each(function() {
   if ($(this).data('role') == null) return $this.data('role', $this.text());
 });
 
-$('#clear').bind(tapEvent, function(event) {
+$('#clear').bind(touchEnd, function(event) {
   if ($(this).data('role') === 'allclear') {
     latestUnary = null;
     stack = [];
@@ -233,66 +233,66 @@ $('#clear').bind(tapEvent, function(event) {
   return c2ac();
 });
 
-$('.number').bind(tapEvent, function() {
+$('.number').bind(touchEnd, function() {
   return textBuffer.add($(this).data('role').toString());
 });
 
-$('.number, #pi').bind(tapEvent, function() {
+$('.number, #pi').bind(touchEnd, function() {
   return deactivate($('.binary'));
 });
 
-$('#period').bind(tapEvent, function() {
+$('#period').bind(touchEnd, function() {
   if (!/\./.test(textBuffer.val())) return textBuffer.add($(this).data('role'));
 });
 
-$('#plusminus').bind(tapEvent, function() {
+$('#plusminus').bind(touchEnd, function() {
   return textBuffer.toggleSign();
 });
 
-$('#mc').bind(tapEvent, function() {
+$('#mc').bind(touchEnd, function() {
   memory = 0;
   return deactivate($('#mr'));
 });
 
-$('#mplus').bind(tapEvent, function() {
+$('#mplus').bind(touchEnd, function() {
   textBuffer.clear();
   memory += display.val();
   return activate($('#mr'));
 });
 
-$('#mminus').bind(tapEvent, function() {
+$('#mminus').bind(touchEnd, function() {
   textBuffer.clear();
   memory -= display.val();
   return activate($('#mr'));
 });
 
-$('.nofix').bind(tapEvent, function() {
+$('.nofix').bind(touchEnd, function() {
   display.update(functions[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
-$('.unary').bind(tapEvent, function() {
+$('.unary').bind(touchEnd, function() {
   latestUnary = functions[$(this).data('role')];
   display.update(latestUnary(display.val()).toString());
   return textBuffer.clear();
 });
 
-$('.binary').bind(tapEvent, function() {
+$('.binary').bind(touchEnd, function() {
   deactivate($('.binary'));
   return activate($(this));
 });
 
-$('.binary, #parright').bind(tapEvent, function() {
+$('.binary, #parright').bind(touchEnd, function() {
   parseEval($(this).data('role'), display.val());
   return textBuffer.clear();
 });
 
-$('#parleft').bind(tapEvent, function() {
+$('#parleft').bind(touchEnd, function() {
   parseEval($(this).data('role'));
   return textBuffer.clear();
 });
 
-$('#equal_key').bind(tapEvent, function() {
+$('#equal_key').bind(touchEnd, function() {
   if (stack.length !== 0) {
     parseEval($(this).data('role'), display.val());
     return textBuffer.clear();
@@ -301,7 +301,7 @@ $('#equal_key').bind(tapEvent, function() {
   }
 });
 
-$('#angle_key').bind(tapEvent, function() {
+$('#angle_key').bind(touchEnd, function() {
   var $this;
   $this = $(this);
   if (angleUnit === 'Deg') {
@@ -314,7 +314,7 @@ $('#angle_key').bind(tapEvent, function() {
   return $('#angle').text(angleUnit);
 });
 
-$('#2nd').bind(tapEvent, function() {
+$('#2nd').bind(touchEnd, function() {
   if ($(this).data('status') === 'off') {
     $(this).data('status', 'on');
     $(this).css('color', '#de8235');
@@ -337,6 +337,7 @@ $('#2nd').bind(tapEvent, function() {
   } else {
     $(this).data('status', 'off');
     $(this).css('color', '');
+    $(this).removeClass('pushed');
     return $('.key.double').each(function() {
       var $this, fnname;
       $this = $(this);
@@ -356,11 +357,11 @@ $('#2nd').bind(tapEvent, function() {
   }
 });
 
-$('.key').bind('touchstart', function() {
+$('.key').bind(touchStart, function() {
   return $(this).addClass('pushed');
 });
 
-$('.key').bind(tapEvent, function() {
+$('.key:not(#2nd)').bind(touchEnd, function() {
   return $(this).removeClass('pushed');
 });
 

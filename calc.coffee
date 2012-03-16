@@ -5,12 +5,13 @@
 #
 # for debugging
 #
-tapEvent = 
-  try
-    document.createEvent 'TouchEvent'
-    'touchend'
-  catch error
-    'click'
+try
+  document.createEvent 'TouchEvent'
+  touchStart = 'touchstart'
+  touchEnd = 'touchend'
+catch error
+  touchStart = 'mousedown'
+  touchEnd = 'mouseup'
 
 
 # functions
@@ -155,7 +156,7 @@ $('.key').each ->
   $this.data('role', $this.text()) unless $(this).data('role')?
 
 
-$('#clear').bind tapEvent, (event) ->
+$('#clear').bind touchEnd, (event) ->
   if $(this).data('role') is 'allclear'
     latestUnary = null
     stack = []
@@ -167,67 +168,67 @@ $('#clear').bind tapEvent, (event) ->
   c2ac()
 
 
-$('.number').bind tapEvent, ->
+$('.number').bind touchEnd, ->
   textBuffer.add $(this).data('role').toString()
 
 
-$('.number, #pi').bind tapEvent, ->
+$('.number, #pi').bind touchEnd, ->
   deactivate($('.binary'))
 
 
-$('#period').bind tapEvent, ->
+$('#period').bind touchEnd, ->
   unless /\./.test textBuffer.val()
     textBuffer.add $(this).data('role')
 
 
-$('#plusminus').bind tapEvent, ->
+$('#plusminus').bind touchEnd, ->
   textBuffer.toggleSign()
 
 
-$('#mc').bind tapEvent, ->
+$('#mc').bind touchEnd, ->
   memory = 0
   deactivate $('#mr')
 
 
-$('#mplus').bind tapEvent, ->
+$('#mplus').bind touchEnd, ->
   textBuffer.clear()
   memory += display.val()
   activate $('#mr')
 
 
-$('#mminus').bind tapEvent, ->
+$('#mminus').bind touchEnd, ->
   textBuffer.clear()
   memory -= display.val()
   activate $('#mr')
 
 
-$('.nofix').bind tapEvent, ->
+$('.nofix').bind touchEnd, ->
   display.update functions[$(this).data('role')]().toString()
   textBuffer.clear()
 
 
-$('.unary').bind tapEvent, ->
+$('.unary').bind touchEnd, ->
   latestUnary = functions[$(this).data('role')]
   display.update latestUnary(display.val()).toString()
   textBuffer.clear()
 
 
-$('.binary').bind tapEvent, ->
+$('.binary').bind touchEnd, ->
   deactivate $('.binary')
   activate $(this)
 
 
-$('.binary, #parright').bind tapEvent, ->
+$('.binary, #parright').bind touchEnd, ->
   parseEval $(this).data('role'), display.val()
   textBuffer.clear()
 
 
-$('#parleft').bind tapEvent, ->
+$('#parleft').bind touchEnd, ->
   parseEval $(this).data('role')
   textBuffer.clear()
 
 
-$('#equal_key').bind tapEvent, ->
+$('#equal_key').bind touchEnd, ->
   if stack.length isnt 0
     parseEval $(this).data('role'), display.val()
     textBuffer.clear()
@@ -235,7 +236,7 @@ $('#equal_key').bind tapEvent, ->
     display.update latestUnary(display.val()).toString()
 
 
-$('#angle_key').bind tapEvent, ->
+$('#angle_key').bind touchEnd, ->
   $this = $(this)
   if angleUnit is 'Deg'
     angleUnit = 'Rad'
@@ -246,7 +247,7 @@ $('#angle_key').bind tapEvent, ->
   $('#angle').text(angleUnit)
 
 
-$('#2nd').bind tapEvent, ->
+$('#2nd').bind touchEnd, ->
   if $(this).data('status') is 'off'
     $(this).data 'status', 'on'
     $(this).css 'color', '#de8235'
@@ -266,6 +267,7 @@ $('#2nd').bind tapEvent, ->
   else
     $(this).data 'status', 'off'
     $(this).css 'color', ''
+    $(this).removeClass 'pushed'
     $('.key.double').each ->
       $this = $(this)
       switch $this.data('role')
@@ -284,11 +286,11 @@ $('#2nd').bind tapEvent, ->
 # view
 #
 
-$('.key').bind 'touchstart', ->
+$('.key').bind touchStart, ->
   $(this).addClass 'pushed'
 
 
-$('.key').bind tapEvent, ->
+$('.key:not(#2nd)').bind touchEnd, ->
   $(this).removeClass 'pushed'
 
 
