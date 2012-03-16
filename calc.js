@@ -13,7 +13,9 @@ functions = {
   mr: function() {
     return memory;
   },
-  pi: Math.PI,
+  pi: function() {
+    return Math.PI;
+  },
   random: Math.random,
   percent2number: function(n) {
     return n / 100;
@@ -225,12 +227,17 @@ $('#clear').bind(touchEnd, function(event) {
   if ($(this).data('role') === 'allclear') {
     latestUnary = null;
     stack = [];
+    deactivate($('.binary'));
   } else {
     activate($(".binary[data-role=\"" + stack[stack.length - 1] + "\"]"));
   }
   textBuffer.clear();
   latestEval.val(0);
   return c2ac();
+});
+
+$('#pi').bind(touchEnd, function() {
+  return ac2c();
 });
 
 $('.number').bind(touchEnd, function() {
@@ -314,7 +321,7 @@ $('#angle_key').bind(touchEnd, function() {
   return $('#angle').text(angleUnit);
 });
 
-$('#2nd').bind(touchEnd, function() {
+$('#second').bind(touchEnd, function() {
   if ($(this).data('status') === 'off') {
     $(this).data('status', 'on');
     $(this).css('color', '#de8235');
@@ -361,7 +368,7 @@ $('.key').bind(touchStart, function() {
   return $(this).addClass('pushed');
 });
 
-$('.key:not(#2nd)').bind(touchEnd, function() {
+$('.key:not(#second)').bind(touchEnd, function() {
   return $(this).removeClass('pushed');
 });
 

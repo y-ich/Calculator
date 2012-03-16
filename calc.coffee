@@ -18,7 +18,7 @@ catch error
 
 functions = 
   mr : -> memory
-  pi : Math.PI
+  pi : -> Math.PI
   random : Math.random
   percent2number : (n) -> n / 100
   inverse : (n) -> 1 / n
@@ -160,6 +160,7 @@ $('#clear').bind touchEnd, (event) ->
   if $(this).data('role') is 'allclear'
     latestUnary = null
     stack = []
+    deactivate $('.binary')
   else
     activate $(".binary[data-role=\"#{stack[stack.length - 1]}\"]")
 
@@ -167,6 +168,8 @@ $('#clear').bind touchEnd, (event) ->
   latestEval.val 0
   c2ac()
 
+
+$('#pi').bind touchEnd, -> ac2c()
 
 $('.number').bind touchEnd, ->
   textBuffer.add $(this).data('role').toString()
@@ -247,7 +250,7 @@ $('#angle_key').bind touchEnd, ->
   $('#angle').text(angleUnit)
 
 
-$('#2nd').bind touchEnd, ->
+$('#second').bind touchEnd, ->
   if $(this).data('status') is 'off'
     $(this).data 'status', 'on'
     $(this).css 'color', '#de8235'
@@ -290,7 +293,7 @@ $('.key').bind touchStart, ->
   $(this).addClass 'pushed'
 
 
-$('.key:not(#2nd)').bind touchEnd, ->
+$('.key:not(#second)').bind touchEnd, ->
   $(this).removeClass 'pushed'
 
 
