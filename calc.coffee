@@ -1,7 +1,17 @@
+# Calculator: Calculator clone for iPad by HTML5
+# author: ICHIKAWA, Yuji
+# Copyright (C) 2012 ICHIKAWA, Yuji
+
 #
 # for debugging
 #
-triggerEvent = 'click'
+tapEvent = 
+  try
+    document.createEvent 'TouchEvent'
+    'touchend'
+  catch error
+    'click'
+
 
 # functions
 
@@ -140,15 +150,12 @@ parseEval = (operator, operand1) ->
 # $(document.body).bind 'touchmove', (event) ->
 #   event.preventDefault()
 
-triggerEvent = triggerEvent ? 'touchend'
-
-
 $('.key').each ->
   $this = $(this)
   $this.data('role', $this.text()) unless $(this).data('role')?
 
 
-$('#clear').bind triggerEvent, (event) ->
+$('#clear').bind tapEvent, (event) ->
   if $(this).data('role') is 'allclear'
     latestUnary = null
     stack = []
@@ -160,67 +167,67 @@ $('#clear').bind triggerEvent, (event) ->
   c2ac()
 
 
-$('.number').bind triggerEvent, ->
+$('.number').bind tapEvent, ->
   textBuffer.add $(this).data('role').toString()
 
 
-$('.number, #pi').bind triggerEvent, ->
+$('.number, #pi').bind tapEvent, ->
   deactivate($('.binary'))
 
 
-$('#period').bind triggerEvent, ->
+$('#period').bind tapEvent, ->
   unless /\./.test textBuffer.val()
     textBuffer.add $(this).data('role')
 
 
-$('#plusminus').bind triggerEvent, ->
+$('#plusminus').bind tapEvent, ->
   textBuffer.toggleSign()
 
 
-$('#mc').bind triggerEvent, ->
+$('#mc').bind tapEvent, ->
   memory = 0
   deactivate $('#mr')
 
 
-$('#mplus').bind triggerEvent, ->
+$('#mplus').bind tapEvent, ->
   textBuffer.clear()
   memory += display.val()
   activate $('#mr')
 
 
-$('#mminus').bind triggerEvent, ->
+$('#mminus').bind tapEvent, ->
   textBuffer.clear()
   memory -= display.val()
   activate $('#mr')
 
 
-$('.nofix').bind triggerEvent, ->
+$('.nofix').bind tapEvent, ->
   display.update functions[$(this).data('role')]().toString()
   textBuffer.clear()
 
 
-$('.unary').bind triggerEvent, ->
+$('.unary').bind tapEvent, ->
   latestUnary = functions[$(this).data('role')]
   display.update latestUnary(display.val()).toString()
   textBuffer.clear()
 
 
-$('.binary').bind triggerEvent, ->
+$('.binary').bind tapEvent, ->
   deactivate $('.binary')
   activate $(this)
 
 
-$('.binary, #parright').bind triggerEvent, ->
+$('.binary, #parright').bind tapEvent, ->
   parseEval $(this).data('role'), display.val()
   textBuffer.clear()
 
 
-$('#parleft').bind triggerEvent, ->
+$('#parleft').bind tapEvent, ->
   parseEval $(this).data('role')
   textBuffer.clear()
 
 
-$('#equal_key').bind triggerEvent, ->
+$('#equal_key').bind tapEvent, ->
   if stack.length isnt 0
     parseEval $(this).data('role'), display.val()
     textBuffer.clear()
@@ -228,7 +235,7 @@ $('#equal_key').bind triggerEvent, ->
     display.update latestUnary(display.val()).toString()
 
 
-$('#angle_key').bind triggerEvent, ->
+$('#angle_key').bind tapEvent, ->
   $this = $(this)
   if angleUnit is 'Deg'
     angleUnit = 'Rad'
@@ -239,7 +246,7 @@ $('#angle_key').bind triggerEvent, ->
   $('#angle').text(angleUnit)
 
 
-$('#2nd').bind triggerEvent, ->
+$('#2nd').bind tapEvent, ->
   if $(this).data('status') is 'off'
     $(this).data 'status', 'on'
     $(this).css 'color', '#de8235'
@@ -281,7 +288,7 @@ $('.key').bind 'touchstart', ->
   $(this).addClass 'pushed'
 
 
-$('.key').bind triggerEvent, ->
+$('.key').bind tapEvent, ->
   $(this).removeClass 'pushed'
 
 

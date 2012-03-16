@@ -1,6 +1,13 @@
-var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent;
+var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, tapEvent, textBuffer;
 
-triggerEvent = 'click';
+tapEvent = (function() {
+  try {
+    document.createEvent('TouchEvent');
+    return 'touchend';
+  } catch (error) {
+    return 'click';
+  }
+})();
 
 functions = {
   mr: function() {
@@ -208,15 +215,13 @@ parseEval = function(operator, operand1) {
   }
 };
 
-triggerEvent = triggerEvent != null ? triggerEvent : 'touchend';
-
 $('.key').each(function() {
   var $this;
   $this = $(this);
   if ($(this).data('role') == null) return $this.data('role', $this.text());
 });
 
-$('#clear').bind(triggerEvent, function(event) {
+$('#clear').bind(tapEvent, function(event) {
   if ($(this).data('role') === 'allclear') {
     latestUnary = null;
     stack = [];
@@ -228,66 +233,66 @@ $('#clear').bind(triggerEvent, function(event) {
   return c2ac();
 });
 
-$('.number').bind(triggerEvent, function() {
+$('.number').bind(tapEvent, function() {
   return textBuffer.add($(this).data('role').toString());
 });
 
-$('.number, #pi').bind(triggerEvent, function() {
+$('.number, #pi').bind(tapEvent, function() {
   return deactivate($('.binary'));
 });
 
-$('#period').bind(triggerEvent, function() {
+$('#period').bind(tapEvent, function() {
   if (!/\./.test(textBuffer.val())) return textBuffer.add($(this).data('role'));
 });
 
-$('#plusminus').bind(triggerEvent, function() {
+$('#plusminus').bind(tapEvent, function() {
   return textBuffer.toggleSign();
 });
 
-$('#mc').bind(triggerEvent, function() {
+$('#mc').bind(tapEvent, function() {
   memory = 0;
   return deactivate($('#mr'));
 });
 
-$('#mplus').bind(triggerEvent, function() {
+$('#mplus').bind(tapEvent, function() {
   textBuffer.clear();
   memory += display.val();
   return activate($('#mr'));
 });
 
-$('#mminus').bind(triggerEvent, function() {
+$('#mminus').bind(tapEvent, function() {
   textBuffer.clear();
   memory -= display.val();
   return activate($('#mr'));
 });
 
-$('.nofix').bind(triggerEvent, function() {
+$('.nofix').bind(tapEvent, function() {
   display.update(functions[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
-$('.unary').bind(triggerEvent, function() {
+$('.unary').bind(tapEvent, function() {
   latestUnary = functions[$(this).data('role')];
   display.update(latestUnary(display.val()).toString());
   return textBuffer.clear();
 });
 
-$('.binary').bind(triggerEvent, function() {
+$('.binary').bind(tapEvent, function() {
   deactivate($('.binary'));
   return activate($(this));
 });
 
-$('.binary, #parright').bind(triggerEvent, function() {
+$('.binary, #parright').bind(tapEvent, function() {
   parseEval($(this).data('role'), display.val());
   return textBuffer.clear();
 });
 
-$('#parleft').bind(triggerEvent, function() {
+$('#parleft').bind(tapEvent, function() {
   parseEval($(this).data('role'));
   return textBuffer.clear();
 });
 
-$('#equal_key').bind(triggerEvent, function() {
+$('#equal_key').bind(tapEvent, function() {
   if (stack.length !== 0) {
     parseEval($(this).data('role'), display.val());
     return textBuffer.clear();
@@ -296,7 +301,7 @@ $('#equal_key').bind(triggerEvent, function() {
   }
 });
 
-$('#angle_key').bind(triggerEvent, function() {
+$('#angle_key').bind(tapEvent, function() {
   var $this;
   $this = $(this);
   if (angleUnit === 'Deg') {
@@ -309,7 +314,7 @@ $('#angle_key').bind(triggerEvent, function() {
   return $('#angle').text(angleUnit);
 });
 
-$('#2nd').bind(triggerEvent, function() {
+$('#2nd').bind(tapEvent, function() {
   if ($(this).data('status') === 'off') {
     $(this).data('status', 'on');
     $(this).css('color', '#de8235');
@@ -355,7 +360,7 @@ $('.key').bind('touchstart', function() {
   return $(this).addClass('pushed');
 });
 
-$('.key').bind(triggerEvent, function() {
+$('.key').bind(tapEvent, function() {
   return $(this).removeClass('pushed');
 });
 
