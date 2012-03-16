@@ -183,15 +183,20 @@ body {
     padding-left: 2px;
     margin-right: -2px;
   }
+
   .key {
     width: 50px;
     height: 28px;
     line-height: 26px;
-    font-size: 18px;
+    font-size: 15px;
     margin-top: 8px;
     margin-bottom: 2px;
     margin-left: 3px;
     margin-right: 5px;
+  }
+
+  .key.small {
+    font-size: 14px;
   }
 
   .key .gloss {
@@ -252,6 +257,10 @@ body {
     margin-right: 11px;
   }
 
+  .key.small {
+    font-size: 17px;
+  }
+
   .key .gloss {
     height: 19px; /* half of normal key, it is same for vertically long key. */
   }
@@ -303,6 +312,10 @@ body {
     margin-bottom: 14px;
     margin-left: 0;
     margin-right: 28px;
+  }
+
+  .key.small {
+    font-size: 44px;
   }
 
   .key .gloss {
@@ -375,6 +388,10 @@ body {
     margin-right: 12px;
   }
 
+  .key.small {
+    font-size: 35px;
+  }
+
   .key .gloss {
     height: 28px;
     -webkit-border-top-right-radius: 10px;
@@ -398,10 +415,17 @@ body {
  */
 
 /*
+
 body {
   width: 480px;
   background-image: url("images/IMG_1189.png");
   padding-top: 20px;
+}
+
+body {
+  width: 320px;
+  background-image: url("images/calculator.png");
+  padding-top: 20px;  
 }
 
 body {
@@ -411,23 +435,19 @@ body {
 }
 
 body {
-  width: 768px;
-  background-image: url("images/iPad portrait.png");
-  padding-top: 48px;
-}
-
-body {
-  background-repeat: no-repeat;  
+  background-color: white;
+  background-repeat: no-repeat;
 }
 
 #wrapper {
+  left: -496;
   opacity: 0.5;  
 }
 
 body {
-  width: 320px;
-  background-image: url("images/calculator.png");
-  padding-top: 20px;  
+  width: 768px;
+  background-image: url("images/iPad portrait.png");
+  padding-top: 48px;
 }
 */
 
