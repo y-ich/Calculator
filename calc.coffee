@@ -1,7 +1,7 @@
 #
 # for debugging
 #
-# triggerEvent = 'click'
+triggerEvent = 'click'
 
 # functions
 
@@ -58,11 +58,14 @@ textBuffer =
 
   add : (str) ->
     digits = @val().replace(/[\-,\.]/g, '').length
-    return if digits >= (if isPortrait() then 9 else 16)
+    if (@content is '0' and str is '0') or digits >= display.maxDigits()
+      return 
+
     @val if @content is '0' and not /\./.test str
         str
       else
         @content + str
+    @added()
 
   toggleSign : ->
     @val if @content[0] is '-'
@@ -70,9 +73,11 @@ textBuffer =
       else
         '-' + @content
 
-  changed : -> updateView(@content)
+  changed : -> display.update(@content)
 
   clear : -> @content = '0'
+
+  added : -> ac2c()
 
 
 latestEval =
@@ -84,11 +89,11 @@ latestEval =
       @content
     else
       @content
-  changed : -> updateView(@content) 
+  changed : -> display.update(@content) 
 
 
 stack = []
-expression = []
+
 priority =
   '=' : 0
   '(' : 0
@@ -98,7 +103,7 @@ priority =
   'mul' : 2
   'div' : 2
 
-lastUnary = null
+latestUnary = null
 
 clearStack = ->
   stack = []
@@ -113,14 +118,14 @@ parseEval = (operator, operand1) ->
         return if not op? or op is '('
         latestEval.val functions[stack.pop()](stack.pop(), operand1)
     when '='
-      lastUnary = null
+      latestUnary = null
       loop
         op = stack.pop()
         return if not op?
         unless op is '('
           latestEval.val functions[op](stack.pop(), operand1)
-          unless lastUnary?
-            lastUnary = ((operator, operand2) -> (x) -> functions[operator](x, operand2))(op, operand1) # currying
+          unless latestUnary?
+            latestUnary = ((operator, operand2) -> (x) -> functions[operator](x, operand2))(op, operand1) # currying
     else
       if stack.length isnt 0 and (priority[operator] ? 3) <= (priority[stack[stack.length - 1]] ? 3)
         latestEval.val functions[stack.pop()](stack.pop(), operand1)
@@ -144,10 +149,12 @@ $('.key').each ->
 
 
 $('#clear').bind triggerEvent, (event) ->
+  if $(this).data('role') is 'allclear'
+    latestUnary = null
+    stack = []
   textBuffer.clear()
-  expression = []
-  entrance = []
-  $('#view').text('0')
+  latestEval.val 0
+  c2ac()
 
 
 $('.key.number').bind triggerEvent, ->
@@ -159,7 +166,8 @@ $('#period').bind triggerEvent, ->
     textBuffer.add $(this).data('role')
 
 
-$('#plusminus').bind triggerEvent, -> textBuffer.toggleSign()
+$('#plusminus').bind triggerEvent, ->
+  textBuffer.toggleSign()
 
 
 $('#mc').bind triggerEvent, ->
@@ -180,14 +188,18 @@ $('#mminus').bind triggerEvent, ->
 
 
 $('.nofix').bind triggerEvent, ->
-  updateView functions[$(this).data('role')]().toString()
+  display.update functions[$(this).data('role')]().toString()
   textBuffer.clear()
 
 
 $('.unary').bind triggerEvent, ->
-  lastUnary = functions[$(this).data('role')]
-  updateView lastUnary(display.val()).toString()
+  latestUnary = functions[$(this).data('role')]
+  display.update latestUnary(display.val()).toString()
   textBuffer.clear()
+
+
+$('.binary').bind triggerEvent, ->
+  activate $(this)
 
 
 $('.binary, #parright').bind triggerEvent, ->
@@ -204,8 +216,8 @@ $('#equal_key').bind triggerEvent, ->
   if stack.length isnt 0
     parseEval $(this).data('role'), display.val()
     textBuffer.clear()
-  else if lastUnary? 
-    updateView lastUnary(display.val()).toString()
+  else if latestUnary? 
+    display.update latestUnary(display.val()).toString()
 
 
 $('#angle_key').bind triggerEvent, ->
@@ -271,6 +283,17 @@ $('.key').bind 'touchcancel', ->
 
 $('window').bind 'orientationchange', ->
 
+
+ac2c = ->
+  $('#clear').data 'role', 'clear'
+  $('#clear').html $('#clear').html().replace('AC', 'C')
+
+
+c2ac = ->
+  $('#clear').data 'role', 'allclear'
+  $('#clear').html $('#clear').html().replace('>C', '>AC')
+
+
 activate = ($elem) ->
   active = $elem.children('.active')
   if not active? or active.length == 0 # jqMobi returns undefined when no children.
@@ -279,31 +302,6 @@ activate = ($elem) ->
 
 deactivate = ($elem) ->
   $elem.children('.active').remove()
-
-
-updateView = (numStr) ->
-  $view = $('#view')
-  numStr = numStr.toString() if typeof numStr is 'number'
-  [intStr, decimalStr] = numStr.split('.')
-  intStr = intStr.slice(1) if numStr[0] == '-'
-  result = reverse (split 3, reverse intStr).join(',')
-  result += '.' + decimalStr if decimalStr?
-  $view.text if numStr[0] == '-'
-      '-' + result
-    else
-      result
-  $view.css 'visibility', 'hidden'
-  $view.css 'font-size', display.fontSize()
-  until $view[0].offsetWidth <= display.width()
-    $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
-  $view.css 'visibility', ''
-
-
-#
-# utilities
-#
-
-isPortrait = -> (orientation ? 90) % 180 == 0
 
 
 display =
@@ -330,6 +328,35 @@ display =
       else
         '108px'
   val : -> parseFloat $('#view').text().replace(',', '')
+
+  maxDigits : -> if isPortrait() then 9 else 16
+
+  update : (numStr) ->
+    $view = $('#view')
+    numStr = numStr.toString() if typeof numStr is 'number'
+    [intStr, decimalStr] = numStr.split('.')
+    intStr = intStr.slice(1) if numStr[0] == '-'
+    result = reverse (split 3, reverse intStr).join(',')
+    result += '.' + decimalStr if decimalStr?
+    $view.text if numStr[0] == '-'
+        '-' + result
+      else
+        result
+    $view.css 'visibility', 'hidden'
+    $view.css 'font-size', display.fontSize()
+    until $view[0].offsetWidth <= display.width()
+      $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
+    $view.css 'visibility', ''
+
+
+#
+# utilities
+#
+
+isPortrait = -> (orientation ? 90) % 180 == 0
+
+
+
 
 reverse = (str) ->
   result = ''

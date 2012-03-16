@@ -1,4 +1,6 @@
-var activate, angleUnit, clearStack, deactivate, display, expression, functions, gamma, isPortrait, lastUnary, latestEval, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent, updateView;
+var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, triggerEvent;
+
+triggerEvent = 'click';
 
 functions = {
   mr: function() {
@@ -113,17 +115,23 @@ textBuffer = {
   add: function(str) {
     var digits;
     digits = this.val().replace(/[\-,\.]/g, '').length;
-    if (digits >= (isPortrait() ? 9 : 16)) return;
-    return this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
+    if ((this.content === '0' && str === '0') || digits >= display.maxDigits()) {
+      return;
+    }
+    this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
+    return this.added();
   },
   toggleSign: function() {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
   },
   changed: function() {
-    return updateView(this.content);
+    return display.update(this.content);
   },
   clear: function() {
     return this.content = '0';
+  },
+  added: function() {
+    return ac2c();
   }
 };
 
@@ -139,13 +147,11 @@ latestEval = {
     }
   },
   changed: function() {
-    return updateView(this.content);
+    return display.update(this.content);
   }
 };
 
 stack = [];
-
-expression = [];
 
 priority = {
   '=': 0,
@@ -157,7 +163,7 @@ priority = {
   'div': 2
 };
 
-lastUnary = null;
+latestUnary = null;
 
 clearStack = function() {
   return stack = [];
@@ -176,14 +182,14 @@ parseEval = function(operator, operand1) {
       }
       break;
     case '=':
-      lastUnary = null;
+      latestUnary = null;
       while (true) {
         op = stack.pop();
         if (!(op != null)) return;
         if (op !== '(') {
           latestEval.val(functions[op](stack.pop(), operand1));
-          if (lastUnary == null) {
-            lastUnary = (function(operator, operand2) {
+          if (latestUnary == null) {
+            latestUnary = (function(operator, operand2) {
               return function(x) {
                 return functions[operator](x, operand2);
               };
@@ -211,11 +217,13 @@ $('.key').each(function() {
 });
 
 $('#clear').bind(triggerEvent, function(event) {
-  var entrance;
+  if ($(this).data('role') === 'allclear') {
+    latestUnary = null;
+    stack = [];
+  }
   textBuffer.clear();
-  expression = [];
-  entrance = [];
-  return $('#view').text('0');
+  latestEval.val(0);
+  return c2ac();
 });
 
 $('.key.number').bind(triggerEvent, function() {
@@ -248,14 +256,18 @@ $('#mminus').bind(triggerEvent, function() {
 });
 
 $('.nofix').bind(triggerEvent, function() {
-  updateView(functions[$(this).data('role')]().toString());
+  display.update(functions[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
 $('.unary').bind(triggerEvent, function() {
-  lastUnary = functions[$(this).data('role')];
-  updateView(lastUnary(display.val()).toString());
+  latestUnary = functions[$(this).data('role')];
+  display.update(latestUnary(display.val()).toString());
   return textBuffer.clear();
+});
+
+$('.binary').bind(triggerEvent, function() {
+  return activate($(this));
 });
 
 $('.binary, #parright').bind(triggerEvent, function() {
@@ -272,8 +284,8 @@ $('#equal_key').bind(triggerEvent, function() {
   if (stack.length !== 0) {
     parseEval($(this).data('role'), display.val());
     return textBuffer.clear();
-  } else if (lastUnary != null) {
-    return updateView(lastUnary(display.val()).toString());
+  } else if (latestUnary != null) {
+    return display.update(latestUnary(display.val()).toString());
   }
 });
 
@@ -346,6 +358,16 @@ $('.key').bind('touchcancel', function() {
 
 $('window').bind('orientationchange', function() {});
 
+ac2c = function() {
+  $('#clear').data('role', 'clear');
+  return $('#clear').html($('#clear').html().replace('AC', 'C'));
+};
+
+c2ac = function() {
+  $('#clear').data('role', 'allclear');
+  return $('#clear').html($('#clear').html().replace('>C', '>AC'));
+};
+
 activate = function($elem) {
   var active;
   active = $elem.children('.active');
@@ -356,27 +378,6 @@ activate = function($elem) {
 
 deactivate = function($elem) {
   return $elem.children('.active').remove();
-};
-
-updateView = function(numStr) {
-  var $view, decimalStr, intStr, result, _ref;
-  $view = $('#view');
-  if (typeof numStr === 'number') numStr = numStr.toString();
-  _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
-  if (numStr[0] === '-') intStr = intStr.slice(1);
-  result = reverse((split(3, reverse(intStr))).join(','));
-  if (decimalStr != null) result += '.' + decimalStr;
-  $view.text(numStr[0] === '-' ? '-' + result : result);
-  $view.css('visibility', 'hidden');
-  $view.css('font-size', display.fontSize());
-  while (!($view[0].offsetWidth <= display.width())) {
-    $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');
-  }
-  return $view.css('visibility', '');
-};
-
-isPortrait = function() {
-  return (typeof orientation !== "undefined" && orientation !== null ? orientation : 90) % 180 === 0;
 };
 
 display = {
@@ -412,7 +413,34 @@ display = {
   },
   val: function() {
     return parseFloat($('#view').text().replace(',', ''));
+  },
+  maxDigits: function() {
+    if (isPortrait()) {
+      return 9;
+    } else {
+      return 16;
+    }
+  },
+  update: function(numStr) {
+    var $view, decimalStr, intStr, result, _ref;
+    $view = $('#view');
+    if (typeof numStr === 'number') numStr = numStr.toString();
+    _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
+    if (numStr[0] === '-') intStr = intStr.slice(1);
+    result = reverse((split(3, reverse(intStr))).join(','));
+    if (decimalStr != null) result += '.' + decimalStr;
+    $view.text(numStr[0] === '-' ? '-' + result : result);
+    $view.css('visibility', 'hidden');
+    $view.css('font-size', display.fontSize());
+    while (!($view[0].offsetWidth <= display.width())) {
+      $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');
+    }
+    return $view.css('visibility', '');
   }
+};
+
+isPortrait = function() {
+  return (typeof orientation !== "undefined" && orientation !== null ? orientation : 90) % 180 === 0;
 };
 
 reverse = function(str) {
