@@ -160,13 +160,13 @@ $('#mc').bind triggerEvent, ->
 
 $('#mplus').bind triggerEvent, ->
   textBuffer.clear()
-  memory += parseFloat textBuffer.val()
+  memory += display.val()
   activate $('#mr')
 
 
 $('#mminus').bind triggerEvent, ->
   textBuffer.clear()
-  memory -= parseFloat textBuffer.val()
+  memory -= display.val()
   activate $('#mr')
 
 
@@ -177,12 +177,12 @@ $('.nofix').bind triggerEvent, ->
 
 $('.unary').bind triggerEvent, ->
   lastUnary = functions[$(this).data('role')]
-  updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
+  updateView lastUnary(display.val()).toString()
   textBuffer.clear()
 
 
 $('.binary, #parright').bind triggerEvent, ->
-  parseEval $(this).data('role'), parseFloat $('#view').text().replace(',', '')
+  parseEval $(this).data('role'), display.val()
   textBuffer.clear()
 
 
@@ -193,10 +193,10 @@ $('#parleft').bind triggerEvent, ->
 
 $('#equal_key').bind triggerEvent, ->
   if stack.length isnt 0
-    parseEval $(this).data('role'), parseFloat $('#view').text().replace(',', '')
+    parseEval $(this).data('role'), display.val()
     textBuffer.clear()
   else if lastUnary? 
-    updateView lastUnary(parseFloat $('#view').text().replace(',', '')).toString()
+    updateView lastUnary(display.val()).toString()
 
 
 $('#angle_key').bind triggerEvent, ->
@@ -260,6 +260,8 @@ $('.key').bind 'touchcancel', ->
   $(this).removeClass 'pushed'
 
 
+$('window').bind 'orientationchange', ->
+
 activate = ($elem) ->
   active = $elem.children('.active')
   if not active? or active.length == 0 # jqMobi returns undefined when no children.
@@ -318,7 +320,7 @@ display =
         '182px'
       else
         '108px'
-
+  val : -> parseFloat $('#view').text().replace(',', '')
 
 reverse = (str) ->
   result = ''
