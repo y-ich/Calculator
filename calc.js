@@ -220,14 +220,20 @@ $('#clear').bind(triggerEvent, function(event) {
   if ($(this).data('role') === 'allclear') {
     latestUnary = null;
     stack = [];
+  } else {
+    activate($(".binary[data-role=\"" + stack[stack.length - 1] + "\"]"));
   }
   textBuffer.clear();
   latestEval.val(0);
   return c2ac();
 });
 
-$('.key.number').bind(triggerEvent, function() {
+$('.number').bind(triggerEvent, function() {
   return textBuffer.add($(this).data('role').toString());
+});
+
+$('.number, #pi').bind(triggerEvent, function() {
+  return deactivate($('.binary'));
 });
 
 $('#period').bind(triggerEvent, function() {
@@ -267,6 +273,7 @@ $('.unary').bind(triggerEvent, function() {
 });
 
 $('.binary').bind(triggerEvent, function() {
+  deactivate($('.binary'));
   return activate($(this));
 });
 

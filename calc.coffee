@@ -152,13 +152,20 @@ $('#clear').bind triggerEvent, (event) ->
   if $(this).data('role') is 'allclear'
     latestUnary = null
     stack = []
+  else
+    activate $(".binary[data-role=\"#{stack[stack.length - 1]}\"]")
+
   textBuffer.clear()
   latestEval.val 0
   c2ac()
 
 
-$('.key.number').bind triggerEvent, ->
+$('.number').bind triggerEvent, ->
   textBuffer.add $(this).data('role').toString()
+
+
+$('.number, #pi').bind triggerEvent, ->
+  deactivate($('.binary'))
 
 
 $('#period').bind triggerEvent, ->
@@ -199,6 +206,7 @@ $('.unary').bind triggerEvent, ->
 
 
 $('.binary').bind triggerEvent, ->
+  deactivate $('.binary')
   activate $(this)
 
 
