@@ -124,7 +124,7 @@ textBuffer = {
   add: function(str) {
     var digits;
     digits = this.val().replace(/[\-,\.]/g, '').length;
-    if ((this.content === '0' && str === '0') || digits >= display.maxDigits()) {
+    if ((this.content === '0' && str === '0') || digits >= display.maxDigits() || /e/.test(display.text())) {
       return;
     }
     this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
@@ -401,6 +401,7 @@ deactivate = function($elem) {
 };
 
 display = {
+  content: '0',
   width: function() {
     if (innerWidth <= 320) {
       if (isPortrait()) {
@@ -432,7 +433,10 @@ display = {
     }
   },
   val: function() {
-    return parseFloat($('#view').text().replace(',', ''));
+    return parseFloat(this.content);
+  },
+  text: function() {
+    return $('#view').text();
   },
   maxDigits: function() {
     if (isPortrait()) {
@@ -443,8 +447,13 @@ display = {
   },
   update: function(numStr) {
     var $view, decimalStr, intStr, result, _ref;
+    if (numStr != null) {
+      this.content = numStr;
+    } else {
+      numStr = this.content;
+    }
     $view = $('#view');
-    if (typeof numStr === 'number') numStr = numStr.toString();
+    numStr = numStr.toString();
     _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
     if (numStr[0] === '-') intStr = intStr.slice(1);
     result = reverse((split(3, reverse(intStr))).join(','));

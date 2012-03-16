@@ -69,7 +69,7 @@ textBuffer =
 
   add : (str) ->
     digits = @val().replace(/[\-,\.]/g, '').length
-    if (@content is '0' and str is '0') or digits >= display.maxDigits()
+    if (@content is '0' and str is '0') or digits >= display.maxDigits() or /e/.test display.text()
       return 
 
     @val if @content is '0' and not /\./.test str
@@ -325,6 +325,8 @@ deactivate = ($elem) ->
 
 
 display =
+  content : '0'
+
   width : ->
     if innerWidth <= 320
       if isPortrait()
@@ -336,6 +338,7 @@ display =
         671
       else
         875
+
   fontSize : ->
     if innerWidth <= 320
       if isPortrait()
@@ -347,13 +350,21 @@ display =
         '182px'
       else
         '108px'
-  val : -> parseFloat $('#view').text().replace(',', '')
+
+  val : -> parseFloat @content
+
+  text : -> $('#view').text()
 
   maxDigits : -> if isPortrait() then 9 else 16
 
   update : (numStr) ->
+    if numStr?
+      @content = numStr
+    else
+      numStr = @content
+
     $view = $('#view')
-    numStr = numStr.toString() if typeof numStr is 'number'
+    numStr = numStr.toString() # if typeof numStr is 'number'
     [intStr, decimalStr] = numStr.split('.')
     intStr = intStr.slice(1) if numStr[0] == '-'
     result = reverse (split 3, reverse intStr).join(',')
