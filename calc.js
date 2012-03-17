@@ -134,6 +134,7 @@ textBuffer = {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);
   },
   changed: function() {
+    display.bywhom = this;
     return display.update(this.content);
   },
   clear: function() {
@@ -156,7 +157,11 @@ latestEval = {
     }
   },
   changed: function() {
+    display.bywhom = this;
     return display.update(this.content);
+  },
+  toggleSign: function() {
+    return this.val(-this.val());
   }
 };
 
@@ -255,7 +260,11 @@ $('#period').bind(touchEnd, function() {
 });
 
 $('#plusminus').bind(touchEnd, function() {
-  return textBuffer.toggleSign();
+  if (display.bywhom === textBuffer) {
+    return textBuffer.toggleSign();
+  } else {
+    return display.update(-display.val());
+  }
 });
 
 $('#mc').bind(touchEnd, function() {
@@ -276,12 +285,14 @@ $('#mminus').bind(touchEnd, function() {
 });
 
 $('.nofix').bind(touchEnd, function() {
+  display.bywhom = 'nofix';
   display.update(functions[$(this).data('role')]().toString());
   return textBuffer.clear();
 });
 
 $('.unary').bind(touchEnd, function() {
   latestUnary = functions[$(this).data('role')];
+  display.bywhom = 'unary';
   display.update(latestUnary(display.val()).toString());
   return textBuffer.clear();
 });
@@ -306,6 +317,7 @@ $('#equal_key').bind(touchEnd, function() {
     parseEval($(this).data('role'), display.val());
     return textBuffer.clear();
   } else if (latestUnary != null) {
+    display.bywhom = 'equal_key';
     return display.update(latestUnary(display.val()).toString());
   }
 });
@@ -406,6 +418,7 @@ deactivate = function($elem) {
 
 display = {
   content: '0',
+  bywhom: null,
   width: function() {
     if (innerWidth <= 320) {
       if (isPortrait()) {
@@ -457,7 +470,7 @@ display = {
     }
   },
   update: function(numStr) {
-    var $view, decimalStr, expStr, formatted, fracStr, intStr, _ref, _ref2;
+    var $view, decimalStr, expStr, formatted, fracStr, intStr, tmp, _ref, _ref2;
     if (numStr != null) {
       this.content = numStr;
     } else {
@@ -474,13 +487,13 @@ display = {
       } else {
         _ref2 = formatted.split('.'), intStr = _ref2[0], decimalStr = _ref2[1];
         if (formatted[0] === '-') intStr = intStr.slice(1);
-        formatted = reverse((split(3, reverse(intStr))).join(','));
-        if (decimalStr != null) formatted += '.' + decimalStr;
-        if (numStr[0] === '-') formatted = '-' + formatted;
+        tmp = reverse((split(3, reverse(intStr))).join(','));
+        if (decimalStr != null) tmp += '.' + decimalStr;
+        formatted = (formatted[0] === '-' ? '-' : '') + tmp;
       }
     }
     $view.css('visibility', 'hidden');
-    $view.text(result);
+    $view.text(formatted);
     $view.css('font-size', display.fontSize());
     while (!($view[0].offsetWidth <= display.width())) {
       $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');

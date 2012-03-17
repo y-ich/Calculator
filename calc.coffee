@@ -2,6 +2,15 @@
 # author: ICHIKAWA, Yuji
 # Copyright (C) 2012 ICHIKAWA, Yuji
 
+# 
+# abstract
+#
+
+# textBuffer -+
+# latestEval -+-> display -> operand1(binary) -> latestEval
+#                    ||
+#                 unary
+
 try
   document.createEvent 'TouchEvent'
   touchStart = 'touchstart'
@@ -81,7 +90,9 @@ textBuffer =
       else
         '-' + @content
 
-  changed : -> display.update(@content)
+  changed : ->
+    display.bywhom = this
+    display.update(@content)
 
   clear : -> @content = '0'
 
@@ -90,6 +101,7 @@ textBuffer =
 
 latestEval =
   content  : 0
+
   val : (num) ->
     if num?
       @content = num
@@ -97,7 +109,13 @@ latestEval =
       @content
     else
       @content
-  changed : -> display.update(@content) 
+
+  changed : ->
+    display.bywhom = this
+    display.update(@content) 
+
+  toggleSign : ->
+    @val -@val()
 
 
 stack = []
@@ -184,8 +202,10 @@ $('#period').bind touchEnd, ->
 
 
 $('#plusminus').bind touchEnd, ->
-  textBuffer.toggleSign()
-
+  if display.bywhom is textBuffer
+    textBuffer.toggleSign()
+  else
+    display.update(-display.val())
 
 $('#mc').bind touchEnd, ->
   memory = 0
@@ -205,12 +225,14 @@ $('#mminus').bind touchEnd, ->
 
 
 $('.nofix').bind touchEnd, ->
+  display.bywhom = 'nofix'
   display.update functions[$(this).data('role')]().toString()
   textBuffer.clear()
 
 
 $('.unary').bind touchEnd, ->
   latestUnary = functions[$(this).data('role')]
+  display.bywhom = 'unary'
   display.update latestUnary(display.val()).toString()
   textBuffer.clear()
 
@@ -235,6 +257,7 @@ $('#equal_key').bind touchEnd, ->
     parseEval $(this).data('role'), display.val()
     textBuffer.clear()
   else if latestUnary? 
+    display.bywhom = 'equal_key'
     display.update latestUnary(display.val()).toString()
 
 
@@ -326,6 +349,7 @@ deactivate = ($elem) ->
 
 display =
   content : '0'
+  bywhom : null
 
   width : ->
     if innerWidth <= 320
@@ -375,12 +399,12 @@ display =
       else
         [intStr, decimalStr] = formatted.split('.')
         intStr = intStr.slice(1) if formatted[0] == '-'
-        formatted = reverse (split 3, reverse intStr).join(',')
-        formatted += '.' + decimalStr if decimalStr?
-        formatted = '-' + formatted if numStr[0] == '-'
+        tmp = reverse (split 3, reverse intStr).join(',')
+        tmp += '.' + decimalStr if decimalStr?
+        formatted = (if formatted[0] == '-' then '-' else '') + tmp 
 
     $view.css 'visibility', 'hidden'
-    $view.text result
+    $view.text formatted
     $view.css 'font-size', display.fontSize()
     until $view[0].offsetWidth <= display.width()
       $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
