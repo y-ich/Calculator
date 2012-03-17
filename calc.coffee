@@ -2,14 +2,11 @@
 # author: ICHIKAWA, Yuji
 # Copyright (C) 2012 ICHIKAWA, Yuji
 
-#
-# for debugging
-#
 try
   document.createEvent 'TouchEvent'
   touchStart = 'touchstart'
   touchEnd = 'touchend'
-catch error
+catch error　# non-touch device
   touchStart = 'mousedown'
   touchEnd = 'mouseup'
 
@@ -369,24 +366,21 @@ display =
       numStr = @content
 
     $view = $('#view')
-    numStr = numStr.toString() # if typeof numStr is 'number'
-    if /e/.test numStr
-      console.log 'pass'
-      [fracStr, expStr] = numStr.split('e')
-      $view.text if fracStr.replace('.', '').length > display.maxSignificants()
-          parseFloat(numStr).toExponential(display.maxSignificants())
-        else
-          numStr
-    else
-      [intStr, decimalStr] = numStr.split('.')
-      intStr = intStr.slice(1) if numStr[0] == '-'
-      result = reverse (split 3, reverse intStr).join(',')
-      result += '.' + decimalStr if decimalStr?
-      $view.text if numStr[0] == '-'
-          '-' + result
-        else
-          result
+    formatted = numStr.toString() # if typeof numStr is 'number'
+    if /[0-9]/.test formatted # a number not a error
+      if /e/.test formatted # scientific
+        [fracStr, expStr] = formatted.split('e')
+        if fracStr.replace('.', '').length > display.maxSignificants()
+          formatted = parseFloat(formatted).toExponential(display.maxSignificants())
+      else
+        [intStr, decimalStr] = formatted.split('.')
+        intStr = intStr.slice(1) if formatted[0] == '-'
+        formatted = reverse (split 3, reverse intStr).join(',')
+        formatted += '.' + decimalStr if decimalStr?
+        formatted = '-' + formatted if numStr[0] == '-'
+
     $view.css 'visibility', 'hidden'
+    $view.text result
     $view.css 'font-size', display.fontSize()
     until $view[0].offsetWidth <= display.width()
       $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
@@ -416,33 +410,41 @@ split = (n, str) ->
 
 # http://www.biwako.shiga-u.ac.jp/sensei/mnaka/ut/funccalc.html
 loggamma = (x) ->
-  log2pi = Math.log(2 * Math.PI)
-  N = 8
-  B0 = 1.0
-  B1 = (-1.0 / 2.0)
-  B2 = ( 1.0 / 6.0)
-  B4 = (-1.0 / 30.0)
-  B6 = ( 1.0 / 42.0)
-  B8 = (-1.0 / 30.0)
-  B10 = ( 5.0 / 66.0)
-  B12 = (-691.0 / 2730.0)
-  B14 = ( 7.0 / 6.0)
-  B16 = (-3617.0 / 510.0)
+  B = [
+    1
+    -1/2
+    1/6
+    0
+    -1/30
+    0
+    1/42
+    0
+    -1/30
+    0
+    5/66
+    0
+    -691/2730
+    0
+    7/6
+    0
+    -3617/510
+    0
+    43867/798
+    0
+    -174611/330    
+  ]
+  N = 10
+
   v = 1.0
-  while x < N
-    v *= x
-    x++
-  w = 1 / (x * x)
-  tmp = B16 / (16 * 15)
-  tmp = tmp * w + B14 / (14 * 13)
-  tmp = tmp * w + B12 / (12 * 11)
-  tmp = tmp * w + B10 / (10 * 9)
-  tmp = tmp * w + B8 / (8 * 7)
-  tmp = tmp * w + B6 / (6 * 5)
-  tmp = tmp * w + B4 / (4 * 3)
-  tmp = tmp * w + B2 / (2 * 1)
-  tmp = tmp / x + 0.5 * log2pi - Math.log(v) - x + (x - 0.5) * Math.log(x)
+  y = x
+  while y < N
+    v *= y
+    y++
+
+  tmp = -Math.log(v) + (y - 0.5)*Math.log(y) - y + 0.5*Math.log(2*Math.PI)
+  tmp += B[i] / (i*(i - 1)*Math.pow(y, i - 1)) for i in [2..N] by 2
   tmp
 
-
-gamma = (x) -> Math.exp loggamma x
+gamma = (x) ->
+  result = Math.exp loggamma x
+  if Math.floor(x) is x then Math.floor result else result

@@ -4,7 +4,7 @@ try {
   document.createEvent('TouchEvent');
   touchStart = 'touchstart';
   touchEnd = 'touchend';
-} catch (error) {
+} catch (error　) {
   touchStart = 'mousedown';
   touchEnd = 'mouseup';
 }
@@ -457,26 +457,30 @@ display = {
     }
   },
   update: function(numStr) {
-    var $view, decimalStr, expStr, fracStr, intStr, result, _ref, _ref2;
+    var $view, decimalStr, expStr, formatted, fracStr, intStr, _ref, _ref2;
     if (numStr != null) {
       this.content = numStr;
     } else {
       numStr = this.content;
     }
     $view = $('#view');
-    numStr = numStr.toString();
-    if (/e/.test(numStr)) {
-      console.log('pass');
-      _ref = numStr.split('e'), fracStr = _ref[0], expStr = _ref[1];
-      $view.text(fracStr.replace('.', '').length > display.maxSignificants() ? parseFloat(numStr).toExponential(display.maxSignificants()) : numStr);
-    } else {
-      _ref2 = numStr.split('.'), intStr = _ref2[0], decimalStr = _ref2[1];
-      if (numStr[0] === '-') intStr = intStr.slice(1);
-      result = reverse((split(3, reverse(intStr))).join(','));
-      if (decimalStr != null) result += '.' + decimalStr;
-      $view.text(numStr[0] === '-' ? '-' + result : result);
+    formatted = numStr.toString();
+    if (/[0-9]/.test(formatted)) {
+      if (/e/.test(formatted)) {
+        _ref = formatted.split('e'), fracStr = _ref[0], expStr = _ref[1];
+        if (fracStr.replace('.', '').length > display.maxSignificants()) {
+          formatted = parseFloat(formatted).toExponential(display.maxSignificants());
+        }
+      } else {
+        _ref2 = formatted.split('.'), intStr = _ref2[0], decimalStr = _ref2[1];
+        if (formatted[0] === '-') intStr = intStr.slice(1);
+        formatted = reverse((split(3, reverse(intStr))).join(','));
+        if (decimalStr != null) formatted += '.' + decimalStr;
+        if (numStr[0] === '-') formatted = '-' + formatted;
+      }
     }
     $view.css('visibility', 'hidden');
+    $view.text(result);
     $view.css('font-size', display.fontSize());
     while (!($view[0].offsetWidth <= display.width())) {
       $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');
@@ -508,37 +512,28 @@ split = function(n, str) {
 };
 
 loggamma = function(x) {
-  var B0, B1, B10, B12, B14, B16, B2, B4, B6, B8, N, log2pi, tmp, v, w;
-  log2pi = Math.log(2 * Math.PI);
-  N = 8;
-  B0 = 1.0;
-  B1 = -1.0 / 2.0;
-  B2 = 1.0 / 6.0;
-  B4 = -1.0 / 30.0;
-  B6 = 1.0 / 42.0;
-  B8 = -1.0 / 30.0;
-  B10 = 5.0 / 66.0;
-  B12 = -691.0 / 2730.0;
-  B14 = 7.0 / 6.0;
-  B16 = -3617.0 / 510.0;
+  var B, N, i, tmp, v, y;
+  B = [1, -1 / 2, 1 / 6, 0, -1 / 30, 0, 1 / 42, 0, -1 / 30, 0, 5 / 66, 0, -691 / 2730, 0, 7 / 6, 0, -3617 / 510, 0, 43867 / 798, 0, -174611 / 330];
+  N = 10;
   v = 1.0;
-  while (x < N) {
-    v *= x;
-    x++;
+  y = x;
+  while (y < N) {
+    v *= y;
+    y++;
   }
-  w = 1 / (x * x);
-  tmp = B16 / (16 * 15);
-  tmp = tmp * w + B14 / (14 * 13);
-  tmp = tmp * w + B12 / (12 * 11);
-  tmp = tmp * w + B10 / (10 * 9);
-  tmp = tmp * w + B8 / (8 * 7);
-  tmp = tmp * w + B6 / (6 * 5);
-  tmp = tmp * w + B4 / (4 * 3);
-  tmp = tmp * w + B2 / (2 * 1);
-  tmp = tmp / x + 0.5 * log2pi - Math.log(v) - x + (x - 0.5) * Math.log(x);
+  tmp = -Math.log(v) + (y - 0.5) * Math.log(y) - y + 0.5 * Math.log(2 * Math.PI);
+  for (i = 2; i <= N; i += 2) {
+    tmp += B[i] / (i * (i - 1) * Math.pow(y, i - 1));
+  }
   return tmp;
 };
 
 gamma = function(x) {
-  return Math.exp(loggamma(x));
+  var result;
+  result = Math.exp(loggamma(x));
+  if (Math.floor(x) === x) {
+    return Math.floor(result);
+  } else {
+    return result;
+  }
 };
