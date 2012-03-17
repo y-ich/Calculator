@@ -184,19 +184,21 @@ parseEval = function(operator, operand1) {
     case '(':
       return stack.push('(');
     case ')':
+      latestEval.val(operand1);
       while (true) {
         op = stack.pop();
         if (!(op != null) || op === '(') return;
-        latestEval.val(functions[stack.pop()](stack.pop(), operand1));
+        latestEval.val(functions[op](stack.pop(), latestEval.val()));
       }
       break;
     case '=':
       latestUnary = null;
+      latestEval.val(operand1);
       while (true) {
         op = stack.pop();
         if (!(op != null)) return;
         if (op !== '(') {
-          latestEval.val(functions[op](stack.pop(), operand1));
+          latestEval.val(functions[op](stack.pop(), latestEval.val()));
           if (latestUnary == null) {
             latestUnary = (function(operator, operand2) {
               return function(x) {
@@ -226,7 +228,7 @@ $('.key').each(function() {
 $('#clear').bind(touchEnd, function(event) {
   if ($(this).data('role') === 'allclear') {
     latestUnary = null;
-    stack = [];
+    clearStack();
     deactivate($('.binary'));
   } else {
     activate($(".binary[data-role=\"" + stack[stack.length - 1] + "\"]"));
@@ -376,7 +378,9 @@ $('.key').bind('touchcancel', function() {
   return $(this).removeClass('pushed');
 });
 
-$('window').bind('orientationchange', function() {});
+$('window').bind('orientationchange', function() {
+  return display.update();
+});
 
 ac2c = function() {
   $('#clear').data('role', 'clear');
@@ -445,8 +449,15 @@ display = {
       return 16;
     }
   },
+  maxSignificants: function() {
+    if (isPortrait()) {
+      return 8;
+    } else {
+      return 14;
+    }
+  },
   update: function(numStr) {
-    var $view, decimalStr, intStr, result, _ref;
+    var $view, decimalStr, expStr, fracStr, intStr, result, _ref, _ref2;
     if (numStr != null) {
       this.content = numStr;
     } else {
@@ -454,11 +465,17 @@ display = {
     }
     $view = $('#view');
     numStr = numStr.toString();
-    _ref = numStr.split('.'), intStr = _ref[0], decimalStr = _ref[1];
-    if (numStr[0] === '-') intStr = intStr.slice(1);
-    result = reverse((split(3, reverse(intStr))).join(','));
-    if (decimalStr != null) result += '.' + decimalStr;
-    $view.text(numStr[0] === '-' ? '-' + result : result);
+    if (/e/.test(numStr)) {
+      console.log('pass');
+      _ref = numStr.split('e'), fracStr = _ref[0], expStr = _ref[1];
+      $view.text(fracStr.replace('.', '').length > display.maxSignificants() ? parseFloat(numStr).toExponential(display.maxSignificants()) : numStr);
+    } else {
+      _ref2 = numStr.split('.'), intStr = _ref2[0], decimalStr = _ref2[1];
+      if (numStr[0] === '-') intStr = intStr.slice(1);
+      result = reverse((split(3, reverse(intStr))).join(','));
+      if (decimalStr != null) result += '.' + decimalStr;
+      $view.text(numStr[0] === '-' ? '-' + result : result);
+    }
     $view.css('visibility', 'hidden');
     $view.css('font-size', display.fontSize());
     while (!($view[0].offsetWidth <= display.width())) {

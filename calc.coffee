@@ -124,17 +124,19 @@ parseEval = (operator, operand1) ->
     when '('
       stack.push('(')
     when ')'
+      latestEval.val(operand1)
       loop 
         op = stack.pop()
         return if not op? or op is '('
-        latestEval.val functions[stack.pop()](stack.pop(), operand1)
+        latestEval.val functions[op](stack.pop(), latestEval.val())
     when '='
       latestUnary = null
+      latestEval.val(operand1)
       loop
         op = stack.pop()
         return if not op?
         unless op is '('
-          latestEval.val functions[op](stack.pop(), operand1)
+          latestEval.val functions[op](stack.pop(), latestEval.val())
           unless latestUnary?
             latestUnary = ((operator, operand2) -> (x) -> functions[operator](x, operand2))(op, operand1) # currying
     else
@@ -159,7 +161,7 @@ $('.key').each ->
 $('#clear').bind touchEnd, (event) ->
   if $(this).data('role') is 'allclear'
     latestUnary = null
-    stack = []
+    clearStack()
     deactivate $('.binary')
   else
     activate $(".binary[data-role=\"#{stack[stack.length - 1]}\"]")
@@ -302,6 +304,7 @@ $('.key').bind 'touchcancel', ->
 
 
 $('window').bind 'orientationchange', ->
+  display.update()
 
 
 ac2c = ->
@@ -357,6 +360,8 @@ display =
 
   maxDigits : -> if isPortrait() then 9 else 16
 
+  maxSignificants : -> if isPortrait() then 8 else 14
+
   update : (numStr) ->
     if numStr?
       @content = numStr
@@ -365,14 +370,22 @@ display =
 
     $view = $('#view')
     numStr = numStr.toString() # if typeof numStr is 'number'
-    [intStr, decimalStr] = numStr.split('.')
-    intStr = intStr.slice(1) if numStr[0] == '-'
-    result = reverse (split 3, reverse intStr).join(',')
-    result += '.' + decimalStr if decimalStr?
-    $view.text if numStr[0] == '-'
-        '-' + result
-      else
-        result
+    if /e/.test numStr
+      console.log 'pass'
+      [fracStr, expStr] = numStr.split('e')
+      $view.text if fracStr.replace('.', '').length > display.maxSignificants()
+          parseFloat(numStr).toExponential(display.maxSignificants())
+        else
+          numStr
+    else
+      [intStr, decimalStr] = numStr.split('.')
+      intStr = intStr.slice(1) if numStr[0] == '-'
+      result = reverse (split 3, reverse intStr).join(',')
+      result += '.' + decimalStr if decimalStr?
+      $view.text if numStr[0] == '-'
+          '-' + result
+        else
+          result
     $view.css 'visibility', 'hidden'
     $view.css 'font-size', display.fontSize()
     until $view[0].offsetWidth <= display.width()
