@@ -124,10 +124,8 @@ textBuffer = {
   add: function(str) {
     var digits;
     digits = this.val().replace(/[\-,\.]/g, '').length;
-    if ((this.content === '0' && str === '0') || digits >= display.maxDigits() || /e/.test(display.text())) {
-      return;
-    }
-    this.val(this.content === '0' && !/\./.test(str) ? str : this.content + str);
+    if (digits >= display.maxDigits() || /e/.test(display.text())) return;
+    this.val(this.content === '0' && (str === '0' || !/\./.test(str)) ? str : this.content + str);
     return this.added();
   },
   toggleSign: function() {

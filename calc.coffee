@@ -77,10 +77,10 @@ textBuffer =
 
   add : (str) ->
     digits = @val().replace(/[\-,\.]/g, '').length
-    if (@content is '0' and str is '0') or digits >= display.maxDigits() or /e/.test display.text()
+    if digits >= display.maxDigits() or /e/.test display.text()
       return 
 
-    @val if @content is '0' and not /\./.test str
+    @val if @content is '0' and (str is '0' or not /\./.test str)
         str
       else
         @content + str
