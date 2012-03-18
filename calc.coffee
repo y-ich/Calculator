@@ -115,8 +115,9 @@ functions =
   tan : trigonometric tangent
   sinh : (x) -> (Math.exp(x) - Math.exp(-x)) / 2
   cosh : (x) -> (Math.exp(x) + Math.exp(-x)) / 2
-  tanh : (x) -> functions.sinh(x) / functions.cosh(x)
+  tanh : (x) -> parseFloat (functions.sinh(x) / functions.cosh(x)).toFixed(15)
   exp : Math.exp
+  pow2 : (x) -> Math.pow(2, x)
   enotation : (x, y) -> x*Math.pow(10, y)
   add : (x, y) -> x + y
   sub : (x, y) -> x - y
@@ -127,7 +128,7 @@ functions =
   atan : invTrig Math.atan
   asinh : (x) -> Math.log(x + Math.sqrt(x*x + 1))
   acosh : (x) -> Math.log(x + Math.sqrt(x*x - 1))
-  atanh : (x) -> Math.log((1 + x) / (1 - x)) / 2
+  atanh : (x) -> parseFloat (Math.log((1 + x) / (1 - x)) / 2).toFixed(15)
 
 #
 # models

@@ -129,9 +129,12 @@ functions = {
     return (Math.exp(x) + Math.exp(-x)) / 2;
   },
   tanh: function(x) {
-    return functions.sinh(x) / functions.cosh(x);
+    return parseFloat((functions.sinh(x) / functions.cosh(x)).toFixed(15));
   },
   exp: Math.exp,
+  pow2: function(x) {
+    return Math.pow(2, x);
+  },
   enotation: function(x, y) {
     return x * Math.pow(10, y);
   },
@@ -157,7 +160,7 @@ functions = {
     return Math.log(x + Math.sqrt(x * x - 1));
   },
   atanh: function(x) {
-    return Math.log((1 + x) / (1 - x)) / 2;
+    return parseFloat((Math.log((1 + x) / (1 - x)) / 2).toFixed(15));
   }
 };
 
