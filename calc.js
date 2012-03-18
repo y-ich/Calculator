@@ -284,6 +284,10 @@ parseEval = function(operator, operand1) {
   }
 };
 
+$(document.body).bind('touchmove', function(event) {
+  return event.preventDefault();
+});
+
 $('.key').each(function() {
   var $this;
   $this = $(this);
