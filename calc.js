@@ -1,4 +1,4 @@
-var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, invTrig, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, touchEnd, touchStart, trigonometric;
+var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, invTrig, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, tangent, textBuffer, touchEnd, touchStart, trigonometric;
 
 try {
   document.createEvent('TouchEvent');
@@ -32,7 +32,7 @@ split = function(n, str) {
 };
 
 loggamma = function(x) {
-  var B, N, i, tmp, v, y;
+  var B, N, i, sigma, v, y;
   B = [1, -1 / 2, 1 / 6, 0, -1 / 30, 0, 1 / 42, 0, -1 / 30, 0, 5 / 66, 0, -691 / 2730, 0, 7 / 6, 0, -3617 / 510, 0, 43867 / 798, 0, -174611 / 330];
   N = 10;
   v = 1.0;
@@ -41,11 +41,11 @@ loggamma = function(x) {
     v *= y;
     y++;
   }
-  tmp = -Math.log(v) + (y - 0.5) * Math.log(y) - y + 0.5 * Math.log(2 * Math.PI);
+  sigma = -Math.log(v) + (y - 0.5) * Math.log(y) - y + 0.5 * Math.log(2 * Math.PI);
   for (i = 2; i <= N; i += 2) {
-    tmp += B[i] / (i * (i - 1) * Math.pow(y, i - 1));
+    sigma += B[i] / (i * (i - 1) * Math.pow(y, i - 1));
   }
-  return tmp;
+  return sigma;
 };
 
 gamma = function(x) {
@@ -68,6 +68,16 @@ invTrig = function(fn) {
   return function(x) {
     return fn(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
   };
+};
+
+tangent = function(x) {
+  var result;
+  result = Math.tan(x);
+  if (Math.abs(result) < 1.5e+16) {
+    return result;
+  } else {
+    return NaN;
+  }
 };
 
 functions = {
@@ -111,7 +121,7 @@ functions = {
   },
   sin: trigonometric(Math.sin),
   cos: trigonometric(Math.cos),
-  tan: trigonometric(Math.tan),
+  tan: trigonometric(tangent),
   sinh: function(x) {
     return (Math.exp(x) - Math.exp(-x)) / 2;
   },
@@ -174,8 +184,8 @@ textBuffer = {
     var digits;
     digits = this.val().replace(/[\-,\.]/g, '').length;
     if (digits >= display.maxDigits() || /e/.test(display.text())) return;
-    this.val(this.content === '0' && (str === '0' || !/\./.test(str)) ? str : this.content + str);
-    return this.added();
+    this.added();
+    return this.val(this.content === '0' && (str === '0' || !/\./.test(str)) ? str : this.content + str);
   },
   toggleSign: function() {
     return this.val(this.content[0] === '-' ? this.content.slice(1) : '-' + this.content);

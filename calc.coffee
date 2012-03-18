@@ -74,9 +74,9 @@ loggamma = (x) ->
     v *= y
     y++
 
-  tmp = -Math.log(v) + (y - 0.5)*Math.log(y) - y + 0.5*Math.log(2*Math.PI)
-  tmp += B[i] / (i*(i - 1)*Math.pow(y, i - 1)) for i in [2..N] by 2
-  tmp
+  sigma = -Math.log(v) + (y - 0.5)*Math.log(y) - y + 0.5*Math.log(2*Math.PI)
+  sigma += B[i] / (i*(i - 1)*Math.pow(y, i - 1)) for i in [2..N] by 2
+  sigma
 
 gamma = (x) ->
   result = Math.exp loggamma x
@@ -87,6 +87,11 @@ trigonometric = (fn) ->
 
 invTrig = (fn) ->
   (x) -> fn(x) / if angleUnit is 'Deg' then 2*Math.PI/360 else 1
+
+tangent = (x) ->
+  result = Math.tan(x)
+  if Math.abs(result) < 1.5e+16 then result else NaN
+
 
 # calculator functions
 
@@ -107,7 +112,7 @@ functions =
   log2 : (x) -> Math.log(x)/Math.log(2)
   sin : trigonometric Math.sin
   cos : trigonometric Math.cos
-  tan : trigonometric Math.tan
+  tan : trigonometric tangent
   sinh : (x) -> (Math.exp(x) - Math.exp(-x)) / 2
   cosh : (x) -> (Math.exp(x) + Math.exp(-x)) / 2
   tanh : (x) -> functions.sinh(x) / functions.cosh(x)
@@ -152,11 +157,11 @@ textBuffer =
     if digits >= display.maxDigits() or /e/.test display.text()
       return 
 
+    @added()
     @val if @content is '0' and (str is '0' or not /\./.test str)
         str
       else
         @content + str
-    @added()
 
   toggleSign : ->
     @val if @content[0] is '-'
