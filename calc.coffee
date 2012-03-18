@@ -22,6 +22,72 @@ catch error　# non-touch device
   touchEnd = 'mouseup'
 
 
+#
+# utilities
+#
+
+isPortrait = -> (orientation ? 90) % 180 == 0
+
+
+reverse = (str) ->
+  result = ''
+  result += str.charAt(str.length - i) for i in [1..str.length]
+  result
+
+
+split = (n, str) ->
+  result = []
+  result.push(str.slice(i, i + n)) for i in [0...str.length] by n
+  result
+
+
+# http://www.biwako.shiga-u.ac.jp/sensei/mnaka/ut/funccalc.html
+loggamma = (x) ->
+  B = [
+    1
+    -1/2
+    1/6
+    0
+    -1/30
+    0
+    1/42
+    0
+    -1/30
+    0
+    5/66
+    0
+    -691/2730
+    0
+    7/6
+    0
+    -3617/510
+    0
+    43867/798
+    0
+    -174611/330    
+  ]
+  N = 10
+
+  v = 1.0
+  y = x
+  while y < N
+    v *= y
+    y++
+
+  tmp = -Math.log(v) + (y - 0.5)*Math.log(y) - y + 0.5*Math.log(2*Math.PI)
+  tmp += B[i] / (i*(i - 1)*Math.pow(y, i - 1)) for i in [2..N] by 2
+  tmp
+
+gamma = (x) ->
+  result = Math.exp loggamma x
+  if Math.floor(x) is x then Math.floor result else result
+
+trigonometric = (fn) ->
+  (x) -> parseFloat fn(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1).toFixed()
+
+invTrig = (fn) ->
+  (x) -> fn(x) / if angleUnit is 'Deg' then 2*Math.PI/360 else 1
+
 # calculator functions
 
 functions = 
@@ -39,31 +105,37 @@ functions =
   log : (x) -> Math.log(x)
   log10 : (x) -> Math.log(x)/Math.log(10)
   log2 : (x) -> Math.log(x)/Math.log(2)
-  sin : (x) -> Math.sin(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
-  cos : (x) -> Math.cos(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
-  tan : (x) -> Math.tan(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
+  sin : trigonometric Math.sin
+  cos : trigonometric Math.cos
+  tan : trigonometric Math.tan
   sinh : (x) -> (Math.exp(x) - Math.exp(-x)) / 2
   cosh : (x) -> (Math.exp(x) + Math.exp(-x)) / 2
   tanh : (x) -> functions.sinh(x) / functions.cosh(x)
   exp : Math.exp
-  enotation : (x, y) -> x * Math.pow(10, y)
+  enotation : (x, y) -> x*Math.pow(10, y)
   add : (x, y) -> x + y
   sub : (x, y) -> x - y
-  mul : (x, y) -> x * y
-  div : (x, y) -> x / y
-  asin : (x) -> Math.asin(x) / if angleUnit is 'Deg' then 2*Math.PI/360 else 1
-  acos : (x) -> Math.scos(x) / if angleUnit is 'Deg' then 2*Math.PI/360 else 1
-  atan : (x) -> Math.stan(x) / if angleUnit is 'Deg' then 2*Math.PI/360 else 1
-  asinh : (x) -> Math.log(x + Math.sqrt(x * x + 1))
-  acosh : (x) -> Math.log(x + Math.sqrt(x * x - 1))
+  mul : (x, y) -> x*y
+  div : (x, y) -> x/y
+  asin : invTrig Math.asin
+  acos : invTrig Math.acos
+  atan : invTrig Math.atan
+  asinh : (x) -> Math.log(x + Math.sqrt(x*x + 1))
+  acosh : (x) -> Math.log(x + Math.sqrt(x*x - 1))
   atanh : (x) -> Math.log((1 + x) / (1 - x)) / 2
 
-# model
+#
+# models
+#
+
 memory = 0
+# for mc/m+/m-/mr
+
 angleUnit = 'Deg'
 
 textBuffer = 
-  content : '0'
+  content : '0' # accessor is val(). Don't access directly.
+
   val : (str) ->
     if str?
       if str is '' or /\..*\./.test str
@@ -411,66 +483,3 @@ display =
     until $view[0].offsetWidth <= display.width()
       $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
     $view.css 'visibility', ''
-
-
-#
-# utilities
-#
-
-isPortrait = -> (orientation ? 90) % 180 == 0
-
-
-
-
-reverse = (str) ->
-  result = ''
-  result += str.charAt(str.length - i) for i in [1..str.length]
-  result
-
-
-split = (n, str) ->
-  result = []
-  result.push(str.slice(i, i + n)) for i in [0...str.length] by n
-  result
-
-
-# http://www.biwako.shiga-u.ac.jp/sensei/mnaka/ut/funccalc.html
-loggamma = (x) ->
-  B = [
-    1
-    -1/2
-    1/6
-    0
-    -1/30
-    0
-    1/42
-    0
-    -1/30
-    0
-    5/66
-    0
-    -691/2730
-    0
-    7/6
-    0
-    -3617/510
-    0
-    43867/798
-    0
-    -174611/330    
-  ]
-  N = 10
-
-  v = 1.0
-  y = x
-  while y < N
-    v *= y
-    y++
-
-  tmp = -Math.log(v) + (y - 0.5)*Math.log(y) - y + 0.5*Math.log(2*Math.PI)
-  tmp += B[i] / (i*(i - 1)*Math.pow(y, i - 1)) for i in [2..N] by 2
-  tmp
-
-gamma = (x) ->
-  result = Math.exp loggamma x
-  if Math.floor(x) is x then Math.floor result else result

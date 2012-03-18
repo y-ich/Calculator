@@ -1,4 +1,4 @@
-var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, touchEnd, touchStart;
+var ac2c, activate, angleUnit, c2ac, clearStack, deactivate, display, functions, gamma, invTrig, isPortrait, latestEval, latestUnary, loggamma, memory, parseEval, priority, reverse, split, stack, textBuffer, touchEnd, touchStart, trigonometric;
 
 try {
   document.createEvent('TouchEvent');
@@ -8,6 +8,67 @@ try {
   touchStart = 'mousedown';
   touchEnd = 'mouseup';
 }
+
+isPortrait = function() {
+  return (typeof orientation !== "undefined" && orientation !== null ? orientation : 90) % 180 === 0;
+};
+
+reverse = function(str) {
+  var i, result, _ref;
+  result = '';
+  for (i = 1, _ref = str.length; 1 <= _ref ? i <= _ref : i >= _ref; 1 <= _ref ? i++ : i--) {
+    result += str.charAt(str.length - i);
+  }
+  return result;
+};
+
+split = function(n, str) {
+  var i, result, _ref;
+  result = [];
+  for (i = 0, _ref = str.length; 0 <= _ref ? i < _ref : i > _ref; i += n) {
+    result.push(str.slice(i, i + n));
+  }
+  return result;
+};
+
+loggamma = function(x) {
+  var B, N, i, tmp, v, y;
+  B = [1, -1 / 2, 1 / 6, 0, -1 / 30, 0, 1 / 42, 0, -1 / 30, 0, 5 / 66, 0, -691 / 2730, 0, 7 / 6, 0, -3617 / 510, 0, 43867 / 798, 0, -174611 / 330];
+  N = 10;
+  v = 1.0;
+  y = x;
+  while (y < N) {
+    v *= y;
+    y++;
+  }
+  tmp = -Math.log(v) + (y - 0.5) * Math.log(y) - y + 0.5 * Math.log(2 * Math.PI);
+  for (i = 2; i <= N; i += 2) {
+    tmp += B[i] / (i * (i - 1) * Math.pow(y, i - 1));
+  }
+  return tmp;
+};
+
+gamma = function(x) {
+  var result;
+  result = Math.exp(loggamma(x));
+  if (Math.floor(x) === x) {
+    return Math.floor(result);
+  } else {
+    return result;
+  }
+};
+
+trigonometric = function(fn) {
+  return function(x) {
+    return parseFloat(fn(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1)).toFixed());
+  };
+};
+
+invTrig = function(fn) {
+  return function(x) {
+    return fn(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
+  };
+};
 
 functions = {
   mr: function() {
@@ -48,15 +109,9 @@ functions = {
   log2: function(x) {
     return Math.log(x) / Math.log(2);
   },
-  sin: function(x) {
-    return Math.sin(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
-  },
-  cos: function(x) {
-    return Math.cos(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
-  },
-  tan: function(x) {
-    return Math.tan(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));
-  },
+  sin: trigonometric(Math.sin),
+  cos: trigonometric(Math.cos),
+  tan: trigonometric(Math.tan),
   sinh: function(x) {
     return (Math.exp(x) - Math.exp(-x)) / 2;
   },
@@ -82,15 +137,9 @@ functions = {
   div: function(x, y) {
     return x / y;
   },
-  asin: function(x) {
-    return Math.asin(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
-  },
-  acos: function(x) {
-    return Math.scos(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
-  },
-  atan: function(x) {
-    return Math.stan(x) / (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1);
-  },
+  asin: invTrig(Math.asin),
+  acos: invTrig(Math.acos),
+  atan: invTrig(Math.atan),
   asinh: function(x) {
     return Math.log(x + Math.sqrt(x * x + 1));
   },
@@ -497,54 +546,5 @@ display = {
       $view.css('font-size', parseInt($view.css('font-size')) - 1 + 'px');
     }
     return $view.css('visibility', '');
-  }
-};
-
-isPortrait = function() {
-  return (typeof orientation !== "undefined" && orientation !== null ? orientation : 90) % 180 === 0;
-};
-
-reverse = function(str) {
-  var i, result, _ref;
-  result = '';
-  for (i = 1, _ref = str.length; 1 <= _ref ? i <= _ref : i >= _ref; 1 <= _ref ? i++ : i--) {
-    result += str.charAt(str.length - i);
-  }
-  return result;
-};
-
-split = function(n, str) {
-  var i, result, _ref;
-  result = [];
-  for (i = 0, _ref = str.length; 0 <= _ref ? i < _ref : i > _ref; i += n) {
-    result.push(str.slice(i, i + n));
-  }
-  return result;
-};
-
-loggamma = function(x) {
-  var B, N, i, tmp, v, y;
-  B = [1, -1 / 2, 1 / 6, 0, -1 / 30, 0, 1 / 42, 0, -1 / 30, 0, 5 / 66, 0, -691 / 2730, 0, 7 / 6, 0, -3617 / 510, 0, 43867 / 798, 0, -174611 / 330];
-  N = 10;
-  v = 1.0;
-  y = x;
-  while (y < N) {
-    v *= y;
-    y++;
-  }
-  tmp = -Math.log(v) + (y - 0.5) * Math.log(y) - y + 0.5 * Math.log(2 * Math.PI);
-  for (i = 2; i <= N; i += 2) {
-    tmp += B[i] / (i * (i - 1) * Math.pow(y, i - 1));
-  }
-  return tmp;
-};
-
-gamma = function(x) {
-  var result;
-  result = Math.exp(loggamma(x));
-  if (Math.floor(x) === x) {
-    return Math.floor(result);
-  } else {
-    return result;
   }
 };
