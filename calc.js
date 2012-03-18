@@ -60,7 +60,7 @@ gamma = function(x) {
 
 trigonometric = function(fn) {
   return function(x) {
-    return parseFloat(fn(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1)).toFixed());
+    return parseFloat(fn(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1)).toFixed(15));
   };
 };
 
@@ -284,10 +284,6 @@ parseEval = function(operator, operand1) {
   }
 };
 
-$(document.body).bind('touchmove', function(event) {
-  return event.preventDefault();
-});
-
 $('.key').each(function() {
   var $this;
   $this = $(this);
@@ -454,7 +450,7 @@ $('.key').bind('touchcancel', function() {
   return $(this).removeClass('pushed');
 });
 
-$('window').bind('orientationchange', function() {
+$(window).bind('orientationchange', function() {
   return display.update();
 });
 
@@ -534,14 +530,14 @@ display = {
     }
   },
   update: function(numStr) {
-    var $view, decimalStr, expStr, formatted, fracStr, intStr, tmp, _ref, _ref2;
+    var $view, decimalStr, expStr, exponential, formatted, fracStr, intStr, tmp, _ref, _ref2, _ref3;
     if (numStr != null) {
       this.content = numStr;
     } else {
       numStr = this.content;
     }
     $view = $('#view');
-    formatted = numStr.toString();
+    formatted = this.content.toString();
     if (/[0-9]/.test(formatted)) {
       if (/e/.test(formatted)) {
         _ref = formatted.split('e'), fracStr = _ref[0], expStr = _ref[1];
@@ -551,9 +547,29 @@ display = {
       } else {
         _ref2 = formatted.split('.'), intStr = _ref2[0], decimalStr = _ref2[1];
         if (formatted[0] === '-') intStr = intStr.slice(1);
-        tmp = reverse((split(3, reverse(intStr))).join(','));
-        if (decimalStr != null) tmp += '.' + decimalStr;
-        formatted = (formatted[0] === '-' ? '-' : '') + tmp;
+        if (intStr.length + (decimalStr != null ? decimalStr : '').length <= this.maxDigits()) {
+          tmp = reverse((split(3, reverse(intStr))).join(','));
+          if (decimalStr != null) tmp += '.' + decimalStr;
+          formatted = (formatted[0] === '-' ? '-' : '') + tmp;
+        } else if (parseFloat(formatted) === 0) {
+          tmp = intStr;
+          if (decimalStr != null) {
+            tmp += '.' + decimalStr.slice(0, this.maxDigits() - 1);
+          }
+          formatted = (formatted[0] === '-' ? '-' : '') + tmp;
+        } else {
+          exponential = parseFloat(formatted).toExponential();
+          _ref3 = exponential.split('e'), fracStr = _ref3[0], expStr = _ref3[1];
+          if (fracStr.replace(/[\-\.]/, '').length >= display.maxDigits()) {
+            tmp = intStr;
+            if (decimalStr != null) {
+              tmp += '.' + decimalStr.slice(0, this.maxDigits() - 1);
+            }
+            formatted = (formatted[0] === '-' ? '-' : '') + tmp;
+          } else {
+            formatted = exponential;
+          }
+        }
       }
     }
     $view.css('visibility', 'hidden');

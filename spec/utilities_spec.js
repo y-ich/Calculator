@@ -21,6 +21,9 @@
         return expect(functions.sin(0)).toEqual(0);
       });
       it("should return", function() {
+        return expect(functions.sin(45)).toEqual(0.707106781186547);
+      });
+      it("should return", function() {
         return expect(functions.sin(90)).toEqual(1);
       });
       it("should return", function() {

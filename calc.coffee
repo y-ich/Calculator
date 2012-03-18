@@ -83,7 +83,8 @@ gamma = (x) ->
   if Math.floor(x) is x then Math.floor result else result
 
 trigonometric = (fn) ->
-  (x) -> parseFloat fn(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1).toFixed()
+  (x) -> parseFloat fn(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1).toFixed(15)
+  # rounded in order to sin(90deg) = 0
 
 invTrig = (fn) ->
   (x) -> fn(x) / if angleUnit is 'Deg' then 2*Math.PI/360 else 1
@@ -245,8 +246,8 @@ parseEval = (operator, operand1) ->
 # controller
 
 # prevent page scroll
-$(document.body).bind 'touchmove', (event) ->
-  event.preventDefault()
+# $(document.body).bind 'touchmove', (event) ->
+#   event.preventDefault()
 
 $('.key').each ->
   $this = $(this)
@@ -403,7 +404,7 @@ $('.key').bind 'touchcancel', ->
   $(this).removeClass 'pushed'
 
 
-$('window').bind 'orientationchange', ->
+$(window).bind 'orientationchange', ->
   display.update()
 
 
@@ -470,8 +471,9 @@ display =
       numStr = @content
 
     $view = $('#view')
-    formatted = numStr.toString() # if typeof numStr is 'number'
-    if /[0-9]/.test formatted # a number not a error
+    formatted = @content.toString() # if typeof numStr is 'number'
+
+    if /[0-9]/.test formatted # if a number, not a error
       if /e/.test formatted # scientific
         [fracStr, expStr] = formatted.split('e')
         if fracStr.replace('.', '').length > display.maxSignificants()
@@ -479,9 +481,24 @@ display =
       else
         [intStr, decimalStr] = formatted.split('.')
         intStr = intStr.slice(1) if formatted[0] == '-'
-        tmp = reverse (split 3, reverse intStr).join(',')
-        tmp += '.' + decimalStr if decimalStr?
-        formatted = (if formatted[0] == '-' then '-' else '') + tmp 
+
+        if intStr.length + (decimalStr ? '').length <= @maxDigits()
+          tmp = reverse (split 3, reverse intStr).join(',')
+          tmp += '.' + decimalStr if decimalStr?
+          formatted = (if formatted[0] == '-' then '-' else '') + tmp 
+        else if parseFloat(formatted) is 0
+          tmp = intStr # intStr must be '0'.
+          tmp += '.' + decimalStr.slice(0, @maxDigits() - 1) if decimalStr?
+          formatted = (if formatted[0] == '-' then '-' else '') + tmp 
+        else
+          exponential = parseFloat(formatted).toExponential()
+          [fracStr, expStr] = exponential.split('e')
+          if fracStr.replace(/[\-\.]/, '').length >= display.maxDigits()
+            tmp = intStr
+            tmp += '.' + decimalStr.slice(0, @maxDigits() - 1) if decimalStr?
+            formatted = (if formatted[0] == '-' then '-' else '') + tmp 
+          else
+            formatted = exponential
 
     $view.css 'visibility', 'hidden'
     $view.text formatted
