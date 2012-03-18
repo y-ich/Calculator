@@ -4,7 +4,7 @@ try {
   document.createEvent('TouchEvent');
   touchStart = 'touchstart';
   touchEnd = 'touchend';
-} catch (error　) {
+} catch (error) {
   touchStart = 'mousedown';
   touchEnd = 'mouseup';
 }

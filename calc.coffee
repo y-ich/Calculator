@@ -17,7 +17,7 @@ try
   # no exception means touch device
   touchStart = 'touchstart'
   touchEnd = 'touchend'
-catch error　# non-touch device
+catch error # non-touch device
   touchStart = 'mousedown'
   touchEnd = 'mouseup'
 
