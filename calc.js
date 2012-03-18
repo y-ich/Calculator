@@ -17,36 +17,36 @@ functions = {
     return Math.PI;
   },
   random: Math.random,
-  percent2number: function(n) {
-    return n / 100;
+  percent2number: function(x) {
+    return x / 100;
   },
-  inverse: function(n) {
-    return 1 / n;
+  inverse: function(x) {
+    return 1 / x;
   },
-  square: function(n) {
-    return Math.pow(n, 2);
+  square: function(x) {
+    return Math.pow(x, 2);
   },
-  cube: function(n) {
-    return Math.pow(n, 3);
+  cube: function(x) {
+    return Math.pow(x, 3);
   },
   power: Math.pow,
-  factorial: function(n) {
-    return gamma(n + 1);
+  factorial: function(x) {
+    return gamma(x + 1);
   },
-  root: function(n) {
-    return Math.pow(n, 0.5);
+  root: function(x) {
+    return Math.pow(x, 0.5);
   },
   xthroot: function(x, y) {
     return Math.pow(x, 1 / y);
   },
-  log: function(n) {
-    return Math.log(n);
+  log: function(x) {
+    return Math.log(x);
   },
-  log10: function(n) {
-    return Math.log(n) / Math.log(10);
+  log10: function(x) {
+    return Math.log(x) / Math.log(10);
   },
-  log2: function(n) {
-    return Math.log(n) / Math.log(2);
+  log2: function(x) {
+    return Math.log(x) / Math.log(2);
   },
   sin: function(x) {
     return Math.sin(x * (angleUnit === 'Deg' ? 2 * Math.PI / 360 : 1));

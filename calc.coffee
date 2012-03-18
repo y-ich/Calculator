@@ -3,16 +3,18 @@
 # Copyright (C) 2012 ICHIKAWA, Yuji
 
 # 
-# abstract
+# structure
 #
 
-# textBuffer -+
-# latestEval -+-> display -> operand1(binary) -> latestEval
-#                    ||
-#                 unary
+# number -> textBuffer -+
+#           latestEval -+-> display -> operand1(binary) -> latestEval
+#                             ||
+#                           unary
 
+# events for devices
 try
   document.createEvent 'TouchEvent'
+  # no exception means touch device
   touchStart = 'touchstart'
   touchEnd = 'touchend'
 catch error　# non-touch device
@@ -20,23 +22,23 @@ catch error　# non-touch device
   touchEnd = 'mouseup'
 
 
-# functions
+# calculator functions
 
 functions = 
   mr : -> memory
   pi : -> Math.PI
   random : Math.random
-  percent2number : (n) -> n / 100
-  inverse : (n) -> 1 / n
-  square : (n) -> Math.pow(n, 2)
-  cube : (n) -> Math.pow(n, 3)
+  percent2number : (x) -> x/100
+  inverse : (x) -> 1/x
+  square : (x) -> Math.pow(x, 2)
+  cube : (x) -> Math.pow(x, 3)
   power : Math.pow
-  factorial : (n) -> gamma(n + 1)
-  root : (n) -> Math.pow(n, 0.5)
+  factorial : (x) -> gamma(x + 1)
+  root : (x) -> Math.pow(x, 0.5)
   xthroot : (x, y) -> Math.pow(x, 1/y)
-  log : (n) -> Math.log(n)
-  log10 : (n) -> Math.log(n)/Math.log(10)
-  log2 : (n) -> Math.log(n)/Math.log(2)
+  log : (x) -> Math.log(x)
+  log10 : (x) -> Math.log(x)/Math.log(10)
+  log2 : (x) -> Math.log(x)/Math.log(2)
   sin : (x) -> Math.sin(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
   cos : (x) -> Math.cos(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
   tan : (x) -> Math.tan(x * if angleUnit is 'Deg' then 2*Math.PI/360 else 1)
