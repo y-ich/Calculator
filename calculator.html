@@ -1,13 +1,42 @@
 <!DOCTYPE html>
-
-<html>
+<html manifest="calculator.manifest">
 <head>
   <title>Calculator</title>
   <meta name="viewport" content="width=device-width minimum-scale=1 maximum-scale=1 user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="calc.css" type="text/css">
   <link rel="apple-touch-icon-precomposed" href="images/icon.png">
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <link rel="icon" href="images/favicon.ico" />
+  <!-- 320x460 for iPhone -->
+  <link rel="apple-touch-startup-image" media="max-device-width: 480px" href="images/startup-iphone.png" />
+  <!-- iPad Portrait 768x1004 -->
+  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: portrait)" href="images/startup-portrait.png" />
+  <!-- iPad Landscape 1024x748 -->
+  <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: landscape)" href="images/startup-landscape.png" />
+  <link rel="stylesheet" href="lib/add2home.css">  <link rel="stylesheet" href="calculator.css" type="text/css">
   <script src="lib/jq.mobi.min.js"></script>
+  <script type="text/javascript">
+var addToHomeConfig = {
+  animationIn: 'drop',
+  animationOut: 'bubble',
+  lifespan:3000,
+  touchIcon:true
+};
+  </script>
+  <script type="application/javascript" src="lib/add2home.js"></script>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-510249-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
 </head>
 <body>
   <div id="wrapper" class="clearfix">
@@ -91,6 +120,6 @@
       </tbody>
     </table>
   </div>
-<script src="calc.js"></script>
+<script src="calculator.min.js"></script>
 </body>
 </html>

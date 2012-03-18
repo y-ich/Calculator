@@ -1,6 +1,8 @@
+###
 # Calculator: Calculator clone for iPad by HTML5
 # author: ICHIKAWA, Yuji
 # Copyright (C) 2012 ICHIKAWA, Yuji
+###
 
 # 
 # structure
@@ -21,6 +23,20 @@ catch error # non-touch device
   touchStart = 'mousedown'
   touchEnd = 'mouseup'
 
+
+# key sound
+# tunes perfomance by keep pausing during no sound.
+keySound =
+  source : new Audio 'sounds/click.aiff'
+  play : ->
+    @source.play()
+    keySound.timer = setTimeout(
+      ->
+        keySound.source.pause()
+        try
+          keySound.source.currentTime = 0
+        catch e
+      , 30)
 
 #
 # utilities
@@ -394,7 +410,8 @@ $('#second').bind touchEnd, ->
 
 $('.key').bind touchStart, ->
   $(this).addClass 'pushed'
-
+  keySound.play()
+  
 
 $('.key:not(#second)').bind touchEnd, ->
   $(this).removeClass 'pushed'
