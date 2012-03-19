@@ -528,3 +528,30 @@ display =
     until $view[0].offsetWidth <= display.width()
       $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
     $view.css 'visibility', ''
+
+
+#
+# Application cache dispatches
+#
+applicationCache.addEventListener 'checking', ->
+  console.log 'Checking update...'
+
+applicationCache.addEventListener 'noupdate', ->
+  console.log 'No update.'
+
+applicationCache.addEventListener 'downloading', ->
+  console.log 'Downloading newer version...'
+
+applicationCache.addEventListener 'progress', ->
+  console.log '.'
+
+applicationCache.addEventListener 'cached', ->
+  console.log 'Cached.'
+
+applicationCache.addEventListener 'updateready', ->
+  console.log 'Updateready.'
+
+# applicationCache.addEventListener 'obsolete', ->
+
+applicationCache.addEventListener 'error', ->
+  console.log 'applicationCache error'
