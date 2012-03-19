@@ -1,0 +1,22 @@
+CACHE MANIFEST
+# version 0.1.0
+# build 6
+
+CACHE:
+calculator.html
+calculator.css
+calculator.min.js
+images/icon.png
+images/favicon.ico
+images/startup-iphone.png
+images/startup-portrait.png
+images/startup-landscape.png
+images/noise_01.jpg
+lib/add2home.css
+lib/add2home.js
+lib/jq.mobi.min.js
+http://www.google-analytics.com/ga.js
+
+NETWORK:
+sounds/click.aiff
+http://www.google-analytics.com/
