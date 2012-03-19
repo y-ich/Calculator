@@ -267,8 +267,8 @@ parseEval = (operator, operand1) ->
 # controller
 
 # prevent page scroll
-# $(document.body).bind 'touchmove', (event) ->
-#   event.preventDefault()
+$(document.body).bind 'touchmove', (event) ->
+  event.preventDefault()
 
 $('.key').each ->
   $this = $(this)
