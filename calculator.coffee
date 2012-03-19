@@ -28,15 +28,20 @@ catch error # non-touch device
 # tunes perfomance by keep pausing during no sound.
 keySound =
   source : new Audio 'sounds/click.aiff'
-  play : ->
+  timer : null
+  play : -> setTimeout (-> keySound.aux()), 0
+  aux : ->
+    clearTimeout @timer
     @source.play()
-    keySound.timer = setTimeout(
-      ->
-        keySound.source.pause()
-        try
-          keySound.source.currentTime = 0
-        catch e
-      , 30)
+    @source.pause()
+    if @source.readyState > 1
+      try
+        @source.currentTime = 1
+        @source.play()
+        @timer = setTimeout (=> @source.pause()), 300 # you need more than 300ms
+      catch e
+        console.log e.message
+window.keySound = keySound
 
 #
 # utilities
