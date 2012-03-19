@@ -39,6 +39,10 @@ sub {
   -webkit-border-vertical-spacing: 0;
 }
 
+table {
+  border-spacing: 0; /* firefox's default is 2px.
+}
+
 /*
 html, body {
   width: 100%;
