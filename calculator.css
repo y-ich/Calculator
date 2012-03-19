@@ -40,7 +40,7 @@ sub {
 }
 
 table {
-  border-spacing: 0; /* firefox's default is 2px.
+  border-spacing: 0; /* firefox's default is 2px. */
 }
 
 /*
