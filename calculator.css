@@ -61,6 +61,8 @@ html, body {
 
 body {
   background-color: black; /* in order to paint out right edge white. */
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 #wrapper {
@@ -76,7 +78,7 @@ body {
   border-bottom: solid 1px #787878;
   position: relative; /* in order to make height effective to children */
   font-family: sans-serif;
-  text-align: right;  
+  text-align: right;
 }
 
 /* http://blog.graphicpeel.com/post/740928981/ios-icons-made-in-pure-css */
@@ -91,6 +93,11 @@ body {
 #display .gloss {
   height: 50%;
   width: 100%;
+}
+
+#view {
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
 }
 
 #functions {
@@ -188,7 +195,7 @@ body {
 
   #view {
     font-size: 50px;
-    line-height: 58px;    
+    line-height: 58px;
   }
 
   #angle {
