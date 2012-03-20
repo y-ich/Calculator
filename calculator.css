@@ -1,4 +1,10 @@
 /*
+ * Calculator: Calculator clone for iPad by HTML5
+ * author: ICHIKAWA, Yuji
+ * Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
+ */
+
+/*
  * generic
  */
 
@@ -73,6 +79,7 @@ body {
   text-align: right;  
 }
 
+/* http://blog.graphicpeel.com/post/740928981/ios-icons-made-in-pure-css */
 .gloss {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
   background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));

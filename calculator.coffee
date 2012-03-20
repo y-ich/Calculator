@@ -1,7 +1,7 @@
 ###
 # Calculator: Calculator clone for iPad by HTML5
 # author: ICHIKAWA, Yuji
-# Copyright (C) 2012 ICHIKAWA, Yuji
+# Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
 ###
 
 # 
