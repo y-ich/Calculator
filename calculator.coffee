@@ -455,7 +455,7 @@ display =
   bywhom : null
 
   width : ->
-    if innerWidth <= 320
+    if innerWidth <= 480
       if isPortrait()
         280
       else
@@ -467,7 +467,7 @@ display =
         875
 
   fontSize : ->
-    if innerWidth <= 320
+    if innerWidth <= 480
       if isPortrait()
         '78px'
       else
