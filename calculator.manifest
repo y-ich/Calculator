@@ -1,6 +1,6 @@
 CACHE MANIFEST
-# version 0.1.1
-# build 27
+# version 0.2.0
+# build 1
 
 CACHE:
 calculator.html
@@ -16,6 +16,11 @@ lib/add2home.css
 lib/add2home.js
 lib/jq.mobi.min.js
 http://www.google-analytics.com/ga.js
+http://y-ich.github.com/safari-park/lib/backstage-button.js
+http://y-ich.github.com/safari-park/lib/backstage.css
+http://y-ich.github.com/safari-park/lib/backstage.js
+http://y-ich.github.com/safari-park/lib/codemirror.css
+http://y-ich.github.com/safari-park/lib/codemirror.min.js
 
 NETWORK:
 sounds/click.aiff
