@@ -1,0 +1,40 @@
+/*
+ * for debug
+ */
+
+/*
+
+body {
+  width: 480px;
+  background-image: url("images/IMG_1189.png");
+  padding-top: 20px;
+}
+
+body {
+  width: 320px;
+  background-image: url("images/calculator.png");
+  padding-top: 20px;  
+}
+
+body {
+  width: 1024px;
+  background-image: url("images/iPad landscape.png");
+  padding-top: 43px;
+}
+*/
+
+body {
+  background-color: white;
+  background-repeat: no-repeat;
+}
+
+#wrapper {
+  left: -496;
+  opacity: 0.5;  
+}
+
+body {
+  width: 768px;
+  background-image: url("images/iPad portrait.png");
+  padding-top: 48px;
+}

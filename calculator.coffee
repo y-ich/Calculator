@@ -1,9 +1,3 @@
-###
-# Calculator: Calculator clone for iPad by HTML5
-# author: ICHIKAWA, Yuji
-# Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
-###
-
 # 
 # structure
 #
@@ -25,23 +19,26 @@ catch error # non-touch device
 
 
 # key sound
-# tunes perfomance by keep pausing during no sound.
+# tuned perfomance by keep pausing during no sound.
 keySound =
   source : new Audio 'sounds/click.aiff'
-  timer : null
-  play : -> setTimeout (-> keySound.aux()), 0
+  firstTime : true
+  play : ->
+    # At the first click, play sound to start load sound on iOS. Real sound is after 1sec.
+    @source.play() 
+    @timer = setTimeout (=> @source.pause()), 1300
+    # change to function to play sound instantly.
+    @play = -> setTimeout (-> keySound.aux()), 0
   aux : ->
     clearTimeout @timer
-    @source.play()
-    @source.pause()
-    if @source.readyState > 1
-      try
-        @source.currentTime = 1
-        @source.play()
-        @timer = setTimeout (=> @source.pause()), 300 # you need more than 300ms
-      catch e
-        console.log e.message
-window.keySound = keySound
+    try # exception for setting currentTime.
+      if @source.readyState >= @source.HAVE_METADATA
+          @source.currentTime = 1
+      if @source.readyState >= @source.HAVE_FUTURE_DATA
+          @source.play()
+          @timer = setTimeout (=> @source.pause()), 300 # you need more than 300ms
+    catch e
+      console.log e.message
 
 #
 # utilities
@@ -409,6 +406,10 @@ $('#second').bind touchEnd, ->
           $this.data 'role', fnname.slice(1) # remove 'a' at head
           $this.html $this.html().replace('<sup>-1</sup>', '')
 
+
+$('#backstage').bind 'touchEnd', ->
+  $(document.body).append($('<script src="http://localhost/~yuji/safari-park/console.js">'))
+
 #
 # view
 #
@@ -555,3 +556,9 @@ applicationCache.addEventListener 'updateready', ->
 
 applicationCache.addEventListener 'error', ->
   console.log 'applicationCache error'
+
+###
+# Calculator: Calculator clone for iPad by HTML5
+# author: ICHIKAWA, Yuji
+# Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
+###

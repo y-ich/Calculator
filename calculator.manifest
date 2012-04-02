@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # version 0.1.1
-# build 18
+# build 27
 
 CACHE:
 calculator.html
@@ -20,3 +20,4 @@ http://www.google-analytics.com/ga.js
 NETWORK:
 sounds/click.aiff
 http://www.google-analytics.com/
+*

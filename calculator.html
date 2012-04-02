@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!-- 
-   - Calculator: Calculator clone for iPad by HTML5
-   - author: ICHIKAWA, Yuji
-   - Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
-  -->
 <html manifest="calculator.manifest">
 <head>
   <title>Calculator</title>
@@ -13,23 +8,23 @@
   <link rel="apple-touch-icon-precomposed" href="images/icon.png">
   <link rel="shortcut icon" href="images/favicon.ico" />
   <link rel="icon" href="images/favicon.ico" />
-  <!-- 320x460 for iPhone -->
   <link rel="apple-touch-startup-image" media="(max-device-width: 480px)" href="images/startup-iphone.png" />
-  <!-- iPad Portrait 768x1004 -->
   <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: portrait)" href="images/startup-portrait.png" />
-  <!-- iPad Landscape 1024x748 -->
   <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: landscape)" href="images/startup-landscape.png" />
   <link rel="stylesheet" href="lib/add2home.css">  <link rel="stylesheet" href="calculator.css" type="text/css">
+
   <script src="lib/jq.mobi.min.js"></script>
+
   <script type="text/javascript">
-var addToHomeConfig = {
-  animationIn: 'drop',
-  animationOut: 'bubble',
-  lifespan:3000,
-  touchIcon:true
-};
+    var addToHomeConfig = {
+      animationIn: 'drop',
+      animationOut: 'bubble',
+      lifespan:3000,
+      touchIcon:true
+    };
   </script>
   <script type="application/javascript" src="lib/add2home.js"></script>
+
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -45,9 +40,12 @@ var addToHomeConfig = {
   </script>
 </head>
 <body>
-  <div id="wrapper" class="clearfix">
-    <div id="display" class="gloss"><div class="gloss"></div><span id="view">0</span><div id="angle">Deg</div></div>
-      <table id="keypad">
+  <div id="wrapper">
+    <div id="display" class="gloss">
+      <div class="gloss"></div><span id="view">0</span>
+      <div id="angle">Deg</div>
+    </div>
+    <table id="keypad">
       <tbody>
         <tr>
           <td><div id="mc" class="key function"><div class="gloss"></div>mc</div></td>
@@ -126,6 +124,18 @@ var addToHomeConfig = {
       </tbody>
     </table>
   </div>
-<script src="calculator.min.js"></script>
+  <script src="calculator.min.js" data-source="calculator.coffee"></script>
+  <script type="text/javascript">
+  var backstageConfig = {
+    left : '10px',
+    top : '5px'
+  };
+  </script>
+  <script src="http://192.168.1.8/~yuji/safari-park/lib/backstage-button.js"></script>
 </body>
 </html>
+<!-- 
+   - Calculator: Calculator clone for iPad by HTML5
+   - author: ICHIKAWA, Yuji
+   - Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
+  -->

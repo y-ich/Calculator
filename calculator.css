@@ -1,10 +1,4 @@
 /*
- * Calculator: Calculator clone for iPad by HTML5
- * author: ICHIKAWA, Yuji
- * Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
- */
-
-/*
  * generic
  */
 
@@ -60,7 +54,7 @@ html, body {
 */
 
 body {
-  background-color: black; /* in order to paint out right edge white. */
+/*  background-color: black; /* in order to paint out right edge white. */
   -webkit-user-select: none;
   -moz-user-select: none;
 }
@@ -179,9 +173,8 @@ body {
   background-color: #e46e0b;
 }
 
-
 /* @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
-/* default */
+/* Because I set landscape of iphone by default, I commented out the above line. */
   #wrapper {
     width: 480px;
     padding-bottom: 0;
@@ -245,7 +238,7 @@ body {
 /* } */
 
 
-@media (max-device-width: 320px) and (orientation: portrait) { /* 320 * 460 for iPhone */
+@media (max-device-width: 480px) and (orientation: portrait) { /* 320 * 460 for iPhone */
   #wrapper {
     width: 736px;
     padding-bottom: 1px;
@@ -456,43 +449,7 @@ body {
 }
 
 /*
- * debug
+ * Calculator: Calculator clone for iPad by HTML5
+ * author: ICHIKAWA, Yuji
+ * Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
  */
-
-/*
-
-body {
-  width: 480px;
-  background-image: url("images/IMG_1189.png");
-  padding-top: 20px;
-}
-
-body {
-  width: 320px;
-  background-image: url("images/calculator.png");
-  padding-top: 20px;  
-}
-
-body {
-  width: 1024px;
-  background-image: url("images/iPad landscape.png");
-  padding-top: 43px;
-}
-
-body {
-  background-color: white;
-  background-repeat: no-repeat;
-}
-
-#wrapper {
-  left: -496;
-  opacity: 0.5;  
-}
-
-body {
-  width: 768px;
-  background-image: url("images/iPad portrait.png");
-  padding-top: 48px;
-}
-*/
-
