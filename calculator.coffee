@@ -21,24 +21,21 @@ catch error # non-touch device
 # key sound
 # tuned perfomance by keep pausing during no sound.
 keySound =
-  source : new Audio 'sounds/click.aiff'
-  firstTime : true
-  play : ->
-    # At the first click, play sound to start load sound on iOS. Real sound is after 1sec.
-    @source.play() 
-    @timer = setTimeout (=> @source.pause()), 1300
-    # change to function to play sound instantly.
-    @play = -> setTimeout (-> keySound.aux()), 0
-  aux : ->
-    clearTimeout @timer
-    try # exception for setting currentTime.
-      if @source.readyState >= @source.HAVE_METADATA
-          @source.currentTime = 1
-      if @source.readyState >= @source.HAVE_FUTURE_DATA
-          @source.play()
-          @timer = setTimeout (=> @source.pause()), 300 # you need more than 300ms
-    catch e
-      console.log e.message
+  context: new webkitAudioContext()
+  data: null
+  play: ->
+    return unless keySound.data?
+    source = keySound.context.createBufferSource();
+    source.buffer = keySound.context.createBuffer keySound.data, false
+    source.connect keySound.context.destination
+    source.noteOn 0		
+
+(->
+	request = new XMLHttpRequest();
+	request.open 'GET', 'sounds/click.aiff'
+	request.responseType = 'arraybuffer'
+	request.addEventListener 'load', ((event) -> keySound.data = event.target.response), false
+	request.send())()
 
 #
 # utilities
