@@ -1,3 +1,8 @@
+<!-- 
+   - Calculator: Calculator clone for iPad by HTML5
+   - author: ICHIKAWA, Yuji
+   - Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
+  -->
 <!DOCTYPE html>
 <html manifest="calculator.manifest">
 <head>
@@ -11,33 +16,8 @@
   <link rel="apple-touch-startup-image" media="(max-device-width: 480px)" href="images/startup-iphone.png" />
   <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: portrait)" href="images/startup-portrait.png" />
   <link rel="apple-touch-startup-image" media="(min-device-width: 768px) and (orientation: landscape)" href="images/startup-landscape.png" />
-  <link rel="stylesheet" href="lib/add2home.css">  <link rel="stylesheet" href="calculator.css" type="text/css">
-
-  <script src="lib/jq.mobi.min.js"></script>
-
-  <script type="text/javascript">
-    var addToHomeConfig = {
-      animationIn: 'drop',
-      animationOut: 'bubble',
-      lifespan:3000,
-      touchIcon:true
-    };
-  </script>
-  <script type="application/javascript" src="lib/add2home.js"></script>
-
-  <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-510249-13']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-  </script>
+  <link rel="stylesheet" href="lib/add2home.css">
+  <link rel="stylesheet" href="calculator.css" type="text/css">
 </head>
 <body>
   <div id="wrapper">
@@ -124,18 +104,29 @@
       </tbody>
     </table>
   </div>
-  <script src="calculator.min.js" data-source="calculator.coffee"></script>
+  <script src="lib/jq.mobi.min.js"></script>
+  <script src="calculator.min.js"></script>
   <script type="text/javascript">
-  var backstageConfig = {
-    left : '10px',
-    top : '5px'
-  };
+    var addToHomeConfig = {
+      animationIn: 'drop',
+      animationOut: 'bubble',
+      lifespan:3000,
+      touchIcon:true
+    };
   </script>
-  <script src="http://y-ich.github.com/safari-park/lib/backstage-button.js"></script>
+  <script type="application/javascript" src="lib/add2home.js"></script>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-510249-13']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
 </body>
 </html>
-<!-- 
-   - Calculator: Calculator clone for iPad by HTML5
-   - author: ICHIKAWA, Yuji
-   - Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
-  -->

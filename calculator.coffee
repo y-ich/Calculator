@@ -1,3 +1,9 @@
+###
+# Calculator: Calculator clone for iPad by HTML5
+# author: ICHIKAWA, Yuji
+# Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
+###
+
 # 
 # structure
 #
@@ -19,7 +25,6 @@ catch error # non-touch device
 
 
 # key sound
-# tuned perfomance by keep pausing during no sound.
 keySound =
   context: new webkitAudioContext()
   data: null
@@ -30,6 +35,7 @@ keySound =
     source.connect keySound.context.destination
     source.noteOn 0		
 
+# initialize key sound data.
 (->
 	request = new XMLHttpRequest();
 	request.open 'GET', 'sounds/click.aiff'
@@ -403,10 +409,6 @@ $('#second').bind touchEnd, ->
           $this.data 'role', fnname.slice(1) # remove 'a' at head
           $this.html $this.html().replace('<sup>-1</sup>', '')
 
-
-$('#backstage').bind 'touchEnd', ->
-  $(document.body).append($('<script src="http://localhost/~yuji/safari-park/console.js">'))
-
 #
 # view
 #
@@ -553,9 +555,3 @@ applicationCache.addEventListener 'updateready', ->
 
 applicationCache.addEventListener 'error', ->
   console.log 'applicationCache error'
-
-###
-# Calculator: Calculator clone for iPad by HTML5
-# author: ICHIKAWA, Yuji
-# Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
-###
