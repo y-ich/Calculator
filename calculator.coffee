@@ -27,21 +27,26 @@ catch error # non-touch device
 # key sound
 keySound =
   context: new webkitAudioContext()
-  data: null
+  data: Base64Binary.decodeArrayBuffer """
+        Rk9STQAAAi5BSUZGQ09NTQAAABIAAQAAAQAAEEAOrEQAAAAAAABTU05EAAACCAAA
+        AAAAAAAAAAAAAAAA//8AAv/9AAX/+gAFAXz/Kv7I/pj+4ANhBbQIWwbqAPX5ne/l
+        6Zjo9PCM+xwJHRa+HmMh6BtHDR32Wd6MzinKZNgA8XUNIiawNzc6XC0UEW3xGtN+
+        wBi978pp6MAPqTWXTZhTBD7KFgLnkLq9pcWoksX+9YQs+FqfbaBkXDxaA6bODqfV
+        nrq0w+CbGOxLuWuoZ+9COgHmwuGT5YExkaO85PZ1MddbL2oQXr46SQcG2Ka4mLNZ
+        wkHhKwmnMRtKlE9hPP4YX+3RyBCu2atkvpbepgPYKohD9EvIQl8kzgKK4dXI+8Ls
+        zrPsCg9hKbE6ADicKQUMlOinyZK137iCy7XsbRH7MOtCWUXkOe4h6Ag+7b7bt9Sk
+        1mHjDPWbCFQWaRnZF28OtgOP9lvqiOQu5ajwFv8ODC4XnxuLGWUTOQoA/6f49Pak
+        96j6Afpg+Vv5Pvm7+nf4U/z/BJgRDRu+HYMW9wiE+AzpOOEX4bnrM/obDCsdtyYK
+        IYwRPvuB51neRtuk4tvxlAQ1Fn4kLCbJHpAQSv+M8sbpnOb86kL1OgKIDm0VFRVH
+        EVULiAXn/4b44/Qv9K75JP8sA+0HHwaSCXQLKQesAcv//AAF//wAAgAA//0ABP/9
+        AAP//QAC//8AAAAC//wABf/7AAT//QAC//8AAf/9AAX/+QAH//s=
+        """
   play: ->
     return unless keySound.data?
-    source = keySound.context.createBufferSource();
+    source = keySound.context.createBufferSource()
     source.buffer = keySound.context.createBuffer keySound.data, false
     source.connect keySound.context.destination
-    source.noteOn 0		
-
-# initialize key sound data.
-(->
-	request = new XMLHttpRequest();
-	request.open 'GET', 'sounds/click.aiff'
-	request.responseType = 'arraybuffer'
-	request.addEventListener 'load', ((event) -> keySound.data = event.target.response), false
-	request.send())()
+    source.noteOn 0
 
 #
 # utilities
