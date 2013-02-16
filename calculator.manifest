@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # version 0.3.0
-# build 4
+# build 13
 
 CACHE:
 calculator.html
@@ -14,13 +14,8 @@ images/startup-landscape.png
 images/noise_01.jpg
 lib/add2home.css
 lib/add2home.js
-lib/jq.mobi.min.js
+http://cdn.jqmobi.com/1.2/jq.mobi.min.js
 http://www.google-analytics.com/ga.js
-http://y-ich.github.com/safari-park/lib/backstage-button.js
-http://y-ich.github.com/safari-park/lib/backstage.css
-http://y-ich.github.com/safari-park/lib/backstage.js
-http://y-ich.github.com/safari-park/lib/codemirror.css
-http://y-ich.github.com/safari-park/lib/codemirror.min.js
 
 NETWORK:
 sounds/click.aiff
