@@ -270,6 +270,22 @@ parseEval = (operator, operand1) ->
             else
                 stack.push(operand1, operator)
 
+CALCULATOR_STATUS = 'calculator-status'
+saveStatus = ->
+    localStorage[CALCULATOR_STATUS] = JSON.stringify
+        angleUnit: angleUnit
+
+restoreStatus = ->
+    if localStorage[CALCULATOR_STATUS]?
+        status = JSON.parse localStorage[CALCULATOR_STATUS]
+        angleUnit = status.angleUnit if status.angleUnit?
+        $angleKey = $('#angle_key')
+        if angleUnit is 'Rad'
+            $angleKey.html $angleKey.html().replace('Rad', 'Deg')
+        else
+            $angleKey.html $angleKey.html().replace('Deg', 'Rad')
+        $('#angle').text(angleUnit)
+
 
 # controller
 
@@ -379,7 +395,7 @@ $('#angle_key').bind touchEnd, ->
         angleUnit = 'Deg'
         $this.html $this.html().replace('Deg', 'Rad')
     $('#angle').text(angleUnit)
-
+    saveStatus()
 
 $('#second').bind touchEnd, ->
     if $(this).data('status') is 'off'
@@ -562,3 +578,6 @@ applicationCache.addEventListener 'updateready', ->
 
 applicationCache.addEventListener 'error', ->
     console.log 'applicationCache error'
+
+# initialize
+restoreStatus()
