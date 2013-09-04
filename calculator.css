@@ -367,7 +367,7 @@ body {
   }
 }
 
-@media (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
+@media (min-width: 768px) and (min-device-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
   /* 2.13 times */
   #wrapper {
     width: 1024px;
