@@ -89,10 +89,7 @@ isPortrait = -> (orientation ? 90) % 180 == 0
 reverse = (str) -> str.split('').reverse().join('')
 
 
-split = (n, str) ->
-    result = []
-    result.push(str.slice(i, i + n)) for i in [0...str.length] by n
-    result
+split = (n, str) -> str.slice i, i + n for i in [0...str.length] by n
 
 
 # http://www.biwako.shiga-u.ac.jp/sensei/mnaka/ut/funccalc.html
