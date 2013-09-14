@@ -50,6 +50,8 @@ body {
 
   -webkit-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #wrapper {
   position: absolute;
@@ -60,8 +62,13 @@ body {
 
 }
 #display {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#c1c799), to(#e9ebda));
-  background: -moz-linear-gradient(top, #c1c799, #e9ebda);
+  background-color: #c1c799;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c1c799), color-stop(100% #e9ebda));
+  background-image: -webkit-linear-gradient(top, #c1c799 0%, #e9ebda 100%);
+  background-image: -moz-linear-gradient(top, #c1c799 0%, #e9ebda 100%);
+  background-image: -ms-linear-gradient(top, #c1c799 0%, #e9ebda 100%);
+  background-image: -o-linear-gradient(top, #c1c799 0%, #e9ebda 100%);
+  background-image: linear-gradient(top, #c1c799 0%, #e9ebda 100%);
   border-bottom: solid 1px #787878;
   position: relative;
   /* in order to make height effective to children */
@@ -71,9 +78,15 @@ body {
 }
 /* http://blog.graphicpeel.com/post/740928981/ios-icons-made-in-pure-css */
 .gloss {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
-  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
+  background-color: rgba(255, 255, 255, 0);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.7)), color-stop(100% rgba(255, 255, 255, 0.2)));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: linear-gradient(top, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 100%);
   -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
+  -moz-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
   box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
   position: absolute;
   /* in order to place text of parent right */
@@ -86,6 +99,8 @@ body {
 #view {
   -webkit-user-select: auto;
   -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 }
 #functions {
   float: right;
@@ -100,19 +115,28 @@ body {
   border: solid 1px black;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
   -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   position: relative;
 }
 .key .gloss {
   width: 100%;
   -webkit-border-top-right-radius: 6px;
-  -webkit-border-top-left-radius: 6px;
-  -webkit-border-bottom-right-radius: 50% 6px;
-  -webkit-border-bottom-left-radius: 50% 6px;
+  -moz-border-top-right-radius: 6px;
   border-top-right-radius: 6px;
+  -webkit-border-top-left-radius: 6px;
+  -moz-border-top-left-radius: 6px;
   border-top-left-radius: 6px;
+  -webkit-border-bottom-right-radius: 50% 6px;
+  -moz-border-bottom-right-radius: 50% 6px;
   border-bottom-right-radius: 50% 6px;
+  -webkit-border-bottom-left-radius: 50% 6px;
+  -moz-border-bottom-left-radius: 50% 6px;
   border-bottom-left-radius: 50% 6px;
 }
 .key.pushed .gloss {
@@ -124,22 +148,37 @@ body {
 }
 .key.number.pushed,
 #period.pushed {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000000), to(#808080));
-  background: -moz-linear-gradient(top, #000000, #808080);
+  background-color: #000000;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100% #808080));
+  background-image: -webkit-linear-gradient(top, #000000 0%, #808080 100%);
+  background-image: -moz-linear-gradient(top, #000000 0%, #808080 100%);
+  background-image: -ms-linear-gradient(top, #000000 0%, #808080 100%);
+  background-image: -o-linear-gradient(top, #000000 0%, #808080 100%);
+  background-image: linear-gradient(top, #000000 0%, #808080 100%);
 }
 .key.function {
   background-color: #4f5559;
 }
 .key.function.pushed {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f5559), to(#a8abad));
-  background: -moz-linear-gradient(top, #4f5559, #a8abad);
+  background-color: #4f5559;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4f5559), color-stop(100% #a8abad));
+  background-image: -webkit-linear-gradient(top, #4f5559 0%, #a8abad 100%);
+  background-image: -moz-linear-gradient(top, #4f5559 0%, #a8abad 100%);
+  background-image: -ms-linear-gradient(top, #4f5559 0%, #a8abad 100%);
+  background-image: -o-linear-gradient(top, #4f5559 0%, #a8abad 100%);
+  background-image: linear-gradient(top, #4f5559 0%, #a8abad 100%);
 }
 .key.operator {
   background-color: #5b493f;
 }
 .key.operator.pushed {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b493f), to(#aea5a0));
-  background: -moz-linear-gradient(top, #5b493f, #aea5a0);
+  background-color: #5b493f;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b493f), color-stop(100% #aea5a0));
+  background-image: -webkit-linear-gradient(top, #5b493f 0%, #aea5a0 100%);
+  background-image: -moz-linear-gradient(top, #5b493f 0%, #aea5a0 100%);
+  background-image: -ms-linear-gradient(top, #5b493f 0%, #aea5a0 100%);
+  background-image: -o-linear-gradient(top, #5b493f 0%, #aea5a0 100%);
+  background-image: linear-gradient(top, #5b493f 0%, #aea5a0 100%);
 }
 .key .active {
   background-color: white;
@@ -148,6 +187,10 @@ body {
   position: absolute;
   -webkit-border-radius: 16%;
   -moz-border-radius: 16%;
+  border-radius: 16%;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
   left: -6%;
   top: -10%;
   z-index: -1;
@@ -291,6 +334,7 @@ body {
   }
   .gloss {
     -webkit-box-shadow: inset 0px 5px 2px rgba(255, 255, 255, 0.6);
+    -moz-box-shadow: inset 0px 5px 2px rgba(255, 255, 255, 0.6);
     box-shadow: inset 0px 5px 2px rgba(255, 255, 255, 0.6);
   }
   #keypad {
@@ -303,7 +347,12 @@ body {
     font-size: 55px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
     -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     margin-top: 19px;
     margin-bottom: 14px;
@@ -316,12 +365,16 @@ body {
   .key .gloss {
     height: 46px;
     -webkit-border-top-right-radius: 10px;
-    -webkit-border-top-left-radius: 10px;
-    -webkit-border-bottom-right-radius: 50% 10px;
-    -webkit-border-bottom-left-radius: 50% 10px;
+    -moz-border-top-right-radius: 10px;
     border-top-right-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -moz-border-top-left-radius: 10px;
     border-top-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 50% 10px;
+    -moz-border-bottom-right-radius: 50% 10px;
     border-bottom-right-radius: 50% 10px;
+    -webkit-border-bottom-left-radius: 50% 10px;
+    -moz-border-bottom-left-radius: 50% 10px;
     border-bottom-left-radius: 50% 10px;
   }
   #zero_key {
@@ -359,6 +412,7 @@ body {
   }
   .gloss {
     -webkit-box-shadow: inset 0px 4px 2px rgba(255, 255, 255, 0.6);
+    -moz-box-shadow: inset 0px 4px 2px rgba(255, 255, 255, 0.6);
     box-shadow: inset 0px 4px 2px rgba(255, 255, 255, 0.6);
   }
   #functions {
@@ -375,7 +429,12 @@ body {
     font-size: 38px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
     -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
     margin-top: 17px;
     margin-bottom: 23px;
@@ -388,12 +447,16 @@ body {
   .key .gloss {
     height: 28px;
     -webkit-border-top-right-radius: 10px;
-    -webkit-border-top-left-radius: 10px;
-    -webkit-border-bottom-right-radius: 50% 10px;
-    -webkit-border-bottom-left-radius: 50% 10px;
+    -moz-border-top-right-radius: 10px;
     border-top-right-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -moz-border-top-left-radius: 10px;
     border-top-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 50% 10px;
+    -moz-border-bottom-right-radius: 50% 10px;
     border-bottom-right-radius: 50% 10px;
+    -webkit-border-bottom-left-radius: 50% 10px;
+    -moz-border-bottom-left-radius: 50% 10px;
     border-bottom-left-radius: 50% 10px;
   }
   #zero_key {

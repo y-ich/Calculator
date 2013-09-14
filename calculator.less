@@ -56,8 +56,7 @@ html, body {
 
 body {
 /*  background-color: black; /* in order to paint out right edge white. */
-    -webkit-user-select: none;
-    -moz-user-select: none;
+    .user-select(none);
 }
 
 #wrapper {
@@ -68,8 +67,7 @@ body {
 }
 
 #display {
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(193, 199, 153)), to(rgb(233, 235, 218)));
-    background: -moz-linear-gradient(top, rgb(193, 199, 153), rgb(233, 235, 218));
+    .gradient(rgb(193, 199, 153), rgb(193, 199, 153), rgb(233, 235, 218));
     border-bottom: solid 1px #787878;
     position: relative; /* in order to make height effective to children */
     font-family: sans-serif;
@@ -78,10 +76,8 @@ body {
 
 /* http://blog.graphicpeel.com/post/740928981/ios-icons-made-in-pure-css */
 .gloss {
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0.2)));
-    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
-    -webkit-box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.6);
+    .gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
+    .box-shadow(inset 0px 2px 1px rgba(255, 255, 255, 0.6));
     position: absolute; /* in order to place text of parent right */
 }
 
@@ -91,8 +87,7 @@ body {
 }
 
 #view {
-    -webkit-user-select: auto;
-    -moz-user-select: auto;
+    .user-select(auto);
 }
 
 #functions {
@@ -108,23 +103,17 @@ body {
     color: white;
     text-align: center;
     border: solid 1px black;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+    .border-radius(6px);
+    .box-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
     position: relative;
 }
 
 .key .gloss {
     width: 100%;
-    -webkit-border-top-right-radius: 6px;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-bottom-right-radius: 50% 6px;
-    -webkit-border-bottom-left-radius: 50% 6px;
-    border-top-right-radius: 6px;
-    border-top-left-radius: 6px;
-    border-bottom-right-radius: 50% 6px;
-    border-bottom-left-radius: 50% 6px;
+    .border-top-right-radius(6px);
+    .border-top-left-radius(6px);
+    .border-bottom-right-radius(50% 6px);
+    .border-bottom-left-radius(50% 6px);
 }
 
 .key.pushed .gloss {
@@ -136,8 +125,7 @@ body {
 }
 
 .key.number.pushed, #period.pushed {
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 0, 0)), to(rgb(128, 128, 128)));
-    background: -moz-linear-gradient(top, rgb(0, 0, 0), rgb(128, 128, 128));
+    .gradient(rgb(0, 0, 0), rgb(0, 0, 0), rgb(128, 128, 128));
 }
 
 .key.function {
@@ -145,8 +133,7 @@ body {
 }
 
 .key.function.pushed {
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4f5559), to(#a8abad));
-    background: -moz-linear-gradient(top, #4f5559, #a8abad);
+    .gradient(#4f5559, #4f5559, #a8abad);
 }
 
 .key.operator {
@@ -154,8 +141,7 @@ body {
 }
 
 .key.operator.pushed {
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b493f), to(#aea5a0));
-    background: -moz-linear-gradient(top, #5b493f, #aea5a0);
+    .gradient(#5b493f, #5b493f, #aea5a0);
 }
 
 .key .active {
@@ -163,8 +149,7 @@ body {
     width: 112%;
     height: 120%;
     position: absolute;
-    -webkit-border-radius: 16%;
-    -moz-border-radius: 16%;
+    .border-radius(16%);
     left: -6%;
     top: -10%;
     z-index: -1; /* below parent */
@@ -319,8 +304,7 @@ body {
     }
 
     .gloss {
-        -webkit-box-shadow: inset 0px 5px 2px rgba(255, 255, 255, 0.6);
-        box-shadow: inset 0px 5px 2px rgba(255, 255, 255, 0.6);
+        .box-shadow(inset 0px 5px 2px rgba(255, 255, 255, 0.6));
     }
 
     #keypad {
@@ -332,10 +316,8 @@ body {
         height: 95px;
         line-height: 95px;
         font-size: 55px;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+        .border-radius(10px);
+        .box-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
         margin-top: 19px;
         margin-bottom: 14px;
         margin-left: 0;
@@ -348,14 +330,10 @@ body {
 
     .key .gloss {
         height: 46px;
-        -webkit-border-top-right-radius: 10px;
-        -webkit-border-top-left-radius: 10px;
-        -webkit-border-bottom-right-radius: 50% 10px;
-        -webkit-border-bottom-left-radius: 50% 10px;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        border-bottom-right-radius: 50% 10px;
-        border-bottom-left-radius: 50% 10px;
+        .border-top-right-radius(10px);
+        .border-top-left-radius(10px);
+        .border-bottom-right-radius(50% 10px);
+        .border-bottom-left-radius(50% 10px);
     }
 
     #zero_key {
@@ -395,8 +373,7 @@ body {
     }
 
     .gloss {
-        -webkit-box-shadow: inset 0px 4px 2px rgba(255, 255, 255, 0.6);
-        box-shadow: inset 0px 4px 2px rgba(255, 255, 255, 0.6);
+        .box-shadow(inset 0px 4px 2px rgba(255, 255, 255, 0.6));
     }
 
     #functions {
@@ -413,10 +390,8 @@ body {
         height: 61px;
         line-height: 60px;
         font-size: 38px;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+        .border-radius(10px);
+        .box-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
         margin-top: 17px;
         margin-bottom: 23px;
         margin-left: 6px;
@@ -429,14 +404,10 @@ body {
 
     .key .gloss {
         height: 28px;
-        -webkit-border-top-right-radius: 10px;
-        -webkit-border-top-left-radius: 10px;
-        -webkit-border-bottom-right-radius: 50% 10px;
-        -webkit-border-bottom-left-radius: 50% 10px;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        border-bottom-right-radius: 50% 10px;
-        border-bottom-left-radius: 50% 10px;
+        .border-top-right-radius(10px);
+        .border-top-left-radius(10px);
+        .border-bottom-right-radius(50% 10px);
+        .border-bottom-left-radius(50% 10px);
     }
 
     #zero_key {
