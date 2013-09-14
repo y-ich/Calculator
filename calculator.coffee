@@ -86,10 +86,7 @@ else
 isPortrait = -> (orientation ? 90) % 180 == 0
 
 
-reverse = (str) ->
-    result = ''
-    result += str.charAt(str.length - i) for i in [1..str.length]
-    result
+reverse = (str) -> str.split('').reverse().join('')
 
 
 split = (n, str) ->

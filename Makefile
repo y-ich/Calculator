@@ -6,8 +6,9 @@ $(TARGET).min.js: $(TARGET).js
 $(TARGET).js: $(TARGET).coffee
 	coffee -cm $^
 
-test:
+test: spec/calc_spec.coffee spec/utilities_spec.coffee
 	coffee -c spec
+	coffee -cbmj test/$(TARGET).js $(TARGET).coffee
 
 push:
 	git push origin gh-pages
