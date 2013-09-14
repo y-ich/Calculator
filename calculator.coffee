@@ -36,20 +36,21 @@ if webkitAudioContext? and not (/iPad|iPhone/.test(navigator.userAgent) and not 
             source.noteOn 0
 
     keySound._context.decodeAudioData Base64Binary.decodeArrayBuffer("""
-                    Rk9STQAAAi5BSUZGQ09NTQAAABIAAQAAAQAAEEAOrEQAAAAAAABTU05EAAACCAAA
-                    AAAAAAAAAAAAAAAA//8AAv/9AAX/+gAFAXz/Kv7I/pj+4ANhBbQIWwbqAPX5ne/l
-                    6Zjo9PCM+xwJHRa+HmMh6BtHDR32Wd6MzinKZNgA8XUNIiawNzc6XC0UEW3xGtN+
-                    wBi978pp6MAPqTWXTZhTBD7KFgLnkLq9pcWoksX+9YQs+FqfbaBkXDxaA6bODqfV
-                    nrq0w+CbGOxLuWuoZ+9COgHmwuGT5YExkaO85PZ1MddbL2oQXr46SQcG2Ka4mLNZ
-                    wkHhKwmnMRtKlE9hPP4YX+3RyBCu2atkvpbepgPYKohD9EvIQl8kzgKK4dXI+8Ls
-                    zrPsCg9hKbE6ADicKQUMlOinyZK137iCy7XsbRH7MOtCWUXkOe4h6Ag+7b7bt9Sk
-                    1mHjDPWbCFQWaRnZF28OtgOP9lvqiOQu5ajwFv8ODC4XnxuLGWUTOQoA/6f49Pak
-                    96j6Afpg+Vv5Pvm7+nf4U/z/BJgRDRu+HYMW9wiE+AzpOOEX4bnrM/obDCsdtyYK
-                    IYwRPvuB51neRtuk4tvxlAQ1Fn4kLCbJHpAQSv+M8sbpnOb86kL1OgKIDm0VFRVH
-                    EVULiAXn/4b44/Qv9K75JP8sA+0HHwaSCXQLKQesAcv//AAF//wAAgAA//0ABP/9
-                    AAP//QAC//8AAAAC//wABf/7AAT//QAC//8AAf/9AAX/+QAH//s=
+                    UklGRiQCAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQACAAAAAAAA
+                    AAD//wIA/f8FAPr/BQB8ASr/yP6Y/uD+YQO0BVsI6gb1AJ355e+Y6fTojfAa+x8J
+                    vBZlHuchSBsbDVz2iN4tzmLKANh28SANsiY2N1w6FC1tERrxftMYwO+9acrB6KcP
+                    mTWXTQRTyz4AFpLnu7rHpZCoAMaC9fosnVqibVtkWjymAw7O1ae7nsG0neDrGLlL
+                    qGvwZzhC6QHewuiTL4GkkeO8dvbWMTFbDmq/Xkg6Bwem2Ji4WbNAwi3hpAkfMZBK
+                    ZU/6PGIYz+0RyNmuY6uYvqTe2QOIKvRDx0tiQskkkALQ4f7I68KzzgrsYQ+yKf45
+                    njgDKZYMp+iQyeC1gri1y27s+RHtMFdC5kXsOeohPQi97bnbotRj1grjnPVTCGsW
+                    2BluF7cOjgNc9ojqLuSn5RjwC/8xDJwXjxthGTwT/gmn//b4ovap9wD6YPpc+T75
+                    ufl6+lD4Af2YBAoRwxt/HfoWgQgP+DXpGuG24TXrG/oqDLgdCSaMIT8RgftY50fe
+                    pNva4pbxMgSBFiokyyaNHk0Qiv/H8pzp+uZF6jj1iQJsDhYVRhVWEYcL5wWH/+L4
+                    MPSt9CX5Kv/wAxwHlAZ0CScLrwfIAf3/BwD4/wcA+/8AAAMA/f8EAPv/BAD9/wIA
+                    AQD9/wMA/f8CAAAA//8BAP////8EAPn/BwD7/w==
                     """)
-            , (buffer) -> keySound._buffer = buffer
+            , ((buffer) -> keySound._buffer = buffer)
+            , -> console.error 'decodeAudioData'
 else
     keySound =
       source : new Audio 'sounds/click.aiff'
