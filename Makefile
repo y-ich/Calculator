@@ -1,10 +1,10 @@
 TARGET  = calculator
 
 $(TARGET).min.js: $(TARGET).js
-	uglifyjs $< > $@
+	uglifyjs $< --in-source-map $(TARGET).map --source-map $(TARGET).min.js.map --output $@
 
 $(TARGET).js: $(TARGET).coffee
-	coffee -c $^
+	coffee -cm $^
 
 test:
 	coffee -c spec
