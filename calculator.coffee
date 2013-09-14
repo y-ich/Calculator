@@ -4,7 +4,7 @@
 # Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
 ###
 
-# 
+#
 # structure
 #
 
@@ -25,15 +25,23 @@ catch error # non-touch device
 
 
 # key sound
-if webkitAudioContext? and not (/iPad|iPhone/.test(navigator.userAgent) and not /Safari/.test(navigator.userAgent)) # iOS 6 has fatal bug when using Web Audio API on web clip
+if (AudioContext? or webkitAudioContext?) and not window.navigator.standalone # iOS 6 has fatal bug when using Web Audio API on web clip
     keySound =
-        _context: new webkitAudioContext()
-        play: ->
-            return unless keySound._buffer?
-            source = keySound._context.createBufferSource()
-            source.buffer = keySound._buffer
-            source.connect keySound._context.destination
-            source.noteOn 0
+        _context: new (AudioContext ? webkitAudioContext)()
+        play: if AudioContext?
+                ->
+                    return unless keySound._buffer?
+                    source = keySound._context.createBufferSource()
+                    source.buffer = keySound._buffer
+                    source.connect keySound._context.destination
+                    source.start 0
+            else
+                ->
+                    return unless keySound._buffer?
+                    source = keySound._context.createBufferSource()
+                    source.buffer = keySound._buffer
+                    source.connect keySound._context.destination
+                    source.noteOn 0
 
     keySound._context.decodeAudioData Base64Binary.decodeArrayBuffer("""
                     UklGRiQCAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQACAAAAAAAA
@@ -53,7 +61,7 @@ if webkitAudioContext? and not (/iPad|iPhone/.test(navigator.userAgent) and not 
             , -> console.error 'decodeAudioData'
 else
     keySound =
-      source : new Audio 'sounds/click.aiff'
+      source : new Audio 'sounds/click.wav'
       play : ->
         # At the first click, play sound to start load sound on iOS. Real sound is after 1sec.
         @source.play()
