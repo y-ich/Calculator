@@ -74,14 +74,17 @@ body {
     text-align: right;
 }
 
-/* http://blog.graphicpeel.com/post/740928981/ios-icons-made-in-pure-css */
-.gloss {
+/* gloss */
+.key:before, #display:before {
+    content: '';
+    display: block;
+    position: absolute;
+    .border-radius(6px);
     .gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
     .box-shadow(inset 0px 2px 1px rgba(255, 255, 255, 0.6));
-    position: absolute; /* in order to place text of parent right */
 }
 
-#display .gloss {
+#display:before {
     height: 50%;
     width: 100%;
 }
@@ -108,7 +111,7 @@ body {
     position: relative;
 }
 
-.key .gloss {
+.key:before {
     width: 100%;
     .border-top-right-radius(6px);
     .border-top-left-radius(6px);
@@ -116,7 +119,7 @@ body {
     .border-bottom-left-radius(50% 6px);
 }
 
-.key.pushed .gloss {
+.key.pushed:before {
     visibility: hidden;
 }
 
@@ -209,7 +212,11 @@ body {
         font-size: 14px;
     }
 
-    .key .gloss {
+    .key:before {
+        height: 13px;
+    }
+
+    .key:before {
         height: 13px;
     }
 
@@ -271,7 +278,7 @@ body {
         font-size: 17px;
     }
 
-    .key .gloss {
+    .key:before {
         height: 19px; /* half of normal key, it is same for vertically long key. */
     }
 
@@ -303,7 +310,7 @@ body {
         padding-right: 14px;
     }
 
-    .gloss {
+    .key:before, #display:before {
         .box-shadow(inset 0px 5px 2px rgba(255, 255, 255, 0.6));
     }
 
@@ -328,7 +335,7 @@ body {
         font-size: 44px;
     }
 
-    .key .gloss {
+    .key:before {
         height: 46px;
         .border-top-right-radius(10px);
         .border-top-left-radius(10px);
@@ -372,7 +379,7 @@ body {
         left: 36px;
     }
 
-    .gloss {
+    .key:before, #display:before {
         .box-shadow(inset 0px 4px 2px rgba(255, 255, 255, 0.6));
     }
 
@@ -402,7 +409,7 @@ body {
         font-size: 35px;
     }
 
-    .key .gloss {
+    .key:before {
         height: 28px;
         .border-top-right-radius(10px);
         .border-top-left-radius(10px);

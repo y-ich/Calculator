@@ -20,91 +20,91 @@
   <link rel="stylesheet" href="calculator.css" type="text/css">
 </head>
 <body>
-  <div id="wrapper">
-    <div id="display" class="gloss">
-      <div class="gloss"></div><span id="view">0</span>
+	<div id="wrapper">
+    <div id="display">
+      <span id="view">0</span>
       <div id="angle">Deg</div>
     </div>
     <table id="keypad">
       <tbody>
         <tr>
-          <td><div id="mc" class="key function"><div class="gloss"></div>mc</div></td>
-          <td><div id="mplus" class="key function"><div class="gloss"></div>m+</div></td>
-          <td><div id="mminus" class="key function" data-role="m-"><div class="gloss"></div>m&minus;</div></td>
-          <td><div id="mr" class="key function nofix"><div class="gloss"></div>mr</div></td>
+          <td><div id="mc" class="key function">mc</div></td>
+          <td><div id="mplus" class="key function">m+</div></td>
+          <td><div id="mminus" class="key function" data-role="m-">m&minus;</div></td>
+          <td><div id="mr" class="key function nofix">mr</div></td>
         </tr>
         <tr>
-          <td><div id="clear" class="key operator small" data-role="allclear"><div class="gloss"></div>AC</div></td>
-          <td><div id="plusminus" class="key operator" data-role="plusminus"><div class="gloss"></div>+/&minus;</div></td>
-          <td><div class="key operator binary" data-role="div"><div class="gloss"></div>&divide;</div></td>
-          <td><div class="key operator binary" data-role="mul"><div class="gloss"></div>&times;</div></td>
+          <td><div id="clear" class="key operator small" data-role="allclear">AC</div></td>
+          <td><div id="plusminus" class="key operator" data-role="plusminus">+/&minus;</div></td>
+          <td><div class="key operator binary" data-role="div">&divide;</div></td>
+          <td><div class="key operator binary" data-role="mul">&times;</div></td>
         </tr>
         <tr>
-          <td><div class="key number"><div class="gloss"></div>7</div></td>
-          <td><div class="key number"><div class="gloss"></div>8</div></td>
-          <td><div class="key number"><div class="gloss"></div>9</div></td>
-          <td><div class="key operator binary" data-role="sub"><div class="gloss"></div>&minus;</div></td>
+          <td><div class="key number">7</div></td>
+          <td><div class="key number">8</div></td>
+          <td><div class="key number">9</div></td>
+          <td><div class="key operator binary" data-role="sub">&minus;</div></td>
         </tr>
         <tr>
-          <td><div class="key number"><div class="gloss"></div>4</div></td>
-          <td><div class="key number"><div class="gloss"></div>5</div></td>
-          <td><div class="key number"><div class="gloss"></div>6</div></td>
-          <td><div class="key operator binary" data-role="add"><div class="gloss"></div>+</div></td>
+          <td><div class="key number">4</div></td>
+          <td><div class="key number">5</div></td>
+          <td><div class="key number">6</div></td>
+          <td><div class="key operator binary" data-role="add">+</div></td>
         </tr>
         <tr>
-          <td><div class="key number"><div class="gloss"></div>1</div></td>
-          <td><div class="key number"><div class="gloss"></div>2</div></td>
-          <td><div class="key number"><div class="gloss"></div>3</div></td>
-          <td rowspan=2><div id="equal_key" class="key"><div class="gloss"></div>=</div></td>
+          <td><div class="key number">1</div></td>
+          <td><div class="key number">2</div></td>
+          <td><div class="key number">3</div></td>
+          <td rowspan=2><div id="equal_key" class="key">=</div></td>
         </tr>
         <tr>
-          <td colspan=2><div id="zero_key" class="key number"><div class="gloss"></div>0</div> </td>
-          <td><div id="period" class="key"><div class="gloss"></div>.</div></td>
+          <td colspan=2><div id="zero_key" class="key number">0</div> </td>
+          <td><div id="period" class="key">.</div></td>
         </tr>
       </tbody>
     </table>
     <table id="functions">
       <tbody>
         <tr>
-          <td><div id="second" class="key function" data-role="modifier" data-status="off"><div class="gloss"></div>2nd</div></td>
-          <td><div id="parleft" class="key function"><div class="gloss"></div>(</div></td>
-          <td><div id="parright" class="key function"><div class="gloss"></div>)</div></td>
-          <td><div class="key function unary" data-role="percent2number"><div class="gloss"></div>%</div></td>
+          <td><div id="second" class="key function" data-role="modifier" data-status="off">2nd</div></td>
+          <td><div id="parleft" class="key function">(</div></td>
+          <td><div id="parright" class="key function">)</div></td>
+          <td><div class="key function unary" data-role="percent2number">%</div></td>
         </tr>
         <tr>
-          <td><div class="key function unary" data-role="inverse"><div class="gloss"></div>1/x</div></td>
-          <td><div class="key function unary" data-role="square"><div class="gloss"></div>x&sup2;</div></td>
-          <td><div class="key function unary" data-role="cube"><div class="gloss"></div>x&sup3;</div></td>
-          <td><div class="key function binary" data-role="power"><div class="gloss"></div>y<sup>x</sup></div></td>
+          <td><div class="key function unary" data-role="inverse">1/x</div></td>
+          <td><div class="key function unary" data-role="square">x&sup2;</div></td>
+          <td><div class="key function unary" data-role="cube">x&sup3;</div></td>
+          <td><div class="key function binary" data-role="power">y<sup>x</sup></div></td>
         </tr>
         <tr>
-          <td><div class="key function unary" data-role="factorial"><div class="gloss"></div>x!</div></td>
-          <td><div class="key function unary" data-role="root"><div class="gloss"></div>&radic;</div></td>
-          <td><div class="key function binary" data-role="xthroot"><div class="gloss"></div><sup>x</sup>&radic;y</div></td>
-          <td><div class="key function unary" data-role="log10"><div class="gloss"></div>log</div></td>
+          <td><div class="key function unary" data-role="factorial">x!</div></td>
+          <td><div class="key function unary" data-role="root">&radic;</div></td>
+          <td><div class="key function binary" data-role="xthroot"><sup>x</sup>&radic;y</div></td>
+          <td><div class="key function unary" data-role="log10">log</div></td>
         </tr>
         <tr>
-          <td><div class="key function unary small double"><div class="gloss"></div>sin</div></td>
-          <td><div class="key function unary small double"><div class="gloss"></div>cos</div></td>
-          <td><div class="key function unary small double"><div class="gloss"></div>tan</div></td>
-          <td><div class="key function unary small double" data-role="log"><div class="gloss"></div>ln</div></td>
+          <td><div class="key function unary small double">sin</div></td>
+          <td><div class="key function unary small double">cos</div></td>
+          <td><div class="key function unary small double">tan</div></td>
+          <td><div class="key function unary small double" data-role="log">ln</div></td>
         </tr>
         <tr>
-          <td><div class="key function unary small double"><div class="gloss"></div>sinh</div></td>
-          <td><div class="key function unary small double"><div class="gloss"></div>cosh</div></td>
-          <td><div class="key function unary small double"><div class="gloss"></div>tanh</div></td>
-          <td><div class="key function unary small double" data-role="exp"><div class="gloss"></div>e<sup>x</sup></div></td>
+          <td><div class="key function unary small double">sinh</div></td>
+          <td><div class="key function unary small double">cosh</div></td>
+          <td><div class="key function unary small double">tanh</div></td>
+          <td><div class="key function unary small double" data-role="exp">e<sup>x</sup></div></td>
         </tr>
         <tr>
-          <td><div id="angle_key" class="key function small" data-role="angle"><div class="gloss"></div>Rad</div></td>
-          <td><div id="pi" class="key function nofix" data-role="pi"><div class="gloss"></div>&pi;</div></td>
-          <td><div class="key function binary small" data-role="enotation"><div class="gloss"></div>EE</div></td>
-          <td><div class="key function nofix small" data-role="random"><div class="gloss"></div>Rand</div></td>
+          <td><div id="angle_key" class="key function small" data-role="angle">Rad</div></td>
+          <td><div id="pi" class="key function nofix" data-role="pi">&pi;</div></td>
+          <td><div class="key function binary small" data-role="enotation">EE</div></td>
+          <td><div class="key function nofix small" data-role="random">Rand</div></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <script src="http://cdn.jqmobi.com/1.2/jq.mobi.min.js"></script>
+  <script src="http://cdn.app-framework-software.intel.com/2.0/appframework.min.js"></script>
   <script src="js/base64-binary.js"></script>
   <script src="calculator.min.js"></script>
   <script type="text/javascript">
