@@ -83,7 +83,7 @@ else
 # utilities
 #
 
-isPortrait = -> (orientation ? 90) % 180 == 0
+isPortrait = -> innerWidth + 88 <= innerHeight # 88 is a magic number of safari.
 
 
 reverse = (str) -> str.split('').reverse().join('')
@@ -501,7 +501,7 @@ display =
     bywhom : null
 
     width : ->
-        if innerWidth <= 480
+        if innerWidth < 768
             if isPortrait()
                 280
             else
@@ -513,7 +513,7 @@ display =
                 875
 
     fontSize : ->
-        if innerWidth <= 480
+        if innerWidth < 768
             if isPortrait()
                 '78px'
             else

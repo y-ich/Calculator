@@ -265,7 +265,7 @@ body {
 
 }
 /* } */
-@media (max-device-width: 480px) and (orientation: portrait) {
+@media (orientation: portrait) {
   /* 320 * 460 for iPhone */
   #wrapper {
     width: 736px;
