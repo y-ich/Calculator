@@ -150,6 +150,7 @@ tangent = (x) ->
 functions =
     mr : -> memory
     pi : -> Math.PI
+    e : -> Math.E
     random : Math.random
     percent2number : (x) -> x / 100
     inverse : (x) -> 1 / x
@@ -158,6 +159,7 @@ functions =
     power : Math.pow
     factorial : (x) -> gamma(x + 1)
     root : (x) -> Math.pow(x, 0.5)
+    cuberoot : (x) -> Math.pow(x, 1 / 3)
     xthroot : (x, y) -> Math.pow(x, 1 / y)
     log : (x) -> Math.log(x)
     log10 : (x) -> Math.log(x) / Math.log(10)
@@ -170,6 +172,7 @@ functions =
     tanh : (x) -> parseFloat (functions.sinh(x) / functions.cosh(x)).toFixed(15)
     exp : Math.exp
     pow2 : (x) -> Math.pow(2, x)
+    pow10 : (x) -> Math.pow(10, x)
     enotation : (x, y) -> x*Math.pow(10, y)
     add : (x, y) -> x + y
     sub : (x, y) -> x - y

@@ -1,0 +1,320 @@
+@import 'lib/prefixer';
+
+@active-border: 2px;
+
+/*
+ * generic
+ */
+
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* Keep consistent line spacing with sup and sub
+   http://www.adobe.com/cfusion/communityengine/index.cfm?event=showdetails&productId=1&postId=5341 */
+sup, sub {
+    height: 0;
+    line-height: 1;
+    vertical-align: baseline;
+    _vertical-align: bottom;
+    position: relative;
+}
+
+sup {
+    bottom: 1ex;
+}
+
+sub {
+    top: 0.5ex;
+}
+
+
+/*
+ * main
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+}
+
+table {
+    border-spacing: 0; /* firefox's default is 2px. */
+}
+
+/*
+html, body {
+    width: 100%;
+    height: 90%;
+}
+ This was for the backgound-color below. but,
+ Touch event was not triggered.
+ And you don't need 100% for below purpose.
+*/
+
+body {
+    font-family: 'HelveticaNeue-UltraLight';
+    background-color: black;
+    .user-select(none);
+}
+
+#wrapper {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1; /* for active class */
+}
+
+#display {
+	background-color: black;
+    position: relative; /* in order to make height effective to children */
+    color: white;
+    text-align: right;
+}
+
+#view {
+    .user-select(auto);
+}
+
+#functions {
+    float: right;
+}
+
+#keypad {
+    table-layout: fixed;
+    float: right;
+}
+
+.key {
+    color: black;
+    text-align: center;
+	border-top: solid 1px black;
+	border-left: solid 1px black;
+    position: relative;
+}
+
+.key.number, #period {
+    background-color: rgb(208,209,212);
+}
+
+.key.number.pushed, #period.pushed {
+    background-color: rgb(190,191,193);
+}
+
+.key.function {
+    background-color: rgb(196,197,200);
+}
+
+.key.function.pushed {
+    background-color: rgb(181,181,183);
+}
+
+.key.operator, #equal_key {
+    color: white;
+    background-color: rgb(243,130,40);
+}
+
+.key.operator.pushed {
+    background-color: rgb(220,125,37);
+}
+
+.key .active {
+    background-color: transparent;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border: solid @active-border black;
+}
+
+/* @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
+/* Because I set landscape of iphone by default, I commented out the above line. */
+    #wrapper {
+        width: 570px;
+        padding-bottom: 0;
+    }
+
+    #display {
+        height: 60px;
+        padding-right: 7px;
+    }
+
+    #view {
+        font-size: 50px;
+        line-height: 58px;
+    }
+
+    #angle {
+        display: block;
+        font-size: 14px;
+        position: absolute;
+        bottom: 2px;
+        left: 15px;
+    }
+
+    #functions {
+        display: block;
+    }
+
+    .key {
+        width: 56px;
+        height: 47px;
+        line-height: 26px;
+        font-size: 15px;
+    }
+
+    .key .active {
+        width: 56px - @active-border * 2;
+        height: 48px - @active-border * 2;
+    }
+
+    .key.small {
+        font-size: 14px;
+    }
+
+    #zero_key {
+        width: 113px;
+    }
+/* } */
+
+
+@media (orientation: portrait) { /* 320 * 460 for iPhone */
+    #wrapper {
+        width: 800px;
+        padding-bottom: 1px;
+    }
+
+    #display {
+        height: 88px;
+    }
+
+    #view {
+        font-size: 78px;
+        line-height: 88px; /* equal to height */
+    }
+
+    #angle {
+        font-size: 14px; /**/
+        position: absolute; /**/
+        bottom: 2px; /**/
+        left: 15px; /**/
+    }
+
+    .key {
+        width: 79px;
+        height: 79px;
+        line-height: 39px;
+        font-size: 21px;
+    }
+
+    .key .active {
+        width: 79px - @active-border * 2;
+        height: 79px - @active-border * 2;
+    }
+
+    .key.small {
+        font-size: 17px;
+    }
+
+    #zero_key {
+        width: 142px;
+    }
+}
+
+
+@media (min-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
+    /* 2.4 times */
+    #wrapper {
+        width: 800px * 2.4;
+    }
+
+    #display {
+        height:88px * 2.4;
+    }
+
+    #view {
+        font-size:78px * 2.4;
+        line-height: 88px * 2.4;
+        padding-right: 14px;
+    }
+
+    .key {
+        width:79px * 2.4 + 1px;
+        height: 79px * 2.4 - 28px;
+        line-height: 95px;
+        font-size: 55px;
+    }
+
+    .key .active {
+        width: 79px * 2.4 - @active-border * 2;
+        height: 79px * 2.4 - @active-border * 2;
+    }
+
+    .key.small {
+        font-size: 44px;
+    }
+
+    #zero_key {
+        width: 142px * 2.4;
+    }
+}
+
+@media (min-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
+    /* 2.13 times */
+    #wrapper {
+        width: 1024px;
+        padding-bottom: 3px;
+    }
+
+    #display {
+        height: 60px * 2.13;
+        margin-bottom: 2px;
+    }
+
+    #view {
+        font-size: 50px * 2.13;
+        line-height: 58px * 2.13;
+        padding-right: 5px;
+    }
+
+    #angle {
+        display: block;
+        font-size: 29px;
+        position: absolute;
+        bottom: 4px;
+        left: 36px;
+    }
+
+    #functions {
+        display: block;
+    }
+
+    .key {
+        width: 56px * 1.7;
+        height: 56px * 1.7;
+        line-height: 60px;
+        font-size: 38px;
+    }
+
+    .key .active {
+        width: 56px * 1.7 - @active-border * 2;
+        height: 56px * 1.7 - @active-border * 2;
+    }
+
+    .key.small {
+        font-size: 35px;
+    }
+
+    #zero_key {
+        width: 113px * 2.13;
+    }
+}
+
+/*
+ * Calculator: Calculator clone for iPad by HTML5
+ * author: ICHIKAWA, Yuji
+ * Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
+ */
