@@ -1,17 +1,16 @@
 CACHE MANIFEST
-# version 0.7.0
-# build 13
+# version 0.8.0
+# build 1
 
 CACHE:
-calculator.html
-calculator.css
+calculator7.html
+calculator7.css
 calculator.min.js
 images/icon.png
 images/favicon.ico
 images/startup-iphone.png
 images/startup-portrait.png
 images/startup-landscape.png
-images/noise_01.jpg
 lib/add2home.css
 lib/add2home.js
 sounds/click.wav
