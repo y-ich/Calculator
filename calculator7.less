@@ -80,13 +80,27 @@ body {
     .user-select(auto);
 }
 
-#functions {
-    float: right;
+#aspect-ratio {
+    position: relative;
+}
+
+#aspect-ratio:before {
+	content: "";
+	display: block;
+}
+
+#aspect-ratio > div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 }
 
 #keypad {
+    width: 100%;
+    height: 100%;
     table-layout: fixed;
-    float: right;
 }
 
 .key {
@@ -123,6 +137,8 @@ body {
 }
 
 .key .active {
+    width: 96%;
+    height: 95%;
     background-color: transparent;
     position: absolute;
     left: 0px;
@@ -130,13 +146,35 @@ body {
     border: solid @active-border black;
 }
 
+@media (orientation: portrait) {
+    #wrapper {
+        width: 250%;
+    }
+    #aspect-ratio {
+        width: 40%;
+    }
+    #aspect-ratio:before {
+        padding-top: 100%;
+    }
+    #keypad {
+        width: 250%;
+    }
+}
+
+@media (orientation: landscape) {
+    #wrapper {
+        width: 100%;
+    }
+    #aspect-ratio {
+        width: 100%;
+    }
+    #aspect-ratio:before {
+        padding-top: 60%;
+    }
+}
+
 /* @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
 /* Because I set landscape of iphone by default, I commented out the above line. */
-    #wrapper {
-        width: 570px;
-        padding-bottom: 0;
-    }
-
     #display {
         height: 60px;
         padding-right: 7px;
@@ -155,38 +193,17 @@ body {
         left: 15px;
     }
 
-    #functions {
-        display: block;
-    }
-
     .key {
-        width: 56px;
-        height: 47px;
         line-height: 26px;
         font-size: 15px;
-    }
-
-    .key .active {
-        width: 56px - @active-border * 2;
-        height: 48px - @active-border * 2;
     }
 
     .key.small {
         font-size: 14px;
     }
-
-    #zero_key {
-        width: 113px;
-    }
 /* } */
 
-
 @media (orientation: portrait) { /* 320 * 460 for iPhone */
-    #wrapper {
-        width: 800px;
-        padding-bottom: 1px;
-    }
-
     #display {
         height: 88px;
     }
@@ -204,33 +221,18 @@ body {
     }
 
     .key {
-        width: 79px;
-        height: 79px;
         line-height: 39px;
         font-size: 21px;
     }
 
-    .key .active {
-        width: 79px - @active-border * 2;
-        height: 79px - @active-border * 2;
-    }
-
     .key.small {
         font-size: 17px;
-    }
-
-    #zero_key {
-        width: 142px;
     }
 }
 
 
 @media (min-width: 768px) and (orientation: portrait) { /* iPad Portrait 768x1004 */
     /* 2.4 times */
-    #wrapper {
-        width: 800px * 2.4;
-    }
-
     #display {
         height:88px * 2.4;
     }
@@ -242,36 +244,19 @@ body {
     }
 
     .key {
-        width:79px * 2.4 + 1px;
-        height: 79px * 2.4 - 28px;
         line-height: 95px;
         font-size: 55px;
-    }
-
-    .key .active {
-        width: 79px * 2.4 - @active-border * 2;
-        height: 79px * 2.4 - @active-border * 2;
     }
 
     .key.small {
         font-size: 44px;
     }
-
-    #zero_key {
-        width: 142px * 2.4;
-    }
 }
 
 @media (min-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
     /* 2.13 times */
-    #wrapper {
-        width: 1024px;
-        padding-bottom: 3px;
-    }
-
     #display {
         height: 60px * 2.13;
-        margin-bottom: 2px;
     }
 
     #view {
@@ -293,23 +278,12 @@ body {
     }
 
     .key {
-        width: 56px * 1.7;
-        height: 56px * 1.7;
         line-height: 60px;
         font-size: 38px;
     }
 
-    .key .active {
-        width: 56px * 1.7 - @active-border * 2;
-        height: 56px * 1.7 - @active-border * 2;
-    }
-
     .key.small {
         font-size: 35px;
-    }
-
-    #zero_key {
-        width: 113px * 2.13;
     }
 }
 
