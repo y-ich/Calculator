@@ -481,12 +481,12 @@ $(window).bind 'orientationchange', ->
 
 ac2c = ->
     $('#clear').data 'role', 'clear'
-    $('#clear').html $('#clear').html().replace('AC', 'C')
+    $('#clear').html $('#clear').html().replace(/^AC/, 'C')
 
 
 c2ac = ->
     $('#clear').data 'role', 'allclear'
-    $('#clear').html $('#clear').html().replace('C', 'AC')
+    $('#clear').html $('#clear').html().replace(/^C/, 'AC')
 
 
 activate = ($elem) ->
