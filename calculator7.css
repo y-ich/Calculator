@@ -233,6 +233,10 @@ body {
   .key.small {
     font-size: 44px;
   }
+  .key .active {
+    width: 98%;
+    height: 98%;
+  }
 }
 @media (min-width: 768px) and (orientation: landscape) {
   /* iPad Landscape 1024x748 */
@@ -261,6 +265,10 @@ body {
   }
   .key.small {
     font-size: 35px;
+  }
+  .key .active {
+    width: 97%;
+    height: 97%;
   }
 }
 /*
