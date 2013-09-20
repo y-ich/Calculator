@@ -483,7 +483,7 @@ ac2c = ->
 
 c2ac = ->
     $('#clear').data 'role', 'allclear'
-    $('#clear').html $('#clear').html().replace('>C', '>AC')
+    $('#clear').html $('#clear').html().replace('C', 'AC')
 
 
 activate = ($elem) ->
