@@ -161,6 +161,12 @@ body {
     }
 }
 
+@media (orientation: portrait) and (min-aspect-ratio: 768/1003) {
+    #aspect-ratio:before {
+        padding-top: 90%;
+    }
+}
+
 @media (orientation: landscape) {
     #wrapper {
         width: 100%;
@@ -170,6 +176,12 @@ body {
     }
     #aspect-ratio:before {
         padding-top: 60%;
+    }
+}
+
+@media (orientation: landscape) and (min-aspect-ratio: 1024/747) {
+    #aspect-ratio:before {
+        padding-top: 33%;
     }
 }
 
