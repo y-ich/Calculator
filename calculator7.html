@@ -20,78 +20,74 @@
   <link rel="stylesheet" href="calculator7.css" type="text/css">
 </head>
 <body>
-	<div id="wrapper">
-    <div id="display">
-      <span id="view">0</span>
-      <div id="angle">Deg</div>
-    </div>
-    <div id="aspect-ratio">
-      <div>
-        <table id="keypad">
-          <tbody>
-            <tr>
-              <td id="parleft" class="key function">(</td>
-              <td id="parright" class="key function">)</td>
-              <td id="mc" class="key function">mc</td>
-              <td id="mplus" class="key function">m+</td>
-              <td id="mminus" class="key function" data-role="m-">m&minus;</td>
-              <td id="mr" class="key function nofix">mr</td>
-              <td id="clear" class="key function small" data-role="allclear">AC</td>
-              <td id="plusminus" class="key function" data-role="plusminus">+/&minus;</td>
-              <td class="key function unary" data-role="percent2number">%</td>
-              <td class="key operator binary" data-role="div">&divide;</td>
-            </tr>
-            <tr>
-              <td id="second" class="key function" data-role="modifier" data-status="off">2nd</td>
-              <td class="key function unary" data-role="square">x&sup2;</td>
-              <td class="key function unary" data-role="cube">x&sup3;</td>
-              <td class="key function binary" data-role="power">y<sup>x</sup></td>
-              <td class="key function unary small double" data-role="exp">e<sup>x</sup></td>
-              <td class="key function unary small double" data-role="pow10">10<sup>x</sup></td>
-              <td class="key number">7</td>
-              <td class="key number">8</td>
-              <td class="key number">9</td>
-              <td class="key operator binary" data-role="mul">&times;</td>
-            </tr>
-            <tr>
-              <td class="key function unary" data-role="inverse">1/x</td>
-              <td class="key function unary" data-role="root">&radic;</td>
-              <td class="key function unary" data-role="cuberoot"><sup>3</sup>&radic;</td>
-              <td class="key function binary" data-role="xthroot"><sup>x</sup>&radic;y</td>
-              <td class="key function unary small double" data-role="log">ln</td>
-              <td class="key function unary" data-role="log10">log</td>
-              <td class="key number">4</td>
-              <td class="key number">5</td>
-              <td class="key number">6</td>
-              <td class="key operator binary" data-role="sub">&minus;</td>
-            </tr>
-            <tr>
-              <td class="key function unary" data-role="factorial">x!</td>
-              <td class="key function unary small double">sin</td>
-              <td class="key function unary small double">cos</td>
-              <td class="key function unary small double">tan</td>
-              <td id="e" class="key function nofix" data-role="e">e</td>
-              <td class="key function binary small" data-role="enotation">EE</td>
-              <td class="key number">1</td>
-              <td class="key number">2</td>
-              <td class="key number">3</td>
-              <td class="key operator binary" data-role="add">+</td>
-            </tr>
-            <tr>
-              <td id="angle_key" class="key function small" data-role="angle">Rad</td>
-              <td class="key function unary small double">sinh</td>
-              <td class="key function unary small double">cosh</td>
-              <td class="key function unary small double">tanh</td>
-              <td id="pi" class="key function nofix" data-role="pi">&pi;</td>
-              <td class="key function nofix small" data-role="random">Rand</td>
-              <td colspan=2 id="zero_key" class="key number">0</td>
-              <td id="period" class="key">.</td>
-              <td id="equal_key" class="key">=</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div id="display">
+    <span id="view">0</span>
+    <div id="angle">Deg</div>
+  </div>
+  <div id="keypad-dimension">
+    <table id="keypad">
+      <tbody>
+        <tr>
+          <td id="parleft" class="key function">(</td>
+          <td id="parright" class="key function">)</td>
+          <td id="mc" class="key function">mc</td>
+          <td id="mplus" class="key function">m+</td>
+          <td id="mminus" class="key function" data-role="m-">m&minus;</td>
+          <td id="mr" class="key function nofix">mr</td>
+          <td id="clear" class="key function small" data-role="allclear">AC</td>
+          <td id="plusminus" class="key function" data-role="plusminus">+/&minus;</td>
+          <td class="key function unary" data-role="percent2number">%</td>
+          <td class="key operator binary" data-role="div">&divide;</td>
+        </tr>
+        <tr>
+          <td id="second" class="key function" data-role="modifier" data-status="off">2nd</td>
+          <td class="key function unary" data-role="square">x&sup2;</td>
+          <td class="key function unary" data-role="cube">x&sup3;</td>
+          <td class="key function binary" data-role="power">y<sup>x</sup></td>
+          <td class="key function unary small double" data-role="exp">e<sup>x</sup></td>
+          <td class="key function unary small double" data-role="pow10">10<sup>x</sup></td>
+          <td class="key number">7</td>
+          <td class="key number">8</td>
+          <td class="key number">9</td>
+          <td class="key operator binary" data-role="mul">&times;</td>
+        </tr>
+        <tr>
+          <td class="key function unary" data-role="inverse">1/x</td>
+          <td class="key function unary" data-role="root">&radic;</td>
+          <td class="key function unary" data-role="cuberoot"><sup>3</sup>&radic;</td>
+          <td class="key function binary" data-role="xthroot"><sup>x</sup>&radic;y</td>
+          <td class="key function unary small double" data-role="log">ln</td>
+          <td class="key function unary" data-role="log10">log</td>
+          <td class="key number">4</td>
+          <td class="key number">5</td>
+          <td class="key number">6</td>
+          <td class="key operator binary" data-role="sub">&minus;</td>
+        </tr>
+        <tr>
+          <td class="key function unary" data-role="factorial">x!</td>
+          <td class="key function unary small double">sin</td>
+          <td class="key function unary small double">cos</td>
+          <td class="key function unary small double">tan</td>
+          <td id="e" class="key function nofix" data-role="e">e</td>
+          <td class="key function binary small" data-role="enotation">EE</td>
+          <td class="key number">1</td>
+          <td class="key number">2</td>
+          <td class="key number">3</td>
+          <td class="key operator binary" data-role="add">+</td>
+        </tr>
+        <tr>
+          <td id="angle_key" class="key function small" data-role="angle">Rad</td>
+          <td class="key function unary small double">sinh</td>
+          <td class="key function unary small double">cosh</td>
+          <td class="key function unary small double">tanh</td>
+          <td id="pi" class="key function nofix" data-role="pi">&pi;</td>
+          <td class="key function nofix small" data-role="random">Rand</td>
+          <td colspan=2 id="zero_key" class="key number">0</td>
+          <td id="period" class="key">.</td>
+          <td id="equal_key" class="key">=</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <script src="http://cdn.app-framework-software.intel.com/2.0/appframework.min.js"></script>
   <script src="js/base64-binary.js"></script>

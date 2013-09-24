@@ -119,7 +119,7 @@ body {
     .border-bottom-left-radius(50% 6px);
 }
 
-.key.pushed:before {
+.key:active:before {
     visibility: hidden;
 }
 
@@ -127,7 +127,7 @@ body {
     background-color: #000000;
 }
 
-.key.number.pushed, #period.pushed {
+.key.number:active, #period:active {
     .gradient(rgb(0, 0, 0), rgb(0, 0, 0), rgb(128, 128, 128));
 }
 
@@ -135,7 +135,7 @@ body {
     background-color: #4f5559;
 }
 
-.key.function.pushed {
+.key.function:active {
     .gradient(#4f5559, #4f5559, #a8abad);
 }
 
@@ -143,7 +143,7 @@ body {
     background-color: #5b493f;
 }
 
-.key.operator.pushed {
+.key.operator:active {
     .gradient(#5b493f, #5b493f, #aea5a0);
 }
 

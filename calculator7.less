@@ -1,3 +1,9 @@
+/*
+ * Calculator7: Calculator clone for iOS7 iPad by HTML5
+ * author: ICHIKAWA, Yuji
+ * Copyright (C) 2013 ICHIKAWA, Yuji (New 3 Rs)
+ */
+
 @import 'lib/prefixer';
 
 @active-border: 2px;
@@ -46,27 +52,14 @@ table {
     border-spacing: 0; /* firefox's default is 2px. */
 }
 
-/*
 html, body {
-    width: 100%;
-    height: 90%;
+    height: 100%;
 }
- This was for the backgound-color below. but,
- Touch event was not triggered.
- And you don't need 100% for below purpose.
-*/
 
 body {
     font-family: 'HelveticaNeue-UltraLight';
     background-color: black;
     .user-select(none);
-}
-
-#wrapper {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: -1; /* for active class */
 }
 
 #display {
@@ -80,21 +73,10 @@ body {
     .user-select(auto);
 }
 
-#aspect-ratio {
-    position: relative;
-}
-
-#aspect-ratio:before {
-	content: "";
-	display: block;
-}
-
-#aspect-ratio > div {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
+#keypad-dimension {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
 }
 
 #keypad {
@@ -115,7 +97,7 @@ body {
     background-color: rgb(208,209,212);
 }
 
-.key.number.pushed, #period.pushed {
+.key.number:active, #period:active {
     background-color: rgb(190,191,193);
 }
 
@@ -123,7 +105,7 @@ body {
     background-color: rgb(196,197,200);
 }
 
-.key.function.pushed {
+.key.function:active {
     background-color: rgb(181,181,183);
 }
 
@@ -132,7 +114,7 @@ body {
     background-color: rgb(243,130,40);
 }
 
-.key.operator.pushed {
+.key.operator:active {
     background-color: rgb(220,125,37);
 }
 
@@ -147,46 +129,18 @@ body {
 }
 
 @media (orientation: portrait) {
-    #wrapper {
+    #keypad-dimension {
         width: 250%;
-    }
-    #aspect-ratio {
-        width: 40%;
-    }
-    #aspect-ratio:before {
-        padding-top: 100%;
-    }
-    #keypad {
-        width: 250%;
-    }
-}
-
-@media (orientation: portrait) and (min-aspect-ratio: 768/1003) {
-    #aspect-ratio:before {
-        padding-top: 90%;
     }
 }
 
 @media (orientation: landscape) {
-    #wrapper {
+    #keypad-dimension {
         width: 100%;
-    }
-    #aspect-ratio {
-        width: 100%;
-    }
-    #aspect-ratio:before {
-        padding-top: 60%;
     }
 }
 
-@media (orientation: landscape) and (min-aspect-ratio: 1024/747) {
-    #aspect-ratio:before {
-        padding-top: 33%;
-    }
-}
-
-/* @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
-/* Because I set landscape of iphone by default, I commented out the above line. */
+@media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
     #display {
         height: 60px;
         padding-right: 7px;
@@ -205,6 +159,10 @@ body {
         left: 15px;
     }
 
+    #keypad-dimension {
+        top: 60px;
+    }
+    
     .key {
         line-height: 26px;
         font-size: 15px;
@@ -213,7 +171,7 @@ body {
     .key.small {
         font-size: 14px;
     }
-/* } */
+}
 
 @media (orientation: portrait) { /* 320 * 460 for iPhone */
     #display {
@@ -232,6 +190,10 @@ body {
         left: 15px; /**/
     }
 
+    #keypad-dimension {
+        top: 88px;
+    }
+    
     .key {
         line-height: 39px;
         font-size: 21px;
@@ -255,6 +217,10 @@ body {
         padding-right: 14px;
     }
 
+    #keypad-dimension {
+        top: 88px * 2.4;
+    }
+    
     .key {
         line-height: 95px;
         font-size: 55px;
@@ -290,10 +256,10 @@ body {
         left: 36px;
     }
 
-    #functions {
-        display: block;
+    #keypad-dimension {
+        top: 60px * 2.13;
     }
-
+    
     .key {
         line-height: 60px;
         font-size: 38px;
@@ -308,9 +274,3 @@ body {
         height: 97%;
     }
 }
-
-/*
- * Calculator: Calculator clone for iPad by HTML5
- * author: ICHIKAWA, Yuji
- * Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
- */

@@ -443,7 +443,6 @@ $('#second').bind touchEnd, ->
     else
         $(this).data 'status', 'off'
         $(this).css 'color', ''
-        $(this).removeClass 'pushed'
         $('.key.double').each ->
             $this = $(this)
             switch $this.data('role')
@@ -462,18 +461,7 @@ $('#second').bind touchEnd, ->
 # view
 #
 
-$('.key').bind touchStart, ->
-    $(this).addClass 'pushed'
-    keySound.play()
-
-
-$('.key:not(#second)').bind touchEnd, ->
-    $(this).removeClass 'pushed'
-
-
-$('.key').bind 'touchcancel', ->
-    $(this).removeClass 'pushed'
-
+$('.key').bind touchStart, keySound.play
 
 $(window).bind 'orientationchange', ->
     display.update()

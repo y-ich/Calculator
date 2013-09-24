@@ -146,15 +146,15 @@ body {
   -moz-border-bottom-left-radius: 50% 6px;
   border-bottom-left-radius: 50% 6px;
 }
-.key.pushed:before {
+.key:active:before {
   visibility: hidden;
 }
 .key.number,
 #period {
   background-color: #000000;
 }
-.key.number.pushed,
-#period.pushed {
+.key.number:active,
+#period:active {
   background-color: #000000;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100% #808080));
   background-image: -webkit-linear-gradient(top, #000000 0%, #808080 100%);
@@ -166,7 +166,7 @@ body {
 .key.function {
   background-color: #4f5559;
 }
-.key.function.pushed {
+.key.function:active {
   background-color: #4f5559;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4f5559), color-stop(100% #a8abad));
   background-image: -webkit-linear-gradient(top, #4f5559 0%, #a8abad 100%);
@@ -178,7 +178,7 @@ body {
 .key.operator {
   background-color: #5b493f;
 }
-.key.operator.pushed {
+.key.operator:active {
   background-color: #5b493f;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b493f), color-stop(100% #aea5a0));
   background-image: -webkit-linear-gradient(top, #5b493f 0%, #aea5a0 100%);

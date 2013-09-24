@@ -1,4 +1,9 @@
 /*
+ * Calculator7: Calculator clone for iOS7 iPad by HTML5
+ * author: ICHIKAWA, Yuji
+ * Copyright (C) 2013 ICHIKAWA, Yuji (New 3 Rs)
+ */
+/*
  * generic
  */
 .clearfix:after {
@@ -36,15 +41,10 @@ table {
   /* firefox's default is 2px. */
 
 }
-/*
-html, body {
-    width: 100%;
-    height: 90%;
+html,
+body {
+  height: 100%;
 }
- This was for the backgound-color below. but,
- Touch event was not triggered.
- And you don't need 100% for below purpose.
-*/
 body {
   font-family: 'HelveticaNeue-UltraLight';
   background-color: black;
@@ -52,14 +52,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-#wrapper {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  /* for active class */
-
 }
 #display {
   background-color: black;
@@ -75,19 +67,10 @@ body {
   -ms-user-select: auto;
   user-select: auto;
 }
-#aspect-ratio {
-  position: relative;
-}
-#aspect-ratio:before {
-  content: "";
-  display: block;
-}
-#aspect-ratio > div {
+#keypad-dimension {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  right: 0px;
+  bottom: 0px;
 }
 #keypad {
   width: 100%;
@@ -105,14 +88,14 @@ body {
 #period {
   background-color: #d0d1d4;
 }
-.key.number.pushed,
-#period.pushed {
+.key.number:active,
+#period:active {
   background-color: #bebfc1;
 }
 .key.function {
   background-color: #c4c5c8;
 }
-.key.function.pushed {
+.key.function:active {
   background-color: #b5b5b7;
 }
 .key.operator,
@@ -120,7 +103,7 @@ body {
   color: white;
   background-color: #f38228;
 }
-.key.operator.pushed {
+.key.operator:active {
   background-color: #dc7d25;
 }
 .key .active {
@@ -133,65 +116,43 @@ body {
   border: solid 2px #000000;
 }
 @media (orientation: portrait) {
-  #wrapper {
+  #keypad-dimension {
     width: 250%;
-  }
-  #aspect-ratio {
-    width: 40%;
-  }
-  #aspect-ratio:before {
-    padding-top: 100%;
-  }
-  #keypad {
-    width: 250%;
-  }
-}
-@media (orientation: portrait) and (min-aspect-ratio: 768/1003) {
-  #aspect-ratio:before {
-    padding-top: 90%;
   }
 }
 @media (orientation: landscape) {
-  #wrapper {
+  #keypad-dimension {
     width: 100%;
   }
-  #aspect-ratio {
-    width: 100%;
+}
+@media (max-device-width: 480px) and (orientation: landscape) {
+  /* 480 * 300 for iPhone */
+  #display {
+    height: 60px;
+    padding-right: 7px;
   }
-  #aspect-ratio:before {
-    padding-top: 60%;
+  #view {
+    font-size: 50px;
+    line-height: 58px;
+  }
+  #angle {
+    display: block;
+    font-size: 14px;
+    position: absolute;
+    bottom: 2px;
+    left: 15px;
+  }
+  #keypad-dimension {
+    top: 60px;
+  }
+  .key {
+    line-height: 26px;
+    font-size: 15px;
+  }
+  .key.small {
+    font-size: 14px;
   }
 }
-@media (orientation: landscape) and (min-aspect-ratio: 1024/747) {
-  #aspect-ratio:before {
-    padding-top: 33%;
-  }
-}
-/* @media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
-/* Because I set landscape of iphone by default, I commented out the above line. */
-#display {
-  height: 60px;
-  padding-right: 7px;
-}
-#view {
-  font-size: 50px;
-  line-height: 58px;
-}
-#angle {
-  display: block;
-  font-size: 14px;
-  position: absolute;
-  bottom: 2px;
-  left: 15px;
-}
-.key {
-  line-height: 26px;
-  font-size: 15px;
-}
-.key.small {
-  font-size: 14px;
-}
-/* } */
 @media (orientation: portrait) {
   /* 320 * 460 for iPhone */
   #display {
@@ -217,6 +178,9 @@ body {
     /**/
   
   }
+  #keypad-dimension {
+    top: 88px;
+  }
   .key {
     line-height: 39px;
     font-size: 21px;
@@ -235,6 +199,9 @@ body {
     font-size: 187.2px;
     line-height: 211.2px;
     padding-right: 14px;
+  }
+  #keypad-dimension {
+    top: 211.2px;
   }
   .key {
     line-height: 95px;
@@ -266,8 +233,8 @@ body {
     bottom: 4px;
     left: 36px;
   }
-  #functions {
-    display: block;
+  #keypad-dimension {
+    top: 127.8px;
   }
   .key {
     line-height: 60px;
@@ -281,8 +248,3 @@ body {
     height: 97%;
   }
 }
-/*
- * Calculator: Calculator clone for iPad by HTML5
- * author: ICHIKAWA, Yuji
- * Copyright (C) 2012 ICHIKAWA, Yuji (New 3 Rs)
- */
