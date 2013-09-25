@@ -119,12 +119,12 @@ body {
 }
 
 .key .active {
-    width: 96%;
-    height: 95%;
-    background-color: transparent;
     position: absolute;
     left: 0px;
     top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: transparent;
     border: solid @active-border black;
 }
 
@@ -140,7 +140,7 @@ body {
     }
 }
 
-@media (max-device-width: 480px) and (orientation: landscape) { /* 480 * 300 for iPhone */
+@media (orientation: landscape) { /* 480 * 300 for iPhone */
     #display {
         height: 60px;
         padding-right: 7px;
@@ -229,11 +229,6 @@ body {
     .key.small {
         font-size: 44px;
     }
-
-    .key .active {
-        width: 98%;
-        height: 98%;
-    }
 }
 
 @media (min-width: 768px) and (orientation: landscape) { /* iPad Landscape 1024x748 */
@@ -267,10 +262,5 @@ body {
 
     .key.small {
         font-size: 35px;
-    }
-
-    .key .active {
-        width: 97%;
-        height: 97%;
     }
 }
