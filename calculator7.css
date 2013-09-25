@@ -67,6 +67,12 @@ body {
   -ms-user-select: auto;
   user-select: auto;
 }
+#angle {
+  position: absolute;
+  font-size: 14px;
+  bottom: 2px;
+  left: 15px;
+}
 #keypad-dimension {
   position: absolute;
   right: 0px;
@@ -135,13 +141,6 @@ body {
     font-size: 50px;
     line-height: 58px;
   }
-  #angle {
-    display: block;
-    font-size: 14px;
-    position: absolute;
-    bottom: 2px;
-    left: 15px;
-  }
   #keypad-dimension {
     top: 60px;
   }
@@ -162,20 +161,6 @@ body {
     font-size: 78px;
     line-height: 88px;
     /* equal to height */
-  
-  }
-  #angle {
-    font-size: 14px;
-    /**/
-  
-    position: absolute;
-    /**/
-  
-    bottom: 2px;
-    /**/
-  
-    left: 15px;
-    /**/
   
   }
   #keypad-dimension {
@@ -200,6 +185,11 @@ body {
     line-height: 211.2px;
     padding-right: 14px;
   }
+  #angle {
+    font-size: 33.6px;
+    bottom: 4.8px;
+    left: 36px;
+  }
   #keypad-dimension {
     top: 211.2px;
   }
@@ -223,11 +213,9 @@ body {
     padding-right: 5px;
   }
   #angle {
-    display: block;
-    font-size: 29px;
-    position: absolute;
-    bottom: 4px;
-    left: 36px;
+    font-size: 29.82px;
+    bottom: 4.26px;
+    left: 31.95px;
   }
   #keypad-dimension {
     top: 127.8px;
