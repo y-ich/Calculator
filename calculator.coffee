@@ -461,7 +461,7 @@ $('#second').bind touchEnd, ->
 # view
 #
 
-$('.key').bind touchStart, keySound.play
+$('.key').bind touchStart, -> keySound.play()
 
 $(window).bind 'orientationchange', ->
     display.update()
