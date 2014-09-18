@@ -25,7 +25,7 @@ catch error # non-touch device
 
 
 # key sound
-if (AudioContext? or webkitAudioContext?) and not window.navigator.standalone # iOS 6 has fatal bug when using Web Audio API on web clip
+if (AudioContext? or webkitAudioContext?) and not (/\((iPhone|iPad);.*OS (6|7)/.test(navigator.userAgent) and window.navigator.standalone) # iOS 6/7 has fatal bug when using Web Audio API on web clip
     keySound =
         _context: new (AudioContext ? webkitAudioContext)()
         play: if AudioContext?
