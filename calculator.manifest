@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# version 0.7.1
+# version 0.7.2
 # build 15
 
 CACHE:
@@ -16,10 +16,8 @@ images/startup-landscape.png
 images/noise_01.jpg
 lib/add2home.css
 lib/add2home.js
-sounds/click.wav
 http://cdn.app-framework-software.intel.com/2.0/appframework.min.js
 http://www.google-analytics.com/ga.js
 
 NETWORK:
-http://www.google-analytics.com/
 *
