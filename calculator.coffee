@@ -228,6 +228,8 @@ textBuffer =
     changed : ->
         display.bywhom = this
         display.update(@content)
+        saveStatus()
+        return
 
     clear : -> @content = '0'
 
@@ -248,9 +250,92 @@ latestEval =
     changed : ->
         display.bywhom = this
         display.update(@content)
+        saveStatus()
+        return
 
     toggleSign : ->
         @val -@val()
+
+
+display =
+    content : '0'
+    bywhom : null
+
+    width : ->
+        if innerWidth < 768
+            if isPortrait()
+                280
+            else
+                406
+        else
+            if isPortrait()
+                671
+            else
+                875
+
+    fontSize : ->
+        if innerWidth < 768
+            if isPortrait()
+                '78px'
+            else
+                '50px'
+        else
+            if isPortrait()
+                '182px'
+            else
+                '108px'
+
+    val : -> parseFloat @content
+
+    text : -> $('#view').text()
+
+    maxDigits : -> if isPortrait() then 9 else 16
+
+    maxSignificants : -> if isPortrait() then 8 else 14
+
+    update : (numStr) ->
+        if numStr?
+            @content = numStr
+            saveStatus()
+        else
+            numStr = @content
+
+        $view = $('#view')
+        formatted = @content.toString() # if typeof numStr is 'number'
+
+        if /[0-9]/.test formatted # if a number, not a error
+            if /e/.test formatted # scientific
+                [fracStr, expStr] = formatted.split('e')
+                if fracStr.replace('.', '').length > display.maxSignificants()
+                    formatted = parseFloat(formatted).toExponential(display.maxSignificants())
+            else
+                [intStr, decimalStr] = formatted.split('.')
+                intStr = intStr.slice(1) if formatted[0] == '-'
+
+                if intStr.length + (decimalStr ? '').length <= @maxDigits()
+                    tmp = reverse (split 3, reverse intStr).join(',')
+                    tmp += '.' + decimalStr if decimalStr?
+                    formatted = (if formatted[0] == '-' then '-' else '') + tmp
+                else if parseFloat(formatted) is 0
+                    tmp = intStr # intStr must be '0'.
+                    tmp += '.' + decimalStr.slice(0, @maxDigits() - 1) if decimalStr?
+                    formatted = (if formatted[0] == '-' then '-' else '') + tmp
+                else
+                    exponential = parseFloat(formatted).toExponential()
+                    [fracStr, expStr] = exponential.split('e')
+                    if fracStr.replace(/[\-\.]/, '').length >= display.maxDigits()
+                        tmp = intStr
+                        tmp += '.' + decimalStr.slice(0, @maxDigits() - 1) if decimalStr?
+                        formatted = (if formatted[0] == '-' then '-' else '') + tmp
+                    else
+                        formatted = exponential
+
+        $view.css 'visibility', 'hidden'
+        $view.text formatted
+        $view.css 'font-size', display.fontSize()
+        until $view[0].offsetWidth <= display.width()
+            $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
+        $view.css 'visibility', ''
 
 
 stack = []
@@ -268,6 +353,7 @@ latestUnary = null
 
 clearStack = ->
     stack = []
+    saveStatus()
 
 parseEval = (operator, operand1) ->
     switch operator
@@ -275,7 +361,7 @@ parseEval = (operator, operand1) ->
             stack.push('(')
         when ')'
             latestEval.val(operand1)
-            loop 
+            loop
                 op = stack.pop()
                 return if not op? or op is '('
                 latestEval.val functions[op](stack.pop(), latestEval.val())
@@ -295,22 +381,55 @@ parseEval = (operator, operand1) ->
                 stack.push(latestEval.val(), operator)
             else
                 stack.push(operand1, operator)
+    saveStatus()
+    return
 
 CALCULATOR_STATUS = 'calculator-status'
 saveStatus = ->
     localStorage[CALCULATOR_STATUS] = JSON.stringify
+        memory: memory
+        textBuffer: textBuffer.val()
+        latestEval: latestEval.val()
+        display: display.content
+        stack: stack
         angleUnit: angleUnit
+        clear: $('#clear').data 'role'
+        mr: $('#mr .active').length > 0
+    return
 
 restoreStatus = ->
     if localStorage[CALCULATOR_STATUS]?
         status = JSON.parse localStorage[CALCULATOR_STATUS]
-        angleUnit = status.angleUnit if status.angleUnit?
+        if status.memory?
+            memory = status.memory
+        if status.textBuffer?
+            textBuffer.content = status.textBuffer
+        if status.latestEval?
+            latestEval.content = status.latestEval
+        if status.display?
+            display.content = status.display
+            display.update()
+        if status.stack?
+            stack = status.stack
+            if stack.length > 0
+                activate $(".binary[data-role=\"#{stack[stack.length - 1]}\"]")
+        if status.angleUnit?
+            angleUnit = status.angleUnit
         $angleKey = $('#angle_key')
         if angleUnit is 'Rad'
             $angleKey.html $angleKey.html().replace('Rad', 'Deg')
         else
             $angleKey.html $angleKey.html().replace('Deg', 'Rad')
         $('#angle').text(angleUnit)
+        if status.mr
+            activate $('#mr')
+        switch status.clear
+            when 'clear'
+                ac2c()
+            when 'allclear'
+                c2ac()
+        # ac2cやc2acはsaveStatusを呼ぶのでここでコールするのは筋が悪い。エンバグしないためには最後にコールすること
+    return
 
 
 # controller
@@ -361,18 +480,21 @@ $('#plusminus').bind touchEnd, ->
 $('#mc').bind touchEnd, ->
     memory = 0
     deactivate $('#mr')
+    saveStatus()
 
 
 $('#mplus').bind touchEnd, ->
     textBuffer.clear()
     memory += display.val()
     activate $('#mr')
+    saveStatus()
 
 
 $('#mminus').bind touchEnd, ->
     textBuffer.clear()
     memory -= display.val()
     activate $('#mr')
+    saveStatus()
 
 
 $('.nofix').bind touchEnd, ->
@@ -407,7 +529,7 @@ $('#equal_key').bind touchEnd, ->
     if stack.length isnt 0
         parseEval $(this).data('role'), display.val()
         textBuffer.clear()
-    else if latestUnary? 
+    else if latestUnary?
         display.bywhom = 'equal_key'
         display.update latestUnary(display.val()).toString()
 
@@ -470,11 +592,13 @@ $(window).bind 'orientationchange', ->
 ac2c = ->
     $('#clear').data 'role', 'clear'
     $('#clear').html $('#clear').html().replace(/^AC/, 'C')
+    saveStatus()
 
 
 c2ac = ->
     $('#clear').data 'role', 'allclear'
     $('#clear').html $('#clear').html().replace(/^C/, 'AC')
+    saveStatus()
 
 
 activate = ($elem) ->
@@ -485,86 +609,6 @@ activate = ($elem) ->
 
 deactivate = ($elem) ->
     $elem.children('.active').remove()
-
-
-display =
-    content : '0'
-    bywhom : null
-
-    width : ->
-        if innerWidth < 768
-            if isPortrait()
-                280
-            else
-                406
-        else
-            if isPortrait()
-                671
-            else
-                875
-
-    fontSize : ->
-        if innerWidth < 768
-            if isPortrait()
-                '78px'
-            else
-                '50px'
-        else
-            if isPortrait()
-                '182px'
-            else
-                '108px'
-
-    val : -> parseFloat @content
-
-    text : -> $('#view').text()
-
-    maxDigits : -> if isPortrait() then 9 else 16
-
-    maxSignificants : -> if isPortrait() then 8 else 14
-
-    update : (numStr) ->
-        if numStr?
-            @content = numStr
-        else
-            numStr = @content
-
-        $view = $('#view')
-        formatted = @content.toString() # if typeof numStr is 'number'
-
-        if /[0-9]/.test formatted # if a number, not a error
-            if /e/.test formatted # scientific
-                [fracStr, expStr] = formatted.split('e')
-                if fracStr.replace('.', '').length > display.maxSignificants()
-                    formatted = parseFloat(formatted).toExponential(display.maxSignificants())
-            else
-                [intStr, decimalStr] = formatted.split('.')
-                intStr = intStr.slice(1) if formatted[0] == '-'
-
-                if intStr.length + (decimalStr ? '').length <= @maxDigits()
-                    tmp = reverse (split 3, reverse intStr).join(',')
-                    tmp += '.' + decimalStr if decimalStr?
-                    formatted = (if formatted[0] == '-' then '-' else '') + tmp 
-                else if parseFloat(formatted) is 0
-                    tmp = intStr # intStr must be '0'.
-                    tmp += '.' + decimalStr.slice(0, @maxDigits() - 1) if decimalStr?
-                    formatted = (if formatted[0] == '-' then '-' else '') + tmp 
-                else
-                    exponential = parseFloat(formatted).toExponential()
-                    [fracStr, expStr] = exponential.split('e')
-                    if fracStr.replace(/[\-\.]/, '').length >= display.maxDigits()
-                        tmp = intStr
-                        tmp += '.' + decimalStr.slice(0, @maxDigits() - 1) if decimalStr?
-                        formatted = (if formatted[0] == '-' then '-' else '') + tmp 
-                    else
-                        formatted = exponential
-
-        $view.css 'visibility', 'hidden'
-        $view.text formatted
-        $view.css 'font-size', display.fontSize()
-        until $view[0].offsetWidth <= display.width()
-            $view.css 'font-size', parseInt($view.css('font-size')) - 1 + 'px'
-        $view.css 'visibility', ''
 
 
 #

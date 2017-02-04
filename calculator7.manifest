@@ -1,6 +1,6 @@
 CACHE MANIFEST
-# version 0.8.1
-# build 2
+# version 0.9.0
+# build 11
 
 CACHE:
 calculator7.html
@@ -17,8 +17,8 @@ lib/add2home.css
 lib/add2home.js
 sounds/click.wav
 http://cdn.app-framework-software.intel.com/2.0/appframework.min.js
-http://www.google-analytics.com/ga.js
+https://www.google-analytics.com/analytics.js
 
 NETWORK:
-http://www.google-analytics.com/
+https://www.google-analytics.com/
 *
