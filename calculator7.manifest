@@ -16,7 +16,7 @@ images/startup-landscape.png
 lib/add2home.css
 lib/add2home.js
 sounds/click.wav
-http://cdn.app-framework-software.intel.com/2.0/appframework.min.js
+js/appframework.min.js
 https://www.google-analytics.com/analytics.js
 
 NETWORK:
