@@ -1,7 +1,7 @@
 TARGET  = calculator
 
 $(TARGET).min.js: $(TARGET).js
-	uglifyjs $< --in-source-map $(TARGET).map --source-map $(TARGET).min.js.map --output $@
+	uglifyjs $< --source-map "filename='$(TARGET).min.js.map'" --output $@
 
 $(TARGET).js: $(TARGET).coffee
 	coffee -cm $^
