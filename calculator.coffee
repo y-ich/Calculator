@@ -39,9 +39,10 @@ if (AudioContext? or webkitAudioContext?) and not (/\((iPhone|iPad);.*OS (6|7)/.
                 ->
                     return unless keySound._buffer?
                     source = keySound._context.createBufferSource()
+                    source.start ?= source.noteOn
                     source.buffer = keySound._buffer
                     source.connect keySound._context.destination
-                    (source.noteOn ? source.start) 0
+                    source.start 0
 
     keySound._context.decodeAudioData Base64Binary.decodeArrayBuffer("""
                     UklGRiQCAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQACAAAAAAAA
